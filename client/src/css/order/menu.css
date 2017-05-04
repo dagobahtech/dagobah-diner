@@ -1,0 +1,155 @@
+.menu-item{
+    box-shadow: none;
+    border: none;
+    cursor: pointer;
+    text-align: center;
+    transform: scale(1);
+    transition: transform 50ms ease-in-out;
+}
+
+.menu-item:hover {
+    transform: scale(1.2);
+    z-index: 1;
+}
+.menu-item:hover .panel-heading {
+    background-color: darkgreen;
+}
+
+.menu {
+    height: 70vh;
+    overflow-y: scroll;
+}
+
+.right-align {
+     text-align: right;
+ }
+
+.left-align {
+    text-align: left;
+}
+
+.center-align {
+    text-align: center;
+}
+
+.no-padding {
+    padding: 0px;
+    margin: 0px;
+}
+
+.item-popup {
+    width: 50vw;
+    height: 50vh;
+    position: absolute;
+    left:25vw;
+    top: 10vh;
+    box-shadow: 10px 10px 5px #888888;
+    z-index: 2;
+}
+
+
+/* MENU TRANSITION HERE*/
+.menu-enter {
+    opacity: 0.00;
+    bottom: -100px;
+}
+
+.menu-enter.menu-enter-active {
+    opacity: 1;
+    bottom:0px;
+    transition: bottom 300ms ease-in-out, opacity 300ms ease-in-out;
+}
+
+.menu-leave {
+    opacity: 0.0;
+    position: absolute;
+}
+
+.menu-leave.menu-leave-active {
+    opacity: 0.0;
+}
+
+/* ORDER LIST TRANSITION HERE*/
+.order-enter {
+    opacity: 0.01;
+    right: -50px;
+    width: 0px;
+}
+
+.order-enter.order-enter-active {
+    opacity: 1;
+    width: 100px;
+    transition: 300ms ;
+}
+
+.order-leave {
+    opacity: 0.0;
+    width: 100px;
+}
+
+.order-leave.order-leave-active {
+    opacity: 0.01;
+    width: 0px;
+    transition: 300ms;
+}
+
+/* POPUP TRANSITION */
+.popup-enter {
+    opacity: 0.01;
+    transform: scale(0.5);
+}
+
+.popup-enter.popup-enter-active {
+    opacity: 1;
+    transform: scale(1);
+    transition: 300ms;
+}
+
+.popup-leave {
+    opacity: 1;
+}
+
+.popup-leave.popup-leave-active {
+    opacity: 0.01;
+    transform: scale(0.5);
+    transition: 300ms;
+}
+
+/* CHANGING VIEWS*/
+.view-enter {
+    opacity: 0.01;
+    transform: scale(0.2);
+}
+
+.view-enter.view-enter-active {
+    opacity: 1;
+    transform: scale(1);
+    transition: 300ms;
+}
+
+.view-leave {
+    opacity: 1;
+}
+
+.view-leave.view-leave-active {
+    opacity: 0.01;
+    transform: scale(0.1);
+    transition: 300ms;
+}
+
+/* WELCOME SCREEN*/
+
+.welcome-bg {
+    background-color: gray;
+}
+
+/*BANNER*/
+.banner {
+    height: 80px;
+    background-color: forestgreen;
+    color: black;
+}
+
+h1 {
+    padding: 0px;
+}
