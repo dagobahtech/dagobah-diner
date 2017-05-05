@@ -13,12 +13,6 @@ import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
  * */
 class OrderList extends Component {
 
-    constructor() {
-        super();
-        this.state = {
-            total : 0
-        }
-    }
 
     //TODO need to implement this
     confirmAndSubmitOrder() {
@@ -33,10 +27,11 @@ class OrderList extends Component {
     }
 
     render() {
+        console.log(this.props.total);
         return(
             <div className="panel panel-danger">
                 <div className="panel-heading">
-                    <h2>Total : {this.state.total}</h2>
+                    <h2>Total : {this.props.total}</h2>
                 </div>
                 <div className="panel-body container-fluid">
 
@@ -56,8 +51,9 @@ class OrderList extends Component {
                                                  transitionLeaveTimeout={300}>
                         {
                             this.props.orderedItems.map(function (item, index) {
-                                return (<OrderItem item={item} key={item.id} index={index}/>)
-                            })
+                                return (<OrderItem item={item} key={item.id} index={index}
+                                                   updateTotal={this.props.updateTotal}/>)
+                            }, this)
                         }
                         </ReactCSSTransitionGroup>
 

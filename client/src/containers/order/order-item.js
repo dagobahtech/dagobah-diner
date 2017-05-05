@@ -9,6 +9,12 @@ import {bindActionCreators} from 'redux';
 class OrderItem extends Component {
 
 
+    removeItem(index) {
+        this.props.removeItem(index);
+        setTimeout(this.props.updateTotal, 100);
+
+    }
+
     render() {
         return (
             <tr>
@@ -17,8 +23,10 @@ class OrderItem extends Component {
                 <td>{this.props.item.price}</td>
                 <td>{this.props.item.quantity * this.props.item.price}</td>
                 <td>
-                    <button className="btn btn-warning btn-xs" onClick={()=>this.props.selectItem(this.props.item, false)}>View</button>
-                    <button className="btn btn-danger btn-xs" onClick={()=>this.props.removeItem(this.props.index)}>&Chi;</button>
+                    <button className="btn btn-warning btn-xs"
+                            onClick={()=>this.props.selectItem(this.props.item, false)}>View</button>
+                    <button className="btn btn-danger btn-xs"
+                            onClick={()=> this.removeItem(this.props.index) }>&Chi;</button>
                 </td>
             </tr>
         );
