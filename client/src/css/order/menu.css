@@ -1,3 +1,8 @@
+/*Global*/
+tr:hover {
+    background-color: lightgray;
+}
+/*Classes*/
 .menu-item{
     box-shadow: none;
     border: none;
@@ -17,7 +22,7 @@
 
 .menu {
     height: 70vh;
-    overflow-y: scroll;
+    overflow: hidden;
 }
 
 .right-align {
@@ -51,22 +56,13 @@
 /* MENU TRANSITION HERE*/
 .menu-enter {
     opacity: 0.00;
-    bottom: -100px;
+    bottom: -50px;
 }
 
 .menu-enter.menu-enter-active {
     opacity: 1;
     bottom:0px;
-    transition: bottom 300ms ease-in-out, opacity 300ms ease-in-out;
-}
-
-.menu-leave {
-    opacity: 0.0;
-    position: absolute;
-}
-
-.menu-leave.menu-leave-active {
-    opacity: 0.0;
+    transition: bottom 300ms, opacity 300ms;
 }
 
 /* ORDER LIST TRANSITION HERE*/
@@ -83,12 +79,12 @@
 }
 
 .order-leave {
-    opacity: 0.0;
+    opacity: 1.0;
     width: 100px;
 }
 
 .order-leave.order-leave-active {
-    opacity: 0.01;
+    opacity: 0.00;
     width: 0px;
     transition: 300ms;
 }
