@@ -2,31 +2,36 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {removeItem, selectItem} from '../../actions/order/index';
 import {bindActionCreators} from 'redux';
+import NumberFormat from 'react-number-format';
 /**
  * This component represents each item in the order
  * */
 
 class OrderItem extends Component {
 
-
-    removeItem(index) {
-        this.props.removeItem(index);
-        setTimeout(this.props.updateTotal, 100);
-
-    }
-
     render() {
         return (
             <tr>
                 <td>{this.props.item.name}</td>
                 <td>{this.props.item.quantity}</td>
-                <td>{this.props.item.price}</td>
-                <td>{this.props.item.quantity * this.props.item.price}</td>
+                <td>
+                    <NumberFormat value={this.props.item.price}
+                                  decimalPrecision={2}
+                                  displayType={'text'} thousandSeparator={true}
+                                  suffix={' IC'}
+                                  />
+                    </td>
+                <td>
+                    <NumberFormat value={this.props.item.quantity * this.props.item.price}
+                                  decimalPrecision={2}
+                                  displayType={'text'} thousandSeparator={true}
+                                  suffix={' IC'}
+                    /></td>
                 <td>
                     <button className="btn btn-warning btn-xs"
                             onClick={()=>this.props.selectItem(this.props.item, false)}>View</button>
                     <button className="btn btn-danger btn-xs"
-                            onClick={()=> this.removeItem(this.props.index) }>&Chi;</button>
+                            onClick={()=> this.props.removeItem(this.props.index) }>&Chi;</button>
                 </td>
             </tr>
         );
