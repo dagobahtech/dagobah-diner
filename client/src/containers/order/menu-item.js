@@ -2,7 +2,7 @@ import React, {Component} from 'react'
 import '../../css/order/menu.css'
 //import the actions
 import {selectItem} from '../../actions/order/index';
-
+import NumberFormat from 'react-number-format';
 
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux'
@@ -27,7 +27,13 @@ class MenuItem extends Component {
                  onClick={() => this.props.selectItem(this.props.item, true)}>
                 <div className="panel-heading">{this.props.item.name}</div>
                 <div className="panel-body">Item pic</div>
-                <div className="panel-footer">Price: {this.props.item.price}</div>
+                <div className="panel-footer">Price:
+                    <NumberFormat value={this.props.item.price}
+                                  decimalPrecision={2}
+                                  displayType={'text'} thousandSeparator={true}
+                                  suffix={' IC'}
+                    />
+                </div>
             </div>
         );
     }

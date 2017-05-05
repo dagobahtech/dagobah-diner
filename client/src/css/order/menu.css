@@ -1,3 +1,8 @@
+/*Global*/
+tr:hover {
+    background-color: lightgray;
+}
+/*Classes*/
 .menu-item{
     box-shadow: none;
     border: none;
@@ -17,7 +22,7 @@
 
 .menu {
     height: 70vh;
-    overflow-y: scroll;
+    overflow: hidden;
 }
 
 .right-align {
@@ -51,7 +56,7 @@
 /* MENU TRANSITION HERE*/
 .menu-enter {
     opacity: 0.00;
-    bottom: -100px;
+    bottom: -50px;
 }
 
 .menu-enter.menu-enter-active {

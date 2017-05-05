@@ -26,9 +26,6 @@ class ActiveItem extends Component {
     }
 
     addToOrder() {
-        console.log("hello");
-        console.log(this.props.menuItems)
-        console.log("hello");
         //make sure quantity is int
         let quantity = parseInt(this.refs.quantity.value, 10);
 
@@ -42,7 +39,6 @@ class ActiveItem extends Component {
             image: this.props.activeItem.payload.image,
             quantity: quantity
         };
-        //item.payload.quantity = 7;
         this.props.addItem(item, this.props.activeItem.isNew);
         //then reset the current active item
         this.props.resetActiveItem();

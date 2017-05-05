@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {removeItem, selectItem} from '../../actions/order/index';
 import {bindActionCreators} from 'redux';
+import NumberFormat from 'react-number-format';
 /**
  * This component represents each item in the order
  * */
@@ -13,8 +14,19 @@ class OrderItem extends Component {
             <tr>
                 <td>{this.props.item.name}</td>
                 <td>{this.props.item.quantity}</td>
-                <td>{this.props.item.price}</td>
-                <td>{this.props.item.quantity * this.props.item.price}</td>
+                <td>
+                    <NumberFormat value={this.props.item.price}
+                                  decimalPrecision={2}
+                                  displayType={'text'} thousandSeparator={true}
+                                  suffix={' IC'}
+                                  />
+                    </td>
+                <td>
+                    <NumberFormat value={this.props.item.quantity * this.props.item.price}
+                                  decimalPrecision={2}
+                                  displayType={'text'} thousandSeparator={true}
+                                  suffix={' IC'}
+                    /></td>
                 <td>
                     <button className="btn btn-warning btn-xs"
                             onClick={()=>this.props.selectItem(this.props.item, false)}>View</button>
