@@ -31,7 +31,7 @@ class ActiveItem extends Component {
         console.log("hello");
         //make sure quantity is int
         let quantity = parseInt(this.refs.quantity.value, 10);
-        this.props.resetActiveItem();
+
         //var item = Object.assign({}, ...this.props.activeItem);
         //this.. i don't why.. but i almost this killed me
         const item = {
@@ -45,7 +45,7 @@ class ActiveItem extends Component {
         //item.payload.quantity = 7;
         this.props.addItem(item, this.props.activeItem.isNew);
         //then reset the current active item
-        setTimeout(this.props.updateTotal, 100);
+        this.props.resetActiveItem();
     }
 
     render() {

@@ -35,7 +35,7 @@ class CategoryMenu extends Component {
                 <div className="panel-body menu">
                     <ReactCSSTransitionGroup transitionName="menu"
                                              transitionEnterTimeout={300}
-                                             transitionLeaveTimeout={300}>
+                                             transitionLeave={false}>
                     {this.createMenuItems()}
                     </ReactCSSTransitionGroup>
                 </div>

@@ -19,8 +19,8 @@ class OrderList extends Component {
         console.log("Order has been submitted");
         const order = {
             id: 0, //should be taken from the server,
-            items: this.props.orderedItems,
-            total: this.state.total
+            items: this.props.orderedItems.items,
+            total: this.props.orderedItems.total
         }
         console.log(order);
         this.props.changeView("processing");
@@ -31,7 +31,7 @@ class OrderList extends Component {
         return(
             <div className="panel panel-danger">
                 <div className="panel-heading">
-                    <h2>Total : {this.props.total}</h2>
+                    <h2>Total : {this.props.orderedItems.total}</h2>
                 </div>
                 <div className="panel-body container-fluid">
 
@@ -50,9 +50,8 @@ class OrderList extends Component {
                                                  transitionEnterTimeout={300}
                                                  transitionLeaveTimeout={300}>
                         {
-                            this.props.orderedItems.map(function (item, index) {
-                                return (<OrderItem item={item} key={item.id} index={index}
-                                                   updateTotal={this.props.updateTotal}/>)
+                            this.props.orderedItems.items.map(function (item, index) {
+                                return (<OrderItem item={item} key={item.id} index={index}/>)
                             }, this)
                         }
                         </ReactCSSTransitionGroup>
