@@ -23,8 +23,8 @@ class MenuItem extends Component {
          * the item can be access using this.props.item
          * */
         return (
-            <div className="panel panel-danger col-md-3 menu-item"
-                 onClick={() => this.props.selectItem(this.props.item, true)}>
+            <div className="panel panel-danger center-align"
+                 onClick={() => this.props.isClickable && this.props.selectItem(this.props.item, true)}>
                 <div className="panel-heading">{this.props.item.name}</div>
                 <div className="panel-body">Item pic</div>
                 <div className="panel-footer">Price:

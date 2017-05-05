@@ -21,10 +21,13 @@ class CategoryMenu extends Component {
     createMenuItems() {
         return (
             this.props.menuItems.map(function (item) {
-                return <MenuItem item={item} key={item.id}/>
+                return (<div className="col-md-3 menu-item" key={item.id}>
+                            <MenuItem item={item} index={item.id} isClickable={true}/>
+                        </div>
+                        );
             })
         )
-    }
+    }1
 
     render() {
         return (
@@ -33,11 +36,14 @@ class CategoryMenu extends Component {
                     <CategoryNavigation/>
                 </div>
                 <div className="panel-body menu">
-                    <ReactCSSTransitionGroup transitionName="menu"
-                                             transitionEnterTimeout={300}
-                                             transitionLeave={false}>
-                    {this.createMenuItems()}
-                    </ReactCSSTransitionGroup>
+
+                        <ReactCSSTransitionGroup transitionName="menu"
+                                                 transitionEnterTimeout={300}
+                                                 transitionLeave={false}>
+
+                        {this.createMenuItems()}
+                        </ReactCSSTransitionGroup>
+
                 </div>
 
             </div>

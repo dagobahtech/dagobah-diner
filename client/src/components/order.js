@@ -4,6 +4,7 @@ import Welcome from '../containers/order/welcome';
 import OrderBoard from '../components/order-board';
 import OrderProcessing from '../components/order-processing';
 import Banner from './banner';
+import ConfirmationBox from '../components/confirmation-box';
 
 //these stuffs are needed for the store where all the data
 //needed for this page are kept so every component can access them
@@ -51,12 +52,13 @@ class Order extends Component {
                 comp = <OrderProcessing/>
                 break;
             default:
-                    break;
-            }
+                break;
+        }
 
-            return (
+        return (
             <Provider store={store}>
                 <div className="container-fluid">
+                    <ConfirmationBox/>
                     <div className="row">
                         <Banner/>
                     </div>
@@ -69,9 +71,9 @@ class Order extends Component {
                     </div>
                 </div>
             </Provider>
-            )
+        )
     }
 }
 
 
-            export default Order;
+export default Order;

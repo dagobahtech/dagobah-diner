@@ -53,7 +53,7 @@ class ActiveItem extends Component {
         if(this.props.activeItem) {
             comp = (
 
-                <div className="panel panel-success item-popup">
+                <div className="panel panel-warning item-popup">
                     <div className="panel-heading">
                         <h2>{heading}</h2>
                     </div>
