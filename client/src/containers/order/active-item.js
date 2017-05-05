@@ -45,7 +45,7 @@ class ActiveItem extends Component {
         //item.payload.quantity = 7;
         this.props.addItem(item, this.props.activeItem.isNew);
         //then reset the current active item
-
+        setTimeout(this.props.updateTotal, 100);
     }
 
     render() {
