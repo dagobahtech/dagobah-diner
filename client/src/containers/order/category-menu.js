@@ -19,8 +19,23 @@ class CategoryMenu extends Component {
     }
 
     createMenuItems() {
+        console.log(this.props.menuItems);
+        let items = [];
+        switch(this.props.menuItems.current){
+            case 'main':
+                items = this.props.menuItems.main;
+                break;
+
+            case 'side':
+                items = this.props.menuItems.side;
+                break;
+
+            case 'beverage':
+                items = this.props.menuItems.beverage;
+                break;
+        }
         return (
-            this.props.menuItems.map(function (item) {
+            items.map(function (item) {
                 return <MenuItem item={item} key={item.id}/>
             })
         )
