@@ -15,6 +15,7 @@ var io = require("socket.io")(server);
 const dbURL = process.env.DATABASE_URL || "postgres://lpufbryv:FGc7GtCWBe6dyop0yJ2bu0pTXDoBJnEv@stampy.db.elephantsql.com:5432/lpufbryv";
 
 var publicFolder = path.resolve(__dirname, "client/view");
+var adminFolder = path.resolve(__dirname, "client/view/admin");
 
 // redirect to css and js folders
 app.use("/scripts", express.static("client/build"));
@@ -29,12 +30,17 @@ app.use(session({
     saveUninitialized: true
 }));
 
-
-// app.get("/", function (req, resp){
-//     resp.sendFile(appFolder + "/index.html");
-// });
-
 app.use(express.static(path.join(__dirname, "client","/build")));
+
+app.get("/admin", function(req, resp) {
+    resp.sendFile(adminFolder + "admin.html");
+});
+
+app.post("/admin/createItem", function(req, resp) {
+
+    console.log(req.body);
+
+});
 
 io.on("connection", function(socket){
 	socket.on("getItems", function(){
