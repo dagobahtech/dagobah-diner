@@ -6,18 +6,19 @@ import {connect} from 'react-redux';
 import {populateItem} from '../actions/order';
 import {bindActionCreators} from 'redux';
 
-const io = require("socket.io-client");
-const socket = io();
+
 
 class OrderBoard extends Component {
 
-   
+   componentDidMount() {
 
-    componentDidMount() {
+       //use the socket from reducer
+        this.props.socket.emit("getItems");
 
-        socket.emit("getItems" );
+        //socket.emit("getItems" );
+
         (function(myThis){
-            socket.on("sendData", function(data){
+            myThis.props.socket.on("sendData", function(data){
                 console.log("somteing");
                 myThis.props.populateItem(data);
                 console.log(data);
@@ -30,7 +31,7 @@ class OrderBoard extends Component {
         return (
             <div className="row">
                 <div className="col-md-8"><CategoryMenu/></div>
-                <div className="col-md-4"><OrderList changeView={this.props.changeView}/></div>
+                <div className="col-md-4"><OrderList /></div>
                 <ActiveItem/>
             </div>
         );
@@ -39,7 +40,8 @@ class OrderBoard extends Component {
 
 function mapStateToProps(state) {
     return {
-        orderedItems: state.orderedItems //now we can use this.props.orderedItems
+        orderedItems: state.orderedItems, //now we can use this.props.orderedItems
+        socket: state.socket
     };
 }
 function mapDispatchToProps(dispatch){

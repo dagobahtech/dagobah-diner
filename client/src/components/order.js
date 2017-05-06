@@ -26,20 +26,6 @@ const store = createStore(allReducers);
 class Order extends Component {
     //The CategoryNavigation tag only shows whatever is in the CategoryNavigation class
     //same with others
-    constructor() {
-        super();
-        this.state = {
-            currentView: "welcome"
-        }
-
-        this.changeView = this.changeView.bind(this);
-    }
-
-    changeView(view) {
-        this.setState({currentView: view});
-    }
-
-
 
     render() {
 
@@ -51,7 +37,7 @@ class Order extends Component {
                         <Banner/>
                     </div>
                     <div className="row">
-                            <OrderBoard changeView={this.changeView}/>
+                            <OrderBoard/>
                     </div>
                 </div>
             </Provider>
