@@ -27,12 +27,12 @@ class MenuItem extends Component {
                  onClick={() => this.props.isClickable && this.props.selectItem(this.props.item, true)}>
                 <div className="panel-heading">{this.props.item.name}</div>
                 <div className="panel-body">Item pic</div>
-                <div className="panel-footer">Price:
+                <div className="panel-footer"><strong>
                     <NumberFormat value={this.props.item.price}
                                   decimalPrecision={2}
                                   displayType={'text'} thousandSeparator={true}
                                   suffix={' IC'}
-                    />
+                    /></strong>
                 </div>
             </div>
         );

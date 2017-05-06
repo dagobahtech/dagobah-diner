@@ -1,14 +1,17 @@
 import React, {Component} from 'react';
-import {BrowserRouter as Router, Route} from 'react-router-dom';
+import {Router, Route, browserHistory, IndexRoute} from 'react-router';
 import Order from './components/order';
+import Welcome from './containers/order/welcome';
+import Home from './components/home';
 
 class App extends Component {
     render() {
         return (
-            <Router>
-                <div>
-                    <Route exact path="/" component={Order} />
-                </div>
+            <Router history={browserHistory}>
+                <Route path="/" component={Home}>
+                    <IndexRoute component={Welcome}/>
+                    <Route path="/order" component={Order}/>
+                </Route>
             </Router>
         );
     }
