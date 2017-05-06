@@ -1,0 +1,55 @@
+.transition-wrapper {
+    position: relative;
+    z-index: 1;
+}
+.transition-wrapper .transition-item {
+    position: fixed;
+    top: 0;
+    right: 0;
+    left: 0;
+}
+.order-page {
+    overflow: auto;
+    box-sizing: border-box;
+    height: 100vh;
+    transition: transform 0.5s, opacity 0.5s;
+}
+.order-page.transition-appear {
+    opacity: 0;
+    transform: translate3d(0, 100%, 0);
+}
+.order-page.transition-appear.transition-appear-active {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+}
+.order-page.transition-leave {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+}
+.order-page.transition-leave.transition-leave-active {
+    opacity: 0;
+    transform: translate3d(0, 100%, 0);
+}
+.welcome-page {
+    overflow: auto;
+    box-sizing: border-box;
+    height: 100vh;
+    transition: transform 0.5s, opacity 0.5s;
+    transform: translate3d(0, 0, 0);
+}
+.welcome-page.transition-appear {
+    opacity: 0;
+    transform: translate3d(0, -100%, 0);
+}
+.welcome-page.transition-appear.transition-appear-active {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+}
+.welcome-page.transition-leave {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+}
+.welcome-page.transition-leave.transition-leave-active {
+    opacity: 0;
+    transform: translate3d(0, -100%, 0);
+}

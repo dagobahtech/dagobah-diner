@@ -5,7 +5,6 @@ tr:hover {
 /*Classes*/
 .menu-item{
     box-shadow: none;
-    border: none;
     cursor: pointer;
     text-align: center;
     transform: scale(1);
@@ -142,8 +141,6 @@ tr:hover {
 /*BANNER*/
 .banner {
     height: 80px;
-    background-color: forestgreen;
-    color: black;
 }
 
 h1 {

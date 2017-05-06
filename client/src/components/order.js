@@ -4,6 +4,7 @@ import Welcome from '../containers/order/welcome';
 import OrderBoard from '../components/order-board';
 import OrderProcessing from '../components/order-processing';
 import Banner from './banner';
+import ConfirmationBox from '../components/confirmation-box';
 
 
 //these stuffs are needed for the store where all the data
@@ -42,41 +43,20 @@ class Order extends Component {
 
     render() {
 
-        var comp = null;
-        switch (this.state.currentView) {
-            case "welcome":
-                comp = <Welcome changeView={this.changeView}/>;
-                break;
-            case "main":
-                comp = <OrderBoard changeView={this.changeView}/>
-                break;
-            case "processing":
-                comp = <OrderProcessing/>
-                break;
-            default:
-                    break;
-            }
-
-            return (
+        return (
             <Provider store={store}>
-                <div className="container-fluid">
+                <div className="container-fluid transition-item order-page">
+                    <ConfirmationBox/>
                     <div className="row">
                         <Banner/>
                     </div>
                     <div className="row">
-                        <ReactCSSTransitionGroup component="div" transitionName="view"
-                                                 transitionEnterTimeout={300}
-                                                 transitionLeaveTimeout={300}>
-                            {comp}
-                        </ReactCSSTransitionGroup>
+                            <OrderBoard changeView={this.changeView}/>
                     </div>
                 </div>
             </Provider>
-            )
+        )
     }
 }
-
-
-
 
 export default Order;

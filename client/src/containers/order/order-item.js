@@ -1,13 +1,22 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
-import {removeItem, selectItem} from '../../actions/order/index';
+import {removeItem, selectItem, confirmAction} from '../../actions/order/index';
 import {bindActionCreators} from 'redux';
 import NumberFormat from 'react-number-format';
+import MenuItem from '../../containers/order/menu-item';
+
 /**
  * This component represents each item in the order
  * */
 
 class OrderItem extends Component {
+
+    removeItem(index) {
+        this.props.confirmAction("Cancel Item",
+            "Are you sure you want to cancel this delicious item?",
+            <MenuItem item={this.props.item} isClickable={false}/>,
+            () => this.props.removeItem(index));
+    }
 
     render() {
         return (
@@ -31,7 +40,7 @@ class OrderItem extends Component {
                     <button className="btn btn-warning btn-xs"
                             onClick={()=>this.props.selectItem(this.props.item, false)}>View</button>
                     <button className="btn btn-danger btn-xs"
-                            onClick={()=> this.props.removeItem(this.props.index) }>&Chi;</button>
+                            onClick={()=> this.removeItem(this.props.index)}>&Chi;</button>
                 </td>
             </tr>
         );
@@ -41,7 +50,8 @@ class OrderItem extends Component {
 function mapDispatchToProps(dispatch) {
     return bindActionCreators({
         removeItem: removeItem,
-        selectItem: selectItem
+        selectItem: selectItem,
+        confirmAction: confirmAction
     }, dispatch);
 
 }

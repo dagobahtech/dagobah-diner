@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import OrderItem from './order-item';
 import {connect} from 'react-redux';
-import {removeAllItem} from '../../actions/order/index';
+import {removeAllItem, confirmAction} from '../../actions/order/index';
 import {bindActionCreators} from 'redux';
 import NumberFormat from 'react-number-format';
 //import css
@@ -15,16 +15,58 @@ import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 class OrderList extends Component {
 
 
+    createOrderTable(){
+        return (
+            <div>
+                <table className="table-striped">
+                    <thead>
+                    <tr>
+                        <td>Name</td>
+                        <td>Quantity</td>
+                        <td>Price</td>
+                        <td>Subtotal</td>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {this.props.orderedItems.items.map(function (item) {
+                        return (
+                            <tr>
+                                <td>{item.name}</td>
+                                <td>{item.quantity}</td>
+                                <td>{item.price}</td>
+                                <td>{item.price * item.quantity}</td>
+                            </tr>
+                        )
+                    })}
+                    </tbody>
+                </table>
+                <div className="right-align"><h3>Total: {this.props.orderedItems.total}</h3></div>
+            </div>
+        )
+    }
     //TODO need to implement this
-    confirmAndSubmitOrder() {
-        console.log("Order has been submitted");
-        const order = {
-            id: 0, //should be taken from the server,
-            items: this.props.orderedItems.items,
-            total: this.props.orderedItems.total
-        }
-        console.log(order);
-        this.props.changeView("processing");
+    confirmOrder() {
+        let comp = this.createOrderTable();
+
+        this.props.confirmAction("Your order", "Are you ok with this order?", comp,
+            ()=> {
+                console.log("Order has been submitted");
+                const order = {
+                    id: 0, //should be taken from the server,
+                    items: this.props.orderedItems.items,
+                    total: this.props.orderedItems.total
+                };
+                console.log(order);
+            })
+
+        //this.props.changeView("processing");
+    }
+
+    requestRemove() {
+        (this.props.orderedItems.items.length !== 0) &&
+        this.props.confirmAction("Clear order",
+            "Are you sure you want to clear your order? No more yum yum?", <div></div>,
+            ()=>this.props.removeAllItem());
     }
 
     render() {
@@ -64,8 +106,8 @@ class OrderList extends Component {
 
                 </div>
                 <div className="panel-footer right-align">
-                    <button className="btn btn-danger" onClick={() => this.props.removeAllItem()}>Clear Order</button>
-                    <button className="btn btn-info" onClick={() => this.confirmAndSubmitOrder()}>Confirm Order</button>
+                    <button className="btn btn-danger" onClick={() => this.requestRemove()}>Clear Order</button>
+                    <button className="btn btn-info" onClick={() => this.confirmOrder()}>Confirm Order</button>
                 </div>
 
             </div>
@@ -76,13 +118,15 @@ class OrderList extends Component {
 
 function mapStateToProps(state) {
     return {
-        orderedItems: state.orderedItems //now we can use this.props.orderedItems
+        orderedItems: state.orderedItems, //now we can use this.props.orderedItems
+
     };
 }
 
 function mapDispatchToProps(dispatch) {
     return bindActionCreators({
-        removeAllItem: removeAllItem
+        removeAllItem: removeAllItem,
+        confirmAction: confirmAction
     }, dispatch);
 
 }

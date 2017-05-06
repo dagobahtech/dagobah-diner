@@ -61,9 +61,26 @@ export function getMenuFor(category) {
         category: category
     }
 }
+
+export function confirmAction(header, message, component, todoFunction) {
+
+    return {
+        type: "CONFIRM_ACTION",
+        header: header,
+        message: message,
+        component: component,
+        todoFunction: todoFunction
+    }
+}
+
+export function closeConfirmation() {
+    return {
+        type: "CLOSE_CONFIRMATION"
+    }
+}
 export function populateItem(data){
     return{
         type: "POPULATE_ITEM",
-        payload:data
+        payload: data
     }
 }
