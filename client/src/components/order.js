@@ -6,6 +6,7 @@ import OrderProcessing from '../components/order-processing';
 import Banner from './banner';
 import ConfirmationBox from '../components/confirmation-box';
 
+
 //these stuffs are needed for the store where all the data
 //needed for this page are kept so every component can access them
 //setting it looks complicated, but it helps a lot.
@@ -38,6 +39,8 @@ class Order extends Component {
         this.setState({currentView: view});
     }
 
+
+
     render() {
 
         return (
@@ -55,6 +58,5 @@ class Order extends Component {
         )
     }
 }
-
 
 export default Order;

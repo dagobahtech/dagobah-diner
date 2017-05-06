@@ -78,3 +78,9 @@ export function closeConfirmation() {
         type: "CLOSE_CONFIRMATION"
     }
 }
+export function populateItem(data){
+    return{
+        type: "POPULATE_ITEM",
+        payload: data
+    }
+}
