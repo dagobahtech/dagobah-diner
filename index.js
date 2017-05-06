@@ -11,9 +11,8 @@ var app = express();
 const server = require("http").createServer(app);
 var io = require("socket.io")(server);
 
-// TODO add db local url
-const dbconfig = require("./dbconfig");
-const dbURL = process.env.DATABASE_URL || dbconfig.dbURL;
+// DanLi - Cloud Database Hosted on ElephantSQL.com credentials posted on GitHub
+const dbURL = process.env.DATABASE_URL || "postgres://lpufbryv:FGc7GtCWBe6dyop0yJ2bu0pTXDoBJnEv@stampy.db.elephantsql.com:5432/lpufbryv";
 
 var publicFolder = path.resolve(__dirname, "client/view");
 
@@ -39,7 +38,7 @@ app.use(express.static(path.join(__dirname, "client","/build")));
 
 io.on("connection", function(socket){
 	socket.on("getItems", function(){
-		console.log("conected database");
+		console.log("connected database");
 		pg.connect(dbURL, function(err, client, done){
 			if(err){
 				consoloe.log(err);
