@@ -5,6 +5,7 @@ import OrderBoard from '../components/order-board';
 import OrderProcessing from '../components/order-processing';
 import Banner from './banner';
 
+
 //these stuffs are needed for the store where all the data
 //needed for this page are kept so every component can access them
 //setting it looks complicated, but it helps a lot.
@@ -36,6 +37,8 @@ class Order extends Component {
     changeView(view) {
         this.setState({currentView: view});
     }
+
+
 
     render() {
 
@@ -74,4 +77,6 @@ class Order extends Component {
 }
 
 
-            export default Order;
+
+
+export default Order;

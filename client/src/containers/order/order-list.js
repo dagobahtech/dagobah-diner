@@ -28,6 +28,7 @@ class OrderList extends Component {
     }
 
     render() {
+        console.log(this.props.orderedItems.items);
         return (
             <div className="panel panel-danger">
                 <div className="panel-heading">

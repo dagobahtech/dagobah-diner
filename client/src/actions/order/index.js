@@ -61,3 +61,9 @@ export function getMenuFor(category) {
         category: category
     }
 }
+export function populateItem(data){
+    return{
+        type: "POPULATE_ITEM",
+        payload:data
+    }
+}
