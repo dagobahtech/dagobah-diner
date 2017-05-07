@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin Page</title>
+</head>
+<body>
+
+<h1>Admin Page</h1>
+
+<div id="input">
+    <input id="nameInput" type="text" placeholder="Item Name">
+    <input id="categoryInput" type="number" placeholder="Item Category">
+    <input id="descriptionInput" type="text" placeholder="Item Description">
+    <input id="priceInput" type="number" placeholder="Item price">
+    <input id="cookTimeInput" type="number" placeholder="Item cook time">
+    <input id="stationInput" type="number" placeholder="Item kitchen station">
+    <button id="submit">Create Item</button>
+
+    <div>
+
+        <p><strong>Categories:</strong> 1 = Main ||  2 = Side || 3 = Drinks</p>
+        <p><strong>Item Price:</strong> Enter price with decimal value e.g <u>price = 10.00</u></p>
+        <p><strong>Kitchen Stations:</strong> 1 = Grill || 2 = Stove Top || 3 = Deep Fryer || 4 = Curries+Stews || 5 = Drinks</p>
+    </div>
+
+
+</div>
+
+<div id="statusDiv"></div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+<script>
+
+    var statusDiv = document.getElementById("statusDiv");
+
+    var nameInput = document.getElementById("nameInput");
+    var categoryInput = document.getElementById("categoryInput");
+    var descInput = document.getElementById("descriptionInput");
+    var priceInput = document.getElementById("priceInput");
+    var cookInput = document.getElementById("cookTimeInput");
+    var stationInput = document.getElementById("stationInput");
+
+    document.getElementById("submit").addEventListener("click", function() {
+        $.ajax({
+            url: "/admin/createItem",
+            type: "POST",
+            data: {
+                name: nameInput.value,
+                category: categoryInput.value,
+                desc: descInput.value,
+                price: priceInput.value,
+                time: cookInput.value,
+                station: stationInput.value
+            },
+            success: function (response) {
+
+                if (response.status === "success") {
+                    statusDiv.innerHTML = response.msg;
+                    setTimeout(function () {
+                        location.reload()
+                    }, 2000);
+                }
+
+                else {
+                    console.log(response);
+                    statusDiv.innerHTML = "error in response"
+                }
+            }
+        });
+    });
+
+</script>
+
+</body>
+</html>

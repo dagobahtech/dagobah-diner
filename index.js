@@ -15,6 +15,7 @@ var io = require("socket.io")(server);
 const dbURL = process.env.DATABASE_URL || "postgres://lpufbryv:FGc7GtCWBe6dyop0yJ2bu0pTXDoBJnEv@stampy.db.elephantsql.com:5432/lpufbryv";
 
 var publicFolder = path.resolve(__dirname, "client/view");
+var adminFolder = path.resolve(__dirname, "client/view/admin");
 
 // redirect to css and js folders
 app.use("/scripts", express.static("client/build"));
@@ -29,13 +30,37 @@ app.use(session({
     saveUninitialized: true
 }));
 
+app.use(express.static(path.join(__dirname, "client","/build")));
 
-// app.get("/", function (req, resp){
-//     resp.sendFile(appFolder + "/index.html");
-// });
-
+app.get("/admin", function(req, resp) {
+    resp.sendFile(adminFolder + "/admin.html");
+});
 
 app.use(express.static(path.join(__dirname, "client","/build")));
+
+app.post("/admin/createItem", function(req, resp) {
+
+    console.log(req.body);
+
+    pg.connect(dbURL, function(err, client, done) {
+        if (err) {
+            console.log(err);
+        }
+
+        var dbQuery = "INSERT INTO menu (name, category, description, price, cook_time, kitchen_station_id) VALUES ($1, $2, $3, $4, $5, $6)";
+        client.query(dbQuery, [req.body.name, req.body.category, req.body.desc, req.body.price, req.body.time, req.body.station], function(err, result) {
+            done();
+            if (err) {
+                console.log(err);
+                resp.end("ERROR");
+            }
+
+            resp.send({status: "success", msg: "item created!"})
+
+        });
+    });
+});
+
 
 //add app.get before this call
 app.get('*', function (request, response){
