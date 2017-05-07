@@ -19,9 +19,9 @@ class OrderBoard extends Component {
 
         (function(myThis){
             myThis.props.socket.on("sendData", function(data){
-                console.log("somteing");
+                //console.log("somteing");
                 myThis.props.populateItem(data);
-                console.log(data);
+                //console.log(data);
             });
         })(this)
         

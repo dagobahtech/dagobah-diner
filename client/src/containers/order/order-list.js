@@ -52,11 +52,12 @@ class OrderList extends Component {
             ()=> {
                 console.log("Order has been submitted");
                 const order = {
-                    id: 0, //should be taken from the server,
+                    //id: 0, //should be taken from the server,
                     items: this.props.orderedItems.items,
                     total: this.props.orderedItems.total
                 };
-                console.log(order);
+                //console.log(order);
+                this.props.socket.emit("send order", order);
             })
 
         //this.props.changeView("processing");
@@ -119,7 +120,7 @@ class OrderList extends Component {
 function mapStateToProps(state) {
     return {
         orderedItems: state.orderedItems, //now we can use this.props.orderedItems
-
+        socket: state.socket
     };
 }
 

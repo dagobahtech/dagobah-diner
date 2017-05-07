@@ -19,7 +19,7 @@ class CategoryMenu extends Component {
     }
 
     createMenuItems() {
-        console.log(this.props.menuItems);
+        //console.log(this.props.menuItems);
         let items = [];
         switch(this.props.menuItems.current){
             case 'main':

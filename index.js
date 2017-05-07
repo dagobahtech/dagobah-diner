@@ -36,6 +36,8 @@ app.get("/admin", function(req, resp) {
     resp.sendFile(adminFolder + "/admin.html");
 });
 
+app.use(express.static(path.join(__dirname, "client","/build")));
+
 app.post("/admin/createItem", function(req, resp) {
 
     console.log(req.body);
@@ -59,6 +61,13 @@ app.post("/admin/createItem", function(req, resp) {
     });
 });
 
+
+//add app.get before this call
+app.get('*', function (request, response){
+    response.sendFile(path.resolve(__dirname, 'client/build', 'index.html'))
+});
+
+//all communication with order page happens here
 io.on("connection", function(socket){
 	socket.on("getItems", function(){
 		console.log("connected database");
@@ -77,6 +86,12 @@ io.on("connection", function(socket){
 
 	});
 
+	//when order is received
+	socket.on("send order", function (order) {
+		//console.log it for now
+		console.log(order);
+		//send order id to customer
+	})
 });
 
 

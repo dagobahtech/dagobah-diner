@@ -15,7 +15,7 @@ export function selectItem(item, isNew) {
 
 //adds an item to list of items in an order
 export function addItemToOrder(item, isNew) {
-    console.log("dispatching add item to order");
+    //console.log("dispatching add item to order");
     return {
         type: "ADD_ITEM_TO_ORDER",
         payload: item,
@@ -33,21 +33,21 @@ export function removeItem(index) {
 }
 
 export function removeAllItem() {
-    console.log("removing all item");
+    //console.log("removing all item");
     return {
         type: "REMOVE_ALL_ITEM"
     }
 }
 
 export function resetActiveItem() {
-    console.log("reset the active item");
+    //console.log("reset the active item");
     return {
         type: "RESET_ACTIVE_ITEM"
     }
 }
 
 export function getTotal() {
-    console.log("getting total");
+    //console.log("getting total");
     return {
         type: "GET_TOTAL"
     }
