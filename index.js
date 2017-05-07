@@ -47,6 +47,7 @@ app.post("/admin/createItem", function(req, resp) {
 
         var dbQuery = "INSERT INTO menu (name, category, description, price, cook_time, kitchen_station_id) VALUES ($1, $2, $3, $4, $5, $6)";
         client.query(dbQuery, [req.body.name, req.body.category, req.body.desc, req.body.price, req.body.time, req.body.station], function(err, result) {
+            done();
             if (err) {
                 console.log(err);
                 resp.end("ERROR");
