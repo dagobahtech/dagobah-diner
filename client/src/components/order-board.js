@@ -30,7 +30,7 @@ class OrderBoard extends Component {
     render() {
         return (
             <div className="row">
-                <div className="col-md-8"><CategoryMenu/></div>
+                <div className="col-md-8 row"><CategoryMenu/></div>
                 <div className="col-md-4"><OrderList /></div>
                 <ActiveItem/>
             </div>

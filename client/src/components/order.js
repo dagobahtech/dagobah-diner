@@ -33,10 +33,10 @@ class Order extends Component {
             <Provider store={store}>
                 <div className="container-fluid transition-item order-page">
                     <ConfirmationBox/>
-                    <div className="row">
+                    <div className="container-fluid">
                         <Banner/>
                     </div>
-                    <div className="row">
+                    <div className="container-fluid">
                             <OrderBoard/>
                     </div>
                 </div>
