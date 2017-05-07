@@ -53,11 +53,11 @@ class ActiveItem extends Component {
         if(this.props.activeItem) {
             comp = (
 
-                <div className="panel panel-warning item-popup">
-                    <div className="panel-heading">
+                <div className="card card-warning item-popup">
+                    <div className="card-header">
                         <h2>{heading}</h2>
                     </div>
-                    <div className="panel-body">
+                    <div className="card-block">
                         <h2>{this.props.activeItem.payload.name}</h2>
                         <p>{this.props.activeItem.payload.description}</p>
                         <button onClick={()=>this.updateQuantity("decrement")}>Less</button>

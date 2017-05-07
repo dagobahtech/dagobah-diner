@@ -8,9 +8,6 @@ class ConfirmationBox extends Component {
 
     constructor(){
         super();
-        this.state = {
-            isShowingModal:false
-        }
 
         this.handleClose = this.handleClose.bind(this);
         this.handleYes = this.handleYes.bind(this);
@@ -42,7 +39,9 @@ class ConfirmationBox extends Component {
                             <h1>{this.props.confirmModalState.header}</h1>
                             <p>{this.props.confirmModalState.message}</p>
                             {this.props.confirmModalState.component}
-                            <div className="right-align">
+                            <hr/>
+                            <div className="right-align" style={{'paddingTop':'15px'}}>
+
                                 <button className="btn btn-danger" onClick={this.handleYes}>Yes</button>
                                 <button className="btn btn-success" onClick={this.handleNo}>No</button>
                             </div>

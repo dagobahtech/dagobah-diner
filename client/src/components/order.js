@@ -1,24 +1,14 @@
 import React, {Component} from 'react'
 //these are the containers for this component
-import Welcome from '../containers/order/welcome';
 import OrderBoard from '../components/order-board';
-import OrderProcessing from '../components/order-processing';
 import Banner from './banner';
 import ConfirmationBox from '../components/confirmation-box';
 
 
-//these stuffs are needed for the store where all the data
-//needed for this page are kept so every component can access them
-//setting it looks complicated, but it helps a lot.
-import {createStore} from 'redux';
-import allReducers from '../reducers/order'
-import {Provider} from 'react-redux'
 //import css
 import '../css/order/menu.css'
-import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 
-//create a store when all data related to order page are stored
-const store = createStore(allReducers);
+
 
 /**
  * Order layout/board. This is also a dumb class (class only made for layout)
@@ -30,17 +20,17 @@ class Order extends Component {
     render() {
 
         return (
-            <Provider store={store}>
-                <div className="container-fluid transition-item order-page">
+
+                <div className="container-fluid transition-item enter-up-exit-down">
                     <ConfirmationBox/>
                     <div className="container-fluid">
                         <Banner/>
                     </div>
                     <div className="container-fluid">
-                            <OrderBoard/>
+                        <OrderBoard/>
                     </div>
                 </div>
-            </Provider>
+
         )
     }
 }

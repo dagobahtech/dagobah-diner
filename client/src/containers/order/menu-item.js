@@ -23,11 +23,12 @@ class MenuItem extends Component {
          * the item can be access using this.props.item
          * */
         return (
-            <div className="panel panel-danger center-align"
+            <div className="card card-danger text-center menu-item"
                  onClick={() => this.props.isClickable && this.props.selectItem(this.props.item, true)}>
-                <div className="panel-heading">{this.props.item.name}</div>
-                <div className="panel-body">Item pic</div>
-                <div className="panel-footer"><strong>
+
+                <div className="card-header">{this.props.item.name}</div>
+                <div className="card-block">Item pic</div>
+                <div className="card-footer"><strong>
                     <NumberFormat value={this.props.item.price}
                                   decimalPrecision={2}
                                   displayType={'text'} thousandSeparator={true}
