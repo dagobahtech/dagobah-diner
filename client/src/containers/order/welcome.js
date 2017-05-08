@@ -7,10 +7,13 @@ class Welcome extends Component {
 
     render() {
         return (
-            <div className="welcome-bg transition-item welcome-page">
+            <div className="welcome-bg transition-item enter-down-exit-up">
 
-                <div className="text-center TWords">Restaurant Name</div>
-                <Link to="/order" className="btn btn-success centerButt center-block">Start Ordering Now</Link>
+                <div className="TWords text-center">Restaurant Name</div>
+                <Link to="/choice"
+                      className="btn btn-success col-lg-4 offset-lg-4 centerButt">
+                    Click here to start Ordering
+                </Link>
 
             </div>
         );
