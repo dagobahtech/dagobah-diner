@@ -88,7 +88,7 @@ io.on("connection", function(socket){
 
 	//when order is received
 	socket.on("send order", function (order) {
-		//console.log it for nowhj
+		//console.log it for now
 		console.log(order);
 		//send order id to customer
 	})
