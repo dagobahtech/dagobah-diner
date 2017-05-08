@@ -8,8 +8,9 @@ class Welcome extends Component {
     render() {
         return (
             <div className="welcome-bg transition-item welcome-page">
-                <div className="TWords">Restaurant Name</div>
-                <Link to="/order" className="btn btn-success">Start Ordering Now</Link>
+
+                <div className="text-center TWords">Restaurant Name</div>
+                <Link to="/order" className="btn btn-success centerButt center-block">Start Ordering Now</Link>
             </div>
         );
     }
