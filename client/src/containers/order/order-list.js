@@ -7,7 +7,7 @@ import NumberFormat from 'react-number-format';
 //import css
 import '../../css/order/menu.css'
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
-
+import { browserHistory } from 'react-router';
 /**
  * This components shows all the items that
  * the customer have ordered
@@ -64,53 +64,55 @@ class OrderList extends Component {
     }
 
     requestRemove() {
-        (this.props.orderedItems.items.length !== 0) &&
-        this.props.confirmAction("Clear order",
-            "Are you sure you want to clear your order? No more yum yum?", <div></div>,
-            ()=>this.props.removeAllItem());
+
+        //browserHistory.push("/");
+        this.props.confirmAction("Cancel order",
+            "Are you sure you want to cancel this order? No more yum yum?", <div></div>,
+            ()=> {this.props.removeAllItem(); setTimeout(browserHistory.push, 100, "/");});
     }
 
     render() {
         console.log(this.props.orderedItems.items);
         return (
-            <div className="panel panel-danger">
-                <div className="panel-heading">
+            <div className="card">
+                <div className="card-header">
                     <h2>Total : <NumberFormat value={this.props.orderedItems.total}
                                               decimalPrecision={2}
                                               displayType={'text'} thousandSeparator={true}
                                               suffix={' IC'}/></h2>
                 </div>
-                <div className="panel-body container-fluid">
+                <div className="card-block">
+                        <table className="table">
+                            <thead className="container-fluid thead-inverse">
+                                <tr className="row">
+                                    <th className="col-md-1"></th>
+                                    <th className="col-md-4">Item</th>
+                                    <th className="col-md-1">Qty</th>
+                                    <th className="col-md-2">Price</th>
+                                    <th className="col-md-2">Subtotal</th>
+                                    <th className="col-md-2">&nbsp;</th>
+                                </tr>
+                            </thead>
 
-                    <table className="table no-padding">
-                        <thead className="left-align">
-                        <tr className="left-align ">
-                            <th className="col-md-5 left-align no-padding">Item</th>
-                            <th className="col-md-1 left-align no-padding">Qty</th>
-                            <th className="col-md-2 left-align no-padding">Price</th>
-                            <th className="col-md-2 left-align no-padding">Subtotal</th>
-                            <th className="col-md-2 no-padding"></th>
-                        </tr>
-                        </thead>
+                            <ReactCSSTransitionGroup component="tbody" transitionName="order" className="container-fluid"
+                                                     transitionEnterTimeout={300}
+                                                     transitionLeaveTimeout={300}>
+                                {
+                                    this.props.orderedItems.items.map(function (item, index) {
+                                        return (<OrderItem item={item} key={item.id} index={index}/>)
+                                    }, this)
+                                }
+                            </ReactCSSTransitionGroup>
 
-                        <ReactCSSTransitionGroup component="tbody" transitionName="order"
-                                                 transitionEnterTimeout={300}
-                                                 transitionLeaveTimeout={300}>
-                            {
-                                this.props.orderedItems.items.map(function (item, index) {
-                                    return (<OrderItem item={item} key={item.id} index={index}/>)
-                                }, this)
-                            }
-                        </ReactCSSTransitionGroup>
-
-                    </table>
-
+                        </table>
                 </div>
                 <div className="panel-footer right-align">
-                    <button className="btn btn-danger" onClick={() => this.requestRemove()}>Clear Order</button>
+                    <button className="btn btn-danger" onClick={() => this.requestRemove()}>Cancel Order</button>
                     <button className="btn btn-info" onClick={() => this.confirmOrder()}>Confirm Order</button>
                 </div>
-
+                <div className="card-footer">
+                    This order is {this.props.orderedItems.type}
+                </div>
             </div>
         )
     }

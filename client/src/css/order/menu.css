@@ -4,23 +4,35 @@ tr:hover {
 }
 /*Classes*/
 .menu-item{
-    box-shadow: none;
     cursor: pointer;
     text-align: center;
-    transform: scale(1);
-    transition: transform 100ms ease-in-out;
+    height: 100%;
 }
 
-.menu-item:hover {
+.menu-item .card-header {
+    background-color: white;
+    font-weight: bold;
+}
+
+.menu-item .card-footer {
+    color: white;
+}
+
+.menu-item .card-block {
+    background-color: white;
+}
+
+.menu-item-container {
+    transition: transform 100ms ease-in-out;
+    transform: scale(1);
+}
+.menu-item-container:hover {
     transform: scale(1.2);
     z-index: 1;
 }
-.menu-item:hover .panel-heading {
-    background-color: darkgreen;
-}
 
 .menu {
-    height: 70vh;
+    min-height: 70vh;
     overflow: hidden;
 }
 
@@ -68,23 +80,19 @@ tr:hover {
 .order-enter {
     opacity: 0.01;
     right: -50px;
-    width: 0px;
 }
 
 .order-enter.order-enter-active {
     opacity: 1;
-    width: 100px;
     transition: 300ms ;
 }
 
 .order-leave {
     opacity: 1.0;
-    width: 100px;
 }
 
 .order-leave.order-leave-active {
     opacity: 0.00;
-    width: 0px;
     transition: 300ms;
 }
 

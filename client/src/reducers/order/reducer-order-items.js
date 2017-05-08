@@ -5,7 +5,8 @@
 //set up an initial state
 const initialState = {
     items: [], // no items in cart
-    total: 0 //current total is zero
+    total: 0, //current total is zero
+    type: ""
 };
 
 
@@ -44,11 +45,20 @@ export default function(state=initialState, action) {
          case "REMOVE_ALL_ITEM":
              return initialState;
          case "REMOVE_ORDER_ITEM":
-             let newState = {...state};
-             let subTotal = newState.items[action.index].quantity * newState.items[action.index].price;
-             newState.items = [...newState.items.slice(0, action.index), ...newState.items.slice(action.index+1)];
-             newState.total -= subTotal;
-             return newState;
+            {
+                let newState = {...state};
+                let subTotal = newState.items[action.index].quantity * newState.items[action.index].price;
+                newState.items = [...newState.items.slice(0, action.index), ...newState.items.slice(action.index+1)];
+                newState.total -= subTotal;
+                return newState;
+            }
+
+         case "SET_ORDER_TYPE":
+             {
+                 let newState = {...state};
+                 newState.type = action.orderType;
+                 return newState;
+             }
 
          default:
             return state;

@@ -20,27 +20,30 @@ class OrderItem extends Component {
 
     render() {
         return (
-            <tr>
-                <td>{this.props.item.name}</td>
-                <td>{this.props.item.quantity}</td>
-                <td>
+            <tr className="row">
+                <td className="col-md-1"><button className="btn btn-danger btn-sm"
+                                                 onClick={()=> this.removeItem(this.props.index)}>&Chi;
+                </button></td>
+
+                <td className="col-md-4">{this.props.item.name}</td>
+                <td className="col-md-1">{this.props.item.quantity}</td>
+                <td className="col-md-2">
                     <NumberFormat value={this.props.item.price}
                                   decimalPrecision={2}
                                   displayType={'text'} thousandSeparator={true}
                                   suffix={' IC'}
                                   />
                     </td>
-                <td>
+                <td className="col-md-2">
                     <NumberFormat value={this.props.item.quantity * this.props.item.price}
                                   decimalPrecision={2}
                                   displayType={'text'} thousandSeparator={true}
                                   suffix={' IC'}
                     /></td>
-                <td>
-                    <button className="btn btn-warning btn-xs"
+                <td className="col-md-2">
+                    <button className="btn btn-warning btn-sm"
                             onClick={()=>this.props.selectItem(this.props.item, false)}>View</button>
-                    <button className="btn btn-danger btn-xs"
-                            onClick={()=> this.removeItem(this.props.index)}>&Chi;</button>
+
                 </td>
             </tr>
         );

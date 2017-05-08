@@ -11,6 +11,7 @@ class Welcome extends Component {
 
                 <div className="text-center TWords">Restaurant Name</div>
                 <Link to="/order" className="btn btn-success centerButt center-block">Start Ordering Now</Link>
+
             </div>
         );
     }

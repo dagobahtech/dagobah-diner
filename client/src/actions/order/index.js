@@ -13,6 +13,12 @@ export function selectItem(item, isNew) {
     }
 }
 
+export function setOrderType(type) {
+    return {
+        type: "SET_ORDER_TYPE",
+        orderType: type
+    }
+}
 //adds an item to list of items in an order
 export function addItemToOrder(item, isNew) {
     //console.log("dispatching add item to order");
@@ -46,12 +52,7 @@ export function resetActiveItem() {
     }
 }
 
-export function getTotal() {
-    //console.log("getting total");
-    return {
-        type: "GET_TOTAL"
-    }
-}
+
 
 export function getMenuFor(category) {
     console.log(category);

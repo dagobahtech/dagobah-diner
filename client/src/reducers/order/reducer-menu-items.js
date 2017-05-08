@@ -24,7 +24,7 @@ export default function(state=initialState, action) {
                         case 3 :
                             beverage.push(item);
                             break;
-
+                        default: break;
                     }
 
                 }
@@ -43,11 +43,10 @@ export default function(state=initialState, action) {
             return newState;
             
         }
+
+        default:
+            return state;
             
     }
-
-    
-
-    return state;
 
 }
