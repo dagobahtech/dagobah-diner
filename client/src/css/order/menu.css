@@ -143,7 +143,22 @@ tr:hover {
 /* WELCOME SCREEN*/
 
 .welcome-bg {
-    background-color: gray;
+    background: url('https://media.giphy.com/media/11ieZ0aMPSvI5i/giphy.gif') no-repeat ;
+    background-size: 100%;
+    
+}
+
+.TWords {
+    top: 40%;
+    position: relative;
+    font-size: 100px;
+}
+
+.centerButt {
+    position: relative;
+    width: 30%;
+    top: 45%;
+
 }
 
 /*BANNER*/
