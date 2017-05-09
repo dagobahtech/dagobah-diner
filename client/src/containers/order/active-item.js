@@ -66,10 +66,11 @@ class ActiveItem extends Component {
                                 <button className='btn btn-success' onClick={()=>this.updateQuantity("increment")}>+</button>
                             </div>
                             <div className="col-md-4 center-align">
-                                <h4><NumberFormat value={this.props.item.price}
+                                <h4>
+                                    <div className="currency currency-black currency-large"></div>
+                                    <NumberFormat value={this.props.item.price}
                                                   decimalPrecision={2}
                                                   displayType={'text'} thousandSeparator={true}
-                                                  suffix={' IC'}
                                 /></h4>
                             </div>
                         </div>
