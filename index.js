@@ -16,10 +16,17 @@ const dbURL = process.env.DATABASE_URL || "postgres://lpufbryv:FGc7GtCWBe6dyop0y
 
 var publicFolder = path.resolve(__dirname, "client/view");
 var adminFolder = path.resolve(__dirname, "client/view/admin");
+var pFolder = path.resolve(__dirname, "client/public");
+
+// lists that hold order numbers for the day
+var inProgress = [];
+var nowServing = [];
+var orderNumber = 0;
 
 // redirect to css and js folders
-app.use("/scripts", express.static("client/build"));
-app.use("/styles", express.static("client/stylesheet"))
+app.use("/scripts", express.static("client/buildjs"));
+app.use("/styles", express.static("client/stylesheet"));
+
 
 app.use(bodyParser.urlencoded({
     extended: true
@@ -34,6 +41,10 @@ app.use(express.static(path.join(__dirname, "client","/build")));
 
 app.get("/admin", function(req, resp) {
     resp.sendFile(adminFolder + "/admin.html");
+});
+
+app.get("/orderview", function(req,resp) {
+    resp.sendFile(pFolder+"orderview.html");
 });
 
 app.use(express.static(path.join(__dirname, "client","/build")));
@@ -91,6 +102,8 @@ io.on("connection", function(socket){
 		//console.log it for now
 		console.log(order);
 		//send order id to customer
+        console.log(orderNumber);
+        orderNumber++;
 	})
 });
 
