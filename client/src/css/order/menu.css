@@ -142,9 +142,16 @@ tr:hover {
 /* WELCOME SCREEN*/
 
 .welcome-bg {
-    background: url('https://media.giphy.com/media/11ieZ0aMPSvI5i/giphy.gif') no-repeat ;
-    background-size: 100%;
+    background: url('./images/bg.jpg') no-repeat ;
+    background-size: cover;
+}
 
+.welcome-bg-filter {
+    height: 100%;
+    width: 100%;
+    background-color: white;
+    opacity: 0.7;
+    position: absolute;
 }
 
 .TWords {

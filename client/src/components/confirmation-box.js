@@ -34,7 +34,7 @@ class ConfirmationBox extends Component {
             return (
                 <div className="right-align" style={{'paddingTop':'15px'}}>
                     <hr/>
-                    <button className="btn btn-danger" onClick={this.handleYes}>Yes</button>
+                    <button className="btn btn-danger" onClick={this.handleYes}>Yes</button>&nbsp;
                     <button className="btn btn-success" onClick={this.handleNo}>No</button>
                 </div>
             )

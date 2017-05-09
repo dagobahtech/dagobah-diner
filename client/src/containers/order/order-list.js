@@ -109,10 +109,7 @@ class OrderList extends Component {
                 </div>
                 <div className="panel-footer right-align">
                     <button className="btn btn-danger" onClick={() => this.requestRemove()}>Cancel Order</button>&nbsp;
-                    <button className="btn btn-info" onClick={() => this.confirmOrder()}>Confirm Order</button>
-                </div>
-                <div className="card-footer">
-                    This order is {this.props.orderedItems.type}
+                    <button className="btn btn-success" onClick={() => this.confirmOrder()}>Confirm Order</button>
                 </div>
             </div>
         )
