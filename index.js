@@ -15,7 +15,7 @@ var io = require("socket.io")(server);
 const dbURL = process.env.DATABASE_URL || "postgres://lpufbryv:FGc7GtCWBe6dyop0yJ2bu0pTXDoBJnEv@stampy.db.elephantsql.com:5432/lpufbryv";
 
 var publicFolder = path.resolve(__dirname, "client/view");
-var adminFolder = path.resolve(__dirname, "client/view/admin");
+var adminFolder = path.resolve(__dirname, "client/admin");
 
 // redirect to image, css and js folders
 app.use("/scripts", express.static("client/build"));
@@ -34,10 +34,8 @@ app.use(session({
 app.use(express.static(path.join(__dirname, "client","/build")));
 
 app.get("/admin", function(req, resp) {
-    resp.sendFile(adminFolder + "/admin.html");
+    resp.sendFile(adminFolder + "/login.html");
 });
-
-app.use(express.static(path.join(__dirname, "client","/build")));
 
 app.post("/admin/createItem", function(req, resp) {
 
@@ -88,6 +86,7 @@ function orderNumberGenerator() {
 
 //all communication with order page happens here
 io.on("connection", function(socket){
+
 	socket.on("getItems", function(){
 		console.log("connected database");
 		pg.connect(dbURL, function(err, client, done){
@@ -96,13 +95,10 @@ io.on("connection", function(socket){
 			} else {
 				client.query("SELECT * FROM menu", function(err, results){
 					done();
-					console.log(results.rows);
 					socket.emit("sendData", results.rows);
 				});
 			}
-
 		});
-
 	});
 
 	//when order is received
