@@ -58,6 +58,7 @@ class OrderList extends Component {
                 };
                 //console.log(order);
                 this.props.socket.emit("send order", order);
+                browserHistory.push('processing-order');
             })
 
         //this.props.changeView("processing");
