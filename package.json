@@ -4,7 +4,7 @@
   "description": "Fast food delivery system for planet Dagobah",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "./node_modules/jest/bin/jest.js",
     "start": "node index.js"
   },
   "repository": {
@@ -27,5 +27,8 @@
     "pg": "^6.1.5",
     "socket.io": "^1.7.4",
     "webpack": "^2.5.1"
+  },
+  "devDependencies": {
+    "jest": "^20.0.0"
   }
 }
