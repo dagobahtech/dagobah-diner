@@ -54,7 +54,8 @@ class CategoryMenu extends Component {
                 </div>
                 <div className="card-block menu" style={{'backgroundColor': 'white'}}>
                     <div className="container-fluid">
-
+                        <div className="col-md-3 pb-4 menu-item-container" key={1}>
+                        </div>
                         <ReactCSSTransitionGroup transitionName="menu"
                                                  transitionEnterTimeout={300}
                                                  transitionLeave={false}

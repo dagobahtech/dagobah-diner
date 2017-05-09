@@ -51,10 +51,10 @@ class MenuItem extends Component {
 
                 </div>
                 <div className="card-footer"><strong>
+                    <div className="currency currency-white currency-small"></div>
                     <NumberFormat value={this.props.item.price}
                                   decimalPrecision={2}
                                   displayType={'text'} thousandSeparator={true}
-                                  suffix={' IC'}
                     /></strong>
                 </div>
             </div>

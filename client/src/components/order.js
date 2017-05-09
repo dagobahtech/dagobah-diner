@@ -21,7 +21,7 @@ class Order extends Component {
 
         return (
 
-                <div className="container-fluid transition-item enter-up-exit-down">
+                <div className="container-fluid transition-item enter-up-exit-down main">
                     <ConfirmationBox/>
                     <div className="container-fluid">
                         <Banner/>

@@ -36,19 +36,19 @@ class OrderItem extends Component {
                 <td className="col-md-4">{this.props.item.name}</td>
                 <td className="col-md-1">{this.props.item.quantity}</td>
                 <td className="col-md-2">
+                    <div className="currency currency-black currency-small"></div>
                     <NumberFormat value={this.props.item.price}
                                   decimalPrecision={2}
                                   displayType={'text'} thousandSeparator={true}
-                                  suffix={' IC'}
                     />
                 </td>
                 <td className="col-md-2">
+                    <div className="currency currency-black currency-small"></div>
                     <NumberFormat value={this.props.item.quantity * this.props.item.price}
                                   decimalPrecision={2}
                                   displayType={'text'} thousandSeparator={true}
-                                  suffix={' IC'}
                     /></td>
-                <td className="col-md-2">
+                <td className="col-md-1">
                     <button className="btn btn-warning btn-sm"
                             onClick={() => this.showDetails()}>View
                     </button>
