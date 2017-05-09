@@ -107,7 +107,7 @@ class OrderList extends Component {
                         </table>
                 </div>
                 <div className="panel-footer right-align">
-                    <button className="btn btn-danger" onClick={() => this.requestRemove()}>Cancel Order</button>
+                    <button className="btn btn-danger" onClick={() => this.requestRemove()}>Cancel Order</button>&nbsp;
                     <button className="btn btn-info" onClick={() => this.confirmOrder()}>Confirm Order</button>
                 </div>
                 <div className="card-footer">
