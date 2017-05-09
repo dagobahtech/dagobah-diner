@@ -1,0 +1,27 @@
+/*
+Styling for the customer view of the orders in progress
+*/
+.your-order {
+	background-color: blue;
+}
+
+.in-progress {
+	background-color: beige;
+}
+
+.now-serving {
+	background-color: beige;
+}
+
+.order-number {
+	font-size: 48px;
+	font-weight: 400;
+}
+
+.order-name {
+	font-size: 26px;
+}
+
+.order-items {
+	font-size: 22px;
+}
