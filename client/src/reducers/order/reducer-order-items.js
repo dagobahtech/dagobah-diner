@@ -5,8 +5,7 @@
 //set up an initial state
 const initialState = {
     items: [], // no items in cart
-    total: 0, //current total is zero
-    type: ""
+    total: 0
 };
 
 
@@ -52,13 +51,6 @@ export default function(state=initialState, action) {
                 newState.total -= subTotal;
                 return newState;
             }
-
-         case "SET_ORDER_TYPE":
-             {
-                 let newState = {...state};
-                 newState.type = action.orderType;
-                 return newState;
-             }
 
          default:
             return state;
