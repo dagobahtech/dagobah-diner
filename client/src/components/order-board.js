@@ -1,7 +1,6 @@
 import React, {Component} from 'react'
 import OrderList from '../containers/order/order-list';
 import CategoryMenu from '../containers/order/category-menu';
-import ActiveItem from '../containers/order/active-item';
 import {connect} from 'react-redux';
 import {populateItem} from '../actions/order';
 import {bindActionCreators} from 'redux';
@@ -32,7 +31,7 @@ class OrderBoard extends Component {
             <div className="row">
                 <div className="col-lg-8 col-md-12 col-sm-12"><CategoryMenu/></div>
                 <div className="col-lg-4 col-md-12 col-sm-12"><OrderList /></div>
-                <ActiveItem/>
+
             </div>
         );
     }

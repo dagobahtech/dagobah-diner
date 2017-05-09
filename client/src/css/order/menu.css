@@ -54,15 +54,14 @@ tr:hover {
 }
 
 .item-popup {
-    width: 50vw;
-    height: 50vh;
-    position: absolute;
-    left:25vw;
-    top: 10vh;
-    box-shadow: 10px 10px 5px #888888;
-    z-index: 2;
+    width: 600px;
 }
 
+.logo {
+    padding: 50px 0px 50px 0px;
+    height: 70vh;
+
+}
 
 /* MENU TRANSITION HERE*/
 .menu-enter {
