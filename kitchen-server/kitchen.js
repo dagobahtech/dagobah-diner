@@ -14,6 +14,7 @@ function Kitchen() {
 
     this.peekNextOrder = function () {
         return orderQueue.peek();
+        //just peek the item
     };
 }
 
