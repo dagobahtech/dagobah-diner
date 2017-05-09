@@ -17,9 +17,10 @@ const dbURL = process.env.DATABASE_URL || "postgres://lpufbryv:FGc7GtCWBe6dyop0y
 var publicFolder = path.resolve(__dirname, "client/view");
 var adminFolder = path.resolve(__dirname, "client/view/admin");
 
-// redirect to css and js folders
+// redirect to image, css and js folders
 app.use("/scripts", express.static("client/build"));
-app.use("/styles", express.static("client/stylesheet"))
+app.use("/styles", express.static("client/stylesheet"));
+app.use("/images", express.static("MenuPics"));
 
 app.use(bodyParser.urlencoded({
     extended: true
@@ -66,6 +67,24 @@ app.post("/admin/createItem", function(req, resp) {
 app.get('*', function (request, response){
     response.sendFile(path.resolve(__dirname, 'client/build', 'index.html'))
 });
+
+//Server side order counter.
+var startTime = new Date().getTime();
+const dayInMS = 24 * 60 * 60 * 1000;  //a full day measured in millesconds.
+var orderNumber = 0;
+function orderNumberGenerator() {
+    var currentTime = new Date().getTime();
+    if (((currentTime - startTime) / dayInMS) >= 1){
+        orderNumber = 1;
+        startTime = new  Date().getTime();
+    } else {
+        orderNumber++;
+    }
+    return orderNumber;
+}
+
+// console.log("New Order Number: "+orderNumberGenerator());
+// console.log("New Order Number: "+orderNumberGenerator());
 
 //all communication with order page happens here
 io.on("connection", function(socket){
