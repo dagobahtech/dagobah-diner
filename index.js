@@ -57,7 +57,6 @@ function getMenuItems() {
 
 setTimeout(function() {console.log("menuArray after getMenuItems: " + menuArray.length)}, 2000);
 
-// getMenuItems(); //initial call to database when server starts.
 exports.getMenuItems = getMenuItems(); // DL - export the function to be used in "/routes/admin.js"
 
 
