@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import '../css/order/order-process.css';
-import {orderedItems} from '../reducers/order/index';
 
 class OrderProcessing extends Component {
     
