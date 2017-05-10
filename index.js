@@ -35,6 +35,28 @@ app.get("/admin", function(req, resp) {
     resp.sendFile(adminFolder + "/login.html");
 });
 
+/* Menu Access code section */
+var menuArray = [];     //server array of menu items to be sent to client.
+
+function getMenuItems() {
+    pg.connect(dbURL, function(err, client, done){
+        if(err){
+            console.log(err);
+        } else {
+            console.log("connected database");
+            client.query("SELECT * FROM menu", function(err, results){
+                done();
+                // console.log(results.rows);
+                menuArray = results.rows;
+                console.log(menuArray);
+            });
+        }
+
+    });
+}
+
+getMenuItems(); //initial call to database when server starts.
+
 app.post("/admin/createItem", function(req, resp) {
 
     console.log(req.body);
@@ -53,6 +75,8 @@ app.post("/admin/createItem", function(req, resp) {
             }
 
             resp.send({status: "success", msg: "item created!"})
+
+            getMenuItems();  //updating server array of menu items.
 
         });
     });
@@ -85,17 +109,7 @@ function orderNumberGenerator() {
 io.on("connection", function(socket){
 
 	socket.on("getItems", function(){
-		console.log("connected database");
-		pg.connect(dbURL, function(err, client, done){
-			if(err){
-				consoloe.log(err);
-			} else {
-				client.query("SELECT * FROM menu", function(err, results){
-					done();
-					socket.emit("sendData", results.rows);
-				});
-			}
-		});
+        socket.emit("sendData", menuArray);
 	});
 
 	//when order is received
