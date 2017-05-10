@@ -23,27 +23,42 @@ body {
 	overflow-y: scroll;
 	align-items: flex-start;
 }
-#orders::-webkit-scrollbar, #foodItems::-webkit-scrollbar {
+#orders::-webkit-scrollbar, #foodItems::-webkit-scrollbar, #surplus::-webkit-scrollbar {
 	background-color: black;
 	width: 2vw;
 }
-#orders::-webkit-scrollbar-track, #foodItems::-webkit-scrollbar-track {
+#orders::-webkit-scrollbar-track, #foodItems::-webkit-scrollbar-track, #surplus::-webkit-scrollbar-track {
 	background-color: black;
 }
-#orders::-webkit-scrollbar-thumb, #foodItems::-webkit-scrollbar-thumb {
+#orders::-webkit-scrollbar-thumb, #foodItems::-webkit-scrollbar-thumb, #surplus::-webkit-scrollbar-thumb {
 	background-color: dimgray;
 	border-radius: 10px;
 	
 }
 #foodItems {
 	width: 40vw;
-	height: 80vh;
+	height: 39vh;
 	margin-right: 1vw;
 	margin-top: 1vh;
 	margin-bottom: 1vh;
 	border: double white 1vh;
 	background-color: black;
 	overflow-y: scroll;
+}
+#surplus {
+	width: 40vw;
+	height: 38vh;
+	margin-right: 1vw;
+	margin-top: 1vh;
+	margin-bottom: 1vh;
+	border: double white 1vh;
+	background-color: black;
+	overflow-y: scroll;
+}
+#surplusTitle {
+	color: white;
+	padding: 1vh 1vw 1vh 1vw;
+	border-bottom: solid white 2px;
 }
 #foodOver {
 /*	width: 40vw;*/

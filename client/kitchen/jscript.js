@@ -1,5 +1,7 @@
 $(document).ready(function() {
 	orderNum = 0;
+	curOrders = [];
+	orderList = [];
 	allItems = [];
 	isMaking = false;
 	selected = null;
@@ -25,7 +27,7 @@ $(document).ready(function() {
 			var bar = document.getElementById("foodOver");
 			bar.style.transitionDuration = "5s";
 			bar.style.transitionTimingFunction = "linear";
-			bar.style.height = "80vh";
+			bar.style.height = "39vh";
 			
 			setTimeout(function() {
 				isMaking = false;
@@ -33,15 +35,15 @@ $(document).ready(function() {
 				bar.style.transitionTimingFunction = "ease";
 				bar.style.height = "0";
 				
-				console.log(selected);
 				var children = selected.childNodes;
-				console.log(children[1].innerHTML);
 				
 				children[1].innerHTML = children[1].innerHTML - amount;
 				
 				document.getElementById("one").disabled = false;
 				document.getElementById("two").disabled = false;
 				document.getElementById("six").disabled = false;
+				
+				fulfillOrders(selected.childNodes[0].innerHTML, amount);
 			}, 5000);
 			
 		}
@@ -76,6 +78,7 @@ $(document).ready(function() {
 //	generate(temp);
 	
 	function generate(items) {
+		curOrders.push([...items]);
 		orderNum += 1;
 		
 		var newDiv = document.createElement("div");
@@ -101,6 +104,7 @@ $(document).ready(function() {
 		newDiv.appendChild(bottom);
 			
 		for(i = 0; i < items.length; i++) {
+			
 			var item = document.createElement("div");
 			item.setAttribute("ID", "item");
 			item.innerHTML = items[i];
@@ -108,8 +112,6 @@ $(document).ready(function() {
 			middle.appendChild(item);
 			
 			var children = document.getElementById("foodItems").childNodes;
-			console.log("all items: " + allItems);
-			console.log(items[i]);
 			if(!(allItems.includes(items[i]))) {
 					allItems.push(items[i]);
 					generateList(items[i]);
@@ -117,7 +119,6 @@ $(document).ready(function() {
 			else {
 				for(x = 1; x < children.length; x++) {
 					var temp = children[x].childNodes;
-					console.log(temp);
 					if(temp[0].innerHTML == items[i]) {
 						tempAmount = parseInt(temp[1].innerHTML);
 						temp[1].innerHTML = tempAmount + 1;
@@ -125,7 +126,7 @@ $(document).ready(function() {
 				}
 			}
 		}
-		console.log(children);
+		orderList.push(newDiv);
 	}
 	function generateList(item) {
 		var newDiv = document.createElement("div");
@@ -133,13 +134,11 @@ $(document).ready(function() {
 		
 		newDiv.addEventListener("click", function() {
 			if(!isMaking) {
-				console.log(this);
 				this.style.border = "solid orange 2px";
 				if(selected != null) {
 					selected.style.border = "solid white 2px";
 				}
 				selected = this;
-				console.log(selected);
 			}
 		});
 		
@@ -154,5 +153,45 @@ $(document).ready(function() {
 		document.getElementById("foodItems").appendChild(newDiv);
 		newDiv.appendChild(nameFood);
 		newDiv.appendChild(amt);
+	}
+	
+	console.log(curOrders);
+	function fulfillOrders(item, amount) {
+		console.log(curOrders);
+		console.log("item: " + item);
+		console.log("amt: " + amount);
+		//iterates through the amount of items. 
+		//for each amount made, iterate through all the orders. 
+		//for each order, iterate through each item
+		//if match, change the item to green. 
+		//then remove that item from orderlist
+		//break all loops except the first one
+		for(i = 0; i < amount; i++) {
+			breakHere: 
+			for(x = 0; x < curOrders.length; x++) {
+				for(y = 0; y < curOrders[x].length; y++) {
+					console.log("ITEM: " + curOrders[x][y]);
+					if(curOrders[x][y] == item) {
+						isDone(orderList[x].childNodes[1].childNodes[y]);
+						var temp = curOrders[x].indexOf(item);
+						if(temp > -1) {
+							console.log("Splicing here: " + curOrders[x]);
+							curOrders[x][temp] = (curOrders[x][temp]) + " done";
+						}
+						break breakHere;
+					}
+				}
+			}
+		}
+	}
+	function isDone(item) {
+		item.style.color = "green";
+		item.style.borderColor = "green";
+		setTimeout(function() {
+			item.style.transitionDuration = "60s";
+			item.style.transitionTimingFunction = "linear";
+			item.style.color = "red";
+			item.style.borderColor = "red";
+		},10);
 	}
 });
