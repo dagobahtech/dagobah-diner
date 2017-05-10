@@ -23,9 +23,7 @@ class Order extends Component {
 
                 <div className="container-fluid transition-item enter-up-exit-down main">
                     <ConfirmationBox/>
-                    <div className="container-fluid">
-                        <Banner/>
-                    </div>
+                    <Banner/>
                     <div className="container-fluid">
                         <OrderBoard/>
                     </div>

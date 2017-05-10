@@ -127,10 +127,10 @@ class OrderList extends Component {
                             </ReactCSSTransitionGroup>
 
                         </table>
-                </div>
-                <div className="panel-footer right-align">
-                    <button className="btn btn-danger" onClick={() => this.requestRemove()}>Cancel Order</button>&nbsp;
-                    <button className="btn btn-success" onClick={() => this.confirmOrder()}>Confirm Order</button>
+                    <div className="right-align">
+                        <button className="btn btn-danger" onClick={() => this.requestRemove()}>Cancel Order</button>&nbsp;
+                        <button className="btn btn-success" onClick={() => this.confirmOrder()}>Confirm Order</button>
+                    </div>
                 </div>
             </div>
         )
