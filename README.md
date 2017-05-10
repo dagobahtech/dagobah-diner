@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/dagobahtech/acit2910.svg?branch=master)](https://travis-ci.org/dagobahtech/acit2910)
+[![Build Status](https://travis-ci.org/dagobahtech/acit2910.svg?branch=develop)](https://travis-ci.org/dagobahtech/acit2910)
 
 # ACIT 2910 Projects Course
 
