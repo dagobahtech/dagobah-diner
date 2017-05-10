@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const pg = require("pg");
 const path = require("path");
+var rootFile = require("../index.js");
 
 const dbURL = process.env.DATABASE_URL || "postgres://lpufbryv:FGc7GtCWBe6dyop0yJ2bu0pTXDoBJnEv@stampy.db.elephantsql.com:5432/lpufbryv";
 var adminFolder = path.resolve(__dirname, "../client/admin");
@@ -31,6 +32,7 @@ router.post("/createItem", function (req, resp) {
                 resp.end("ERROR");
             }
 
+            rootFile.getMenuItems();
             resp.send({status: "success", msg: "item created!"})
 
         });
