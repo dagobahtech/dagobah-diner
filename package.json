@@ -4,10 +4,10 @@
   "description": "Fast food delivery system for planet Dagobah",
   "main": "index.js",
   "scripts": {
-    "test": "./node_modules/jest/bin/jest.js",
     "start": "node --use_strict index.js",
     "build": "cd client && npm run build",
-    "live": "cd client && npm start"
+    "live": "cd client && npm start",
+    "test": "jest"
   },
   "repository": {
     "type": "git",
