@@ -170,14 +170,13 @@ tr:hover {
 
 /*BANNER*/
 .banner {
-    height: 15vh;
-    padding-top: 1vh;
-    padding-bottom: 2vh;
-    background-image: url('./images/logo.svg');
-    background-repeat: no-repeat;
-    background-position: left center;
-    background-size: auto 12vh;
-    background-color: white;
+    max-height: 100px;
+    position: relative;
+    margin: 2px 0;
+}
+
+.logo-navbar {
+    max-width: 300px;
 }
 
 h1 {
