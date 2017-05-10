@@ -4,7 +4,6 @@ const path = require("path");
 const bodyParser = require("body-parser");
 const session = require ("express-session");
 const pg = require("pg");
-const bcrypt = require("bcrypt");
 
 
 var app = express();
