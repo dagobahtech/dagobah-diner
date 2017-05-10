@@ -40,6 +40,8 @@ app.use("/kitchen", kitchen);
 
 /* Menu Access code section */
 var menuArray = [];     //server array of menu items to be sent to client.
+
+console.log("menuArray should be empty: "+ menuArray.length);
 function getMenuItems() {
     pg.connect(dbURL, function(err, client, done){
         if(err){
@@ -53,7 +55,9 @@ function getMenuItems() {
     });
 }
 
-getMenuItems(); //initial call to database when server starts.
+setTimeout(function() {console.log("menuArray after getMenuItems: " + menuArray.length)}, 2000);
+
+// getMenuItems(); //initial call to database when server starts.
 exports.getMenuItems = getMenuItems(); // DL - export the function to be used in "/routes/admin.js"
 
 
