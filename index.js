@@ -5,15 +5,16 @@ const bodyParser = require("body-parser");
 const session = require ("express-session");
 const pg = require("pg");
 
-
 var app = express();
 const server = require("http").createServer(app);
 var io = require("socket.io")(server);
 
+//declare routes
+const admin = require('./routes/admin');
+const kitchen = require('./routes/kitchen');
+
 // DanLi - Cloud Database Hosted on ElephantSQL.com credentials posted on GitHub
 const dbURL = process.env.DATABASE_URL || "postgres://lpufbryv:FGc7GtCWBe6dyop0yJ2bu0pTXDoBJnEv@stampy.db.elephantsql.com:5432/lpufbryv";
-
-var adminFolder = path.resolve(__dirname, "client/admin");
 
 // redirect to image, css and js folders
 app.use("/scripts", express.static("client/build"));
@@ -29,35 +30,12 @@ app.use(session({
     saveUninitialized: true
 }));
 
+//set the home folder to client/build
 app.use(express.static(path.join(__dirname, "client","/build")));
 
-app.get("/admin", function(req, resp) {
-    resp.sendFile(adminFolder + "/login.html");
-});
-
-app.post("/admin/createItem", function(req, resp) {
-
-    console.log(req.body);
-
-    pg.connect(dbURL, function(err, client, done) {
-        if (err) {
-            console.log(err);
-        }
-
-        var dbQuery = "INSERT INTO menu (name, category, description, price, cook_time, kitchen_station_id) VALUES ($1, $2, $3, $4, $5, $6)";
-        client.query(dbQuery, [req.body.name, req.body.category, req.body.desc, req.body.price, req.body.time, req.body.station], function(err, result) {
-            done();
-            if (err) {
-                console.log(err);
-                resp.end("ERROR");
-            }
-
-            resp.send({status: "success", msg: "item created!"})
-
-        });
-    });
-});
-
+//setup the routes
+app.use("/admin", admin);
+app.use("/kitchen", kitchen);
 
 //add app.get before this call
 app.get('*', function (request, response){
