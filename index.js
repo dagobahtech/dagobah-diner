@@ -33,9 +33,29 @@ app.use(session({
 //set the home folder to client/build
 app.use(express.static(path.join(__dirname, "client","/build")));
 
+
 //setup the routes
 app.use("/admin", admin);
 app.use("/kitchen", kitchen);
+
+/* Menu Access code section */
+var menuArray = [];     //server array of menu items to be sent to client.
+function getMenuItems() {
+    pg.connect(dbURL, function(err, client, done){
+        if(err){
+            console.log(err);
+        }
+        client.query("SELECT * FROM menu", function(err, results){
+                done();
+                menuArray = results.rows;
+                console.log("Menu array in the server updated!");
+            });
+    });
+}
+
+getMenuItems(); //initial call to database when server starts.
+exports.getMenuItems = getMenuItems(); // DL - export the function to be used in "/routes/admin.js"
+
 
 //add app.get before this call
 app.get('*', function (request, response){
@@ -63,17 +83,7 @@ function orderNumberGenerator() {
 io.on("connection", function(socket){
 
 	socket.on("getItems", function(){
-		console.log("connected database");
-		pg.connect(dbURL, function(err, client, done){
-			if(err){
-				consoloe.log(err);
-			} else {
-				client.query("SELECT * FROM menu", function(err, results){
-					done();
-					socket.emit("sendData", results.rows);
-				});
-			}
-		});
+        socket.emit("sendData", menuArray);
 	});
 
 	//when order is received
