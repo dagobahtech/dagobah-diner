@@ -14,7 +14,6 @@ var io = require("socket.io")(server);
 // DanLi - Cloud Database Hosted on ElephantSQL.com credentials posted on GitHub
 const dbURL = process.env.DATABASE_URL || "postgres://lpufbryv:FGc7GtCWBe6dyop0yJ2bu0pTXDoBJnEv@stampy.db.elephantsql.com:5432/lpufbryv";
 
-var publicFolder = path.resolve(__dirname, "client/view");
 var adminFolder = path.resolve(__dirname, "client/admin");
 
 // redirect to image, css and js folders
@@ -80,7 +79,6 @@ function orderNumberGenerator() {
     }
     return orderNumber;
 }
-
 // console.log("New Order Number: "+orderNumberGenerator());
 // console.log("New Order Number: "+orderNumberGenerator());
 
