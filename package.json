@@ -5,7 +5,9 @@
   "main": "index.js",
   "scripts": {
     "test": "./node_modules/jest/bin/jest.js",
-    "start": "node --use_strict index.js"
+    "start": "node --use_strict index.js",
+    "build": "cd client && npm run build",
+    "live": "cd client && npm start"
   },
   "repository": {
     "type": "git",
