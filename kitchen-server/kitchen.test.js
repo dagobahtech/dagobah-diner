@@ -1,4 +1,3 @@
-var sum = require("./sum");
 var Kitchen = require('./kitchen');
 
 
