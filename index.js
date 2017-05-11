@@ -37,7 +37,7 @@ var adminFolder = path.resolve(__dirname, "client/admin");
 
 // redirect to image, css and js folders
 app.use("/scripts", express.static("client/build"));
-app.use("/styles", express.static("client/stylesheet"));
+app.use("/styles", express.static("client/src/css"));
 app.use("/images", express.static("MenuPics"));
 
 
