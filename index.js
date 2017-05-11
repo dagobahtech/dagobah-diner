@@ -15,27 +15,27 @@ var io = require("socket.io")(server);
 const dbURL = process.env.DATABASE_URL || "postgres://lpufbryv:FGc7GtCWBe6dyop0yJ2bu0pTXDoBJnEv@stampy.db.elephantsql.com:5432/lpufbryv";
 
 var publicFolder = path.resolve(__dirname, "client/view");
-<<<<<<< HEAD
+
 var adminFolder = path.resolve(__dirname, "client/view/admin");
 var pFolder = path.resolve(__dirname, "client/public");
 
 // lists that hold order numbers for the day
 var inProgress = [];
 var nowServing = [];
-var orderNumber = 0;
+
 
 // redirect to css and js folders
 app.use("/scripts", express.static("client/buildjs"));
 app.use("/styles", express.static("client/stylesheet"));
 
-=======
+
 var adminFolder = path.resolve(__dirname, "client/admin");
 
 // redirect to image, css and js folders
 app.use("/scripts", express.static("client/build"));
 app.use("/styles", express.static("client/stylesheet"));
 app.use("/images", express.static("MenuPics"));
->>>>>>> develop
+
 
 app.use(bodyParser.urlencoded({
     extended: true
@@ -52,15 +52,21 @@ app.get("/admin", function(req, resp) {
     resp.sendFile(adminFolder + "/login.html");
 });
 
-<<<<<<< HEAD
+// orderview get ajax
 app.get("/orderview", function(req,resp) {
-    resp.sendFile(pFolder+"orderview.html");
+    resp.sendFile(pFolder+"/orderview.html");
+});
+
+app.get("/getOrderNumbers", function(req, resp){
+    resp.send({
+        inProgress: inProgress,
+        nowServing: nowServing
+    });
 });
 
 app.use(express.static(path.join(__dirname, "client","/build")));
 
-=======
->>>>>>> develop
+
 app.post("/admin/createItem", function(req, resp) {
 
     console.log(req.body);
@@ -130,9 +136,12 @@ io.on("connection", function(socket){
 		//console.log it for now
 		console.log(order);
 		//send order id to customer
-        console.log(orderNumber);
-        orderNumber++;
-	})
+        var userOrderNumber = orderNumberGenerator();
+        console.log(userOrderNumber);
+        inProgress.push(userOrderNumber);
+        console.log(inProgress);
+
+	});
 });
 
 
