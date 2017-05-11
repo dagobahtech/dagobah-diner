@@ -67,10 +67,31 @@ app.get("/getOrderNumbers", function(req, resp){
     });
 });
 
+app.get("/testNowServing", function(req, resp) {
+    var justServed = inProgress[0];
+    nowServing.push(justServed);
+    inProgress.splice(0,1);
+    resp.send({
+        justServed: justServed,
+        nowServing: nowServing,
+        inProgress: inProgress
+    });
+});
+
+app.get("/testFinishOrder", function(req, resp) {
+    var justServed = nowServing[0];
+    nowServing.splice(0,1);
+    resp.send({
+        justServed: justServed,
+        nowServing: nowServing,
+        inProgress: inProgress
+    });
+});
+
 app.use(express.static(path.join(__dirname, "client","/build")));
 
 
-app.post("/admin/createItem", function(req, resp) {
+app.post("/admin/createItem", function(req, resp) {});
 
 //setup the routes
 app.use("/admin", admin);
