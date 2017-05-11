@@ -4,6 +4,7 @@ import {connect} from 'react-redux';
 import {removeAllItem, confirmAction} from '../../actions/order/index';
 import {bindActionCreators} from 'redux';
 import NumberFormat from 'react-number-format';
+
 //import css
 import '../../css/order/menu.css'
 
@@ -78,6 +79,8 @@ class OrderList extends Component {
                 };
                 //console.log(order);
                 this.props.socket.emit("send order", order);
+                //changes pages to order-processing page
+
                 browserHistory.push('processing-order');
             })
 
