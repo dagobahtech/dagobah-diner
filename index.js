@@ -40,6 +40,7 @@ app.use("/kitchen", kitchen);
 
 /* Menu Access code section */
 var menuArray = [];     //server array of menu items to be sent to client.
+var comboDiscount = 0.15;  //combo discount.  To be pulled from the database later on.
 
 console.log("menuArray should be empty: "+ menuArray.length);
 function getMenuItems() {
@@ -82,6 +83,45 @@ function orderNumberGenerator() {
 // console.log("New Order Number: "+orderNumberGenerator());
 // console.log("New Order Number: "+orderNumberGenerator());
 
+//Discount Checker
+function isDiscount (order){
+    var discount = false;
+    var category1 = false;
+    var category2 = false;
+    var category3 = false;
+    for (var i = 0; i < order.items.length; i++){
+        if (order.items[i].category == 1) {category1 = true;}
+        if (order.items[i].category == 2) {category2 = true;}
+        if (order.items[i].category == 3) {category3 = true;}
+    }
+    if (category1 && category2 && category3) {discount = true;}
+    return discount;
+}
+
+//true Order Total
+function calcTrueTotal(order) {
+    var discountAmount = 0;
+    var subTotal = 0;
+    var total = 0;
+    for (var i=0; i<order.items.length; i++){
+        for(var j=0; j<menuArray.length; j++){
+            if (menuArray[j].id == order.items[i].id){
+                subTotal += order.items[i].quantity * menuArray[j].price;
+            }
+        }
+    }
+    console.log(isDiscount(order));
+    if (isDiscount(order)) {
+        total = subTotal * (1 - comboDiscount);
+    } else {
+        total = subTotal;
+    }
+    order.subTotal = subTotal;
+    order.total = total;
+
+    return order;
+}
+
 //all communication with order page happens here
 io.on("connection", function(socket){
 
@@ -92,8 +132,11 @@ io.on("connection", function(socket){
 	//when order is received
 	socket.on("send order", function (order) {
 		//console.log it for now
-		console.log(order);
-		//send order id to customer
+
+        console.log(order);
+        order = calcTrueTotal(order);
+        console.log(order);
+        //send order id to customer
 	})
 });
 
