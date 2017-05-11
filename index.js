@@ -16,10 +16,28 @@ const kitchen = require('./routes/kitchen');
 // DanLi - Cloud Database Hosted on ElephantSQL.com credentials posted on GitHub
 const dbURL = process.env.DATABASE_URL || "postgres://lpufbryv:FGc7GtCWBe6dyop0yJ2bu0pTXDoBJnEv@stampy.db.elephantsql.com:5432/lpufbryv";
 
+
+var publicFolder = path.resolve(__dirname, "client/view");
+
+var adminFolder = path.resolve(__dirname, "client/view/admin");
+var pFolder = path.resolve(__dirname, "client/public");
+
+// lists that hold order numbers for the day
+var inProgress = [];
+var nowServing = [];
+
+// redirect to css and js folders
+app.use("/scripts", express.static("client/buildjs"));
+app.use("/styles", express.static("client/stylesheet"));
+
+
+var adminFolder = path.resolve(__dirname, "client/admin");
+
 // redirect to image, css and js folders
 app.use("/scripts", express.static("client/build"));
-app.use("/styles", express.static("client/stylesheet"));
+app.use("/styles", express.static("client/src/css"));
 app.use("/images", express.static("MenuPics"));
+
 
 app.use(bodyParser.urlencoded({
     extended: true
@@ -34,12 +52,53 @@ app.use(session({
 app.use(express.static(path.join(__dirname, "client","/build")));
 
 
+
+// orderview get ajax
+app.get("/orderview", function(req,resp) {
+    resp.sendFile(pFolder+"/orderview.html");
+});
+
+app.get("/getOrderNumbers", function(req, resp){
+    resp.send({
+        inProgress: inProgress,
+        nowServing: nowServing
+    });
+});
+
+app.get("/testNowServing", function(req, resp) {
+    var justServed = inProgress[0];
+    nowServing.push(justServed);
+    inProgress.splice(0,1);
+    resp.send({
+        justServed: justServed,
+        nowServing: nowServing,
+        inProgress: inProgress
+    });
+});
+
+app.get("/testFinishOrder", function(req, resp) {
+    var justServed = nowServing[0];
+    nowServing.splice(0,1);
+    resp.send({
+        justServed: justServed,
+        nowServing: nowServing,
+        inProgress: inProgress
+    });
+});
+
+app.use(express.static(path.join(__dirname, "client","/build")));
+
+
+app.post("/admin/createItem", function(req, resp) {});
+
 //setup the routes
 app.use("/admin", admin);
 app.use("/kitchen", kitchen);
 
+
 /* Menu Access code section */
 var menuArray = [];     //server array of menu items to be sent to client.
+var comboDiscount = 0.15;  //combo discount.  To be pulled from the database later on.
 
 console.log("menuArray should be empty: "+ menuArray.length);
 function getMenuItems() {
@@ -82,6 +141,45 @@ function orderNumberGenerator() {
 // console.log("New Order Number: "+orderNumberGenerator());
 // console.log("New Order Number: "+orderNumberGenerator());
 
+//Discount Checker
+function isDiscount (order){
+    var discount = false;
+    var category1 = false;
+    var category2 = false;
+    var category3 = false;
+    for (var i = 0; i < order.items.length; i++){
+        if (order.items[i].category == 1) {category1 = true;}
+        if (order.items[i].category == 2) {category2 = true;}
+        if (order.items[i].category == 3) {category3 = true;}
+    }
+    if (category1 && category2 && category3) {discount = true;}
+    return discount;
+}
+
+//true Order Total
+function calcTrueTotal(order) {
+    var discountAmount = 0;
+    var subTotal = 0;
+    var total = 0;
+    for (var i=0; i<order.items.length; i++){
+        for(var j=0; j<menuArray.length; j++){
+            if (menuArray[j].id == order.items[i].id){
+                subTotal += order.items[i].quantity * menuArray[j].price;
+            }
+        }
+    }
+    console.log(isDiscount(order));
+    if (isDiscount(order)) {
+        total = subTotal * (1 - comboDiscount);
+    } else {
+        total = subTotal;
+    }
+    order.subTotal = subTotal;
+    order.total = total;
+
+    return order;
+}
+
 //all communication with order page happens here
 io.on("connection", function(socket){
 
@@ -91,11 +189,21 @@ io.on("connection", function(socket){
 
 	//when order is received
 	socket.on("send order", function (order) {
+
+        var userOrderNumber = orderNumberGenerator();
 		//console.log it for now
 		console.log(order);
-		socket.emit("orderinfo", orderNumberGenerator())
+		socket.emit("orderinfo", userOrderNumber)
+
+        order = calcTrueTotal(order);
+
 		//send order id to customer
-	})
+
+        console.log(userOrderNumber);
+        inProgress.push(userOrderNumber);
+        console.log(inProgress);
+	});
+
 });
 
 
