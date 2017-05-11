@@ -4,15 +4,18 @@ const path = require("path");
 const bodyParser = require("body-parser");
 const session = require ("express-session");
 const pg = require("pg");
-const bcrypt = require("bcrypt");
-
 
 var app = express();
 const server = require("http").createServer(app);
 var io = require("socket.io")(server);
 
+//declare routes
+const admin = require('./routes/admin');
+const kitchen = require('./routes/kitchen');
+
 // DanLi - Cloud Database Hosted on ElephantSQL.com credentials posted on GitHub
 const dbURL = process.env.DATABASE_URL || "postgres://lpufbryv:FGc7GtCWBe6dyop0yJ2bu0pTXDoBJnEv@stampy.db.elephantsql.com:5432/lpufbryv";
+
 
 var publicFolder = path.resolve(__dirname, "client/view");
 
@@ -31,6 +34,7 @@ app.use("/styles", express.static("client/stylesheet"));
 
 var adminFolder = path.resolve(__dirname, "client/admin");
 
+
 // redirect to image, css and js folders
 app.use("/scripts", express.static("client/build"));
 app.use("/styles", express.static("client/stylesheet"));
@@ -46,11 +50,10 @@ app.use(session({
     saveUninitialized: true
 }));
 
+//set the home folder to client/build
 app.use(express.static(path.join(__dirname, "client","/build")));
 
-app.get("/admin", function(req, resp) {
-    resp.sendFile(adminFolder + "/login.html");
-});
+
 
 // orderview get ajax
 app.get("/orderview", function(req,resp) {
@@ -69,26 +72,31 @@ app.use(express.static(path.join(__dirname, "client","/build")));
 
 app.post("/admin/createItem", function(req, resp) {
 
-    console.log(req.body);
+//setup the routes
+app.use("/admin", admin);
+app.use("/kitchen", kitchen);
 
-    pg.connect(dbURL, function(err, client, done) {
-        if (err) {
+
+/* Menu Access code section */
+var menuArray = [];     //server array of menu items to be sent to client.
+
+console.log("menuArray should be empty: "+ menuArray.length);
+function getMenuItems() {
+    pg.connect(dbURL, function(err, client, done){
+        if(err){
             console.log(err);
         }
-
-        var dbQuery = "INSERT INTO menu (name, category, description, price, cook_time, kitchen_station_id) VALUES ($1, $2, $3, $4, $5, $6)";
-        client.query(dbQuery, [req.body.name, req.body.category, req.body.desc, req.body.price, req.body.time, req.body.station], function(err, result) {
-            done();
-            if (err) {
-                console.log(err);
-                resp.end("ERROR");
-            }
-
-            resp.send({status: "success", msg: "item created!"})
-
-        });
+        client.query("SELECT * FROM menu", function(err, results){
+                done();
+                menuArray = results.rows;
+                console.log("Menu array in the server updated!");
+            });
     });
-});
+}
+
+setTimeout(function() {console.log("menuArray after getMenuItems: " + menuArray.length)}, 2000);
+
+exports.getMenuItems = getMenuItems(); // DL - export the function to be used in "/routes/admin.js"
 
 
 //add app.get before this call
@@ -110,7 +118,6 @@ function orderNumberGenerator() {
     }
     return orderNumber;
 }
-
 // console.log("New Order Number: "+orderNumberGenerator());
 // console.log("New Order Number: "+orderNumberGenerator());
 
@@ -118,17 +125,7 @@ function orderNumberGenerator() {
 io.on("connection", function(socket){
 
 	socket.on("getItems", function(){
-		console.log("connected database");
-		pg.connect(dbURL, function(err, client, done){
-			if(err){
-				consoloe.log(err);
-			} else {
-				client.query("SELECT * FROM menu", function(err, results){
-					done();
-					socket.emit("sendData", results.rows);
-				});
-			}
-		});
+        socket.emit("sendData", menuArray);
 	});
 
 	//when order is received
