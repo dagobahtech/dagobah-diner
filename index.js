@@ -26,7 +26,6 @@ var pFolder = path.resolve(__dirname, "client/public");
 var inProgress = [];
 var nowServing = [];
 
-
 // redirect to css and js folders
 app.use("/scripts", express.static("client/buildjs"));
 app.use("/styles", express.static("client/stylesheet"));
