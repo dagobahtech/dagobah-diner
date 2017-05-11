@@ -93,6 +93,7 @@ io.on("connection", function(socket){
 	socket.on("send order", function (order) {
 		//console.log it for now
 		console.log(order);
+		socket.emit("orderinfo", orderNumberGenerator())
 		//send order id to customer
 	})
 });
