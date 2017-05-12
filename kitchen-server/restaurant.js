@@ -7,6 +7,15 @@ class Store {
     constructor() {
         this._open = true; //should initially be false
         this._kitchen = new Kitchen();
+        this._menuItems = [];
+    }
+
+    set menuItems(items) {
+        this._menuItems = items
+    }
+
+    get menuItems() {
+        return this._menuItems;
     }
 
     get isOpen() {

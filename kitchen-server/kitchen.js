@@ -15,11 +15,25 @@ class Kitchen {
          this._orderNumber = 0;
     }
 
+    get orderQueue() {
+        return this._orderQueue;
+    }
+
+    get readyQueue() {
+        return this._readyQueue;
+    }
+
+    get foodTray() {
+        return this._foodTray;
+    }
+
     //TODO need to refactor this shit. this shit is too smurfing long. is it because of error handling? :(
     /*
     * @params
     * order: Object
-    *   Order object coming from client side. needs to be parsed before adding to the order queue*/
+    *   Order object coming from client side. needs to be parsed before adding to the order queue
+    * @returns
+    *   orderNumber: Integer*/
     addOrder(order) {
         try {
             //check order
@@ -47,6 +61,7 @@ class Kitchen {
         }
         //only increment order number if
         //order successfully added
+        let orderNumber = this._orderNumber;
         this._orderNumber++;
 
         //TODO moving to ready queue
@@ -54,6 +69,7 @@ class Kitchen {
         //this order might be finished if food tray has all it needs
         //move all finished orders to ready queue
         this._updateReadyQueue(); //TODO still a stub function
+        return orderNumber;
     }
 
     /*
@@ -107,8 +123,6 @@ class Kitchen {
         this.printOrderQueue();
         this.printFoodTray();
         this.printReadyQueue();
-
-
     }
 
     //TODO discards

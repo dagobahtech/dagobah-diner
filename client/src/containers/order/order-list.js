@@ -8,6 +8,9 @@ import NumberFormat from 'react-number-format';
 //import css
 import '../../css/order/menu.css'
 
+//import sockets
+const io = require("socket.io-client");
+
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 import { browserHistory } from 'react-router';
 /**
@@ -16,17 +19,22 @@ import { browserHistory } from 'react-router';
  * */
 class OrderList extends Component {
 
+    socket = io();
 
-    constructor(props) {
-        super(props);
-
-        (function(myThis) {myThis.props.socket.on("orderinfo", function (id) {
-            myThis.props.setOrderNumber(id);
-            console.log("pushing processing");
-            //browserHistory.push('processing-order');
-        })})(this)
+    constructor() {
+        super();
+        this._updateOrderNumber = this._updateOrderNumber.bind(this);
     }
 
+    componentDidMount() {
+        this.socket.on("orderinfo", this._updateOrderNumber);
+    }
+
+
+    _updateOrderNumber(id) {
+        this.props.setOrderNumber(id);
+        console.log("pushing processing", id);
+    }
 
     createOrderTable(){
         return (
@@ -79,6 +87,7 @@ class OrderList extends Component {
 
     //TODO need to implement this
     confirmOrder() {
+
         let comp = this.createOrderTable();
         (this.props.orderedItems.items.length !== 0) &&
         this.props.confirmAction("Your order", "Are you ok with this order?", comp,
@@ -90,8 +99,8 @@ class OrderList extends Component {
                     total: this.props.orderedItems.total
                 };
                 //console.log(order);
-                this.props.socket.emit("send order", order);
-
+                this.socket.emit("send order", order);
+                //browserHistory.push('processing-order')
                 setTimeout(function() {browserHistory.push('processing-order')}, 100);
             });
 
