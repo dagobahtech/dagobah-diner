@@ -189,9 +189,16 @@ io.on("connection", function(socket){
 
 	//when order is received
 	socket.on("send order", function (order) {
-        order = calcTrueTotal(order);
-		//send order id to customer
+
         var userOrderNumber = orderNumberGenerator();
+		//console.log it for now
+		console.log(order);
+		socket.emit("orderinfo", userOrderNumber)
+
+        order = calcTrueTotal(order);
+
+		//send order id to customer
+
         console.log(userOrderNumber);
         inProgress.push(userOrderNumber);
         console.log(inProgress);

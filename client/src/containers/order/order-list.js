@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import OrderItem from './order-item';
 import {connect} from 'react-redux';
-import {removeAllItem, confirmAction} from '../../actions/order/index';
+import {removeAllItem, confirmAction, setOrderNumber} from '../../actions/order/index';
 import {bindActionCreators} from 'redux';
 import NumberFormat from 'react-number-format';
 
@@ -15,6 +15,17 @@ import { browserHistory } from 'react-router';
  * the customer have ordered
  * */
 class OrderList extends Component {
+
+
+    constructor(props) {
+        super(props);
+
+        (function(myThis) {myThis.props.socket.on("orderinfo", function (id) {
+            myThis.props.setOrderNumber(id);
+            console.log("pushing processing");
+            //browserHistory.push('processing-order');
+        })})(this)
+    }
 
 
     createOrderTable(){
@@ -65,6 +76,7 @@ class OrderList extends Component {
             </div>
         )
     }
+
     //TODO need to implement this
     confirmOrder() {
         let comp = this.createOrderTable();
@@ -79,10 +91,10 @@ class OrderList extends Component {
                 };
                 //console.log(order);
                 this.props.socket.emit("send order", order);
-                //changes pages to order-processing page
 
-                browserHistory.push('processing-order');
-            })
+                setTimeout(function() {browserHistory.push('processing-order')}, 100);
+            });
+
 
         //this.props.changeView("processing");
     }
@@ -151,7 +163,8 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
     return bindActionCreators({
         removeAllItem: removeAllItem,
-        confirmAction: confirmAction
+        confirmAction: confirmAction,
+        setOrderNumber: setOrderNumber
     }, dispatch);
 
 }
