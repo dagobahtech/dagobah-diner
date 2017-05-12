@@ -1,5 +1,7 @@
 .order-Number {
-
+	margin: 2px;
+	background-color: #C6FDDC;
+	border: 4px;
 }
 
 #in-Progress {
@@ -9,6 +11,22 @@
 
 #serving-Now {
 
+
+}
+
+#progressDiv {
+	width: 50%;
+	height: auto;
+	position: relative;
+	text-align: center;
+}
+
+#servingDiv {
+	width: 50%;
+	height: auto;
+	position: relative;
+	float: right;
+	text-align: center;
 
 }
 
