@@ -55,7 +55,7 @@ class ActiveItem extends Component {
                                 </p>
                             </div>
                             <div className="col-md-4">
-                                <div style={{'height':'150px', 'background-color':'gray'}}/>
+                                <img src={'/images/'+this.props.item.image_name} style={{'height':'auto', 'width':'150px'}}alt=""/>
                             </div>
                         </div>
                         <div className="row">
