@@ -40,6 +40,23 @@
                 }
             }
 
+        .z-0 {
+            z-index: 0;
+        }
+
+        .z-1 {
+            z-index: 1;
+        }
+
+        .card-block-icon {
+            font-size: 5rem;
+            position: absolute;
+            z-index: 0;
+            top: -25px;
+            right: 0;
+            transform: rotate(15deg);
+        }
+
 
 
     </style>
@@ -92,6 +109,59 @@
                 <li class="breadcrumb-item"><a href="#"></a>Dashboard</li>
                 <li class="breadcrumb-item active"><a href="#"></a>Summary</li>
             </ol>
+
+            <!-- Cards -->
+            <div class="row">
+                <div class="col-sm-6 col-xl-4 mb-3">
+                    <div class="card card-inverse card-success h-100">
+                        <div class="card-block">
+                            <div class="card-block-icon">
+                                <i class="fa fa-fw fa-check-square-o"></i>
+                            </div>
+                            <div id="totalOrdersCard" class="mr-5">
+                                10 Total Orders!
+                            </div>
+                        </div>
+                        <a href="#" class="card-footer clearfix small z-1">
+                            <span class="float-left">View Details</span>
+                            <span class="float-right"><i class="fa fa-angle-right"></i></span>
+                        </a>
+                    </div>
+                </div>
+                <div class="col-sm-6 col-xl-4 mb-3">
+                    <div class="card card-inverse card-primary h-100">
+                        <div class="card-block">
+                            <div class="card-block-icon">
+                                <i class="fa fa-fw fa-shopping-cart"></i>
+                            </div>
+                            <div id="orderInProcessCard" class="mr-5">
+                                5 Orders in process!
+                            </div>
+                        </div>
+                        <a href="#" class="card-footer clearfix small z-1">
+                            <span class="float-left">View Details</span>
+                            <span class="float-right"><i class="fa fa-angle-right"></i></span>
+                        </a>
+                    </div>
+                </div>
+                <div class="col-sm-6 col-xl-4 mb-3">
+                    <div class="card card-inverse card-danger h-100">
+                        <div class="card-block">
+                            <div class="card-block-icon">
+                                <i class="fa fa-fw fa-trash"></i>
+                            </div>
+                            <div id="itemDiscardedCard" class="mr-5">
+                                10 Total Orders!
+                            </div>
+                        </div>
+                        <a href="#" class="card-footer clearfix small z-1">
+                            <span class="float-left">View Details</span>
+                            <span class="float-right"><i class="fa fa-angle-right"></i></span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
 
 
         </div>
