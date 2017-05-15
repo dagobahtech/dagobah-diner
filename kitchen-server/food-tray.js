@@ -7,6 +7,9 @@ class FoodTray {
         this._items = [];
     }
 
+    get items() {
+        return this._items;
+    }
     clear() {
         this._items.length = 0;
     }
