@@ -38,8 +38,8 @@ class OrderList extends Component {
 
     createOrderTable(){
         return (
-            <div>
-                <table className="table-striped" style={{'width':'500px'}}>
+            <div id="confirmList">
+                <table className="table-striped">
                     <thead className="thead-inverse">
                     <tr>
                         <th>Name</th>
@@ -127,7 +127,7 @@ class OrderList extends Component {
                                               displayType={'text'} thousandSeparator={true}
                                               /></h2>
                 </div>
-                <div className="card-block">
+                <div className="card-block" id="cardOuter">
                         <table className="table">
                             <thead className="container-fluid thead-inverse">
                                 <tr className="row">
@@ -140,7 +140,7 @@ class OrderList extends Component {
                                 </tr>
                             </thead>
 
-                            <ReactCSSTransitionGroup component="tbody" transitionName="order" className="container-fluid"
+                            <ReactCSSTransitionGroup component="tbody" transitionName="order" className="container-fluid" 
                                                      transitionEnterTimeout={300}
                                                      transitionLeaveTimeout={300}>
                                 {
