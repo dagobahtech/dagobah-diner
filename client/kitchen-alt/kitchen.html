@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
+    <style>
+        .main{
+            height: 100vh;
+        }
+
+        .view {
+            height: 100%;
+            color: white;
+            background-color: #333;
+            border-color:white;
+        }
+
+        .view > .card-header {
+            color: white;
+            background-color: firebrick;
+        }
+
+        .view > .card-block {
+            overflow-y: auto;
+        }
+
+        .done {
+            background-color: lightgreen;
+        }
+
+        .discard {
+            background-color: indianred;
+            transition: background-color 0.3s ease-in-out;
+            color: white;
+            cursor: pointer;
+        }
+
+        .discard:hover {
+            background-color: orangered;
+        }
+
+        .item {
+            color: black;
+            max-height: 25vh;
+            cursor: default;
+        }
+
+        .main-item {
+            border: 2px solid darkgreen;
+        }
+
+        .auto-y-overlow{
+            overflow: auto;
+        }
+
+        .item > .card-header {
+            font-weight: bold;
+        }
+
+        .item > .card-footer {
+            padding: 0px;
+            text-align: center;
+        }
+
+        .item > .card-header {
+            padding: 2px;
+            font-size: 1.2em;
+        }
+
+        .current {
+            color: lightgreen;
+        }
+
+        .active-item, .prep-item:hover {
+            background-color: darkgreen;
+        }
+
+        .prep-item {
+            transition: background-color 0.3s ease-in-out;
+            cursor: pointer;
+        }
+
+        .cook-buttons{
+            text-align: center;
+            padding: 2px;
+        }
+
+        .food-tray .card-block {
+            padding: 2px;
+        }
+
+        /*Scrollbar CSS*/
+
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        ::-webkit-scrollbar-track {
+            -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+            -webkit-border-radius: 0px;
+            border-radius: 0px;
+        }
+
+        /* Handle */
+        ::-webkit-scrollbar-thumb {
+            -webkit-border-radius: 0px;
+            border-radius: 0px;
+            background: rgba(255,0,0,0.8);
+            -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.5);
+        }
+        ::-webkit-scrollbar-thumb:window-inactive {
+            background: rgba(255,0,0,0.4);
+        }
+    </style>
+</head>
+<body>
+
+<div class="container-fluid main py-3">
+    <div class="row h-100">
+        <div class="col-md-8 col-lg-8">
+            <div class="card  view">
+                <div class="card-header">ORDERS</div>
+                <div class="card-block">
+                    <div class="container-fluid">
+                        <div class="row" id="order-list"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 col-lg-4">
+            <div class="container-fluid h-100">
+                <div class="row h-75">
+                    <div class="col-md-12">
+                        <div class="card view">
+                            <div class="card-header">PREPARATIONS</div>
+                            <div class="card-block auto-y-overflow">
+                                <table class="table container">
+                                    <thead>
+                                    <tr class="row">
+                                        <th class="col-md-6">Item</th>
+                                        <th class="col-md-1">Qty</th>
+                                        <th class="col-md-5">Orders</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody id="prep-item-list"></tbody>
+                                </table>
+                            </div>
+                            <div class="card-footer cook-buttons">
+                                <div class="container-fluid">
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <button type="button" class="btn btn-success btn-block" id="cook1">PREP 1</button>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <button type="button" class="btn btn-success btn-block" id="cook2">PREP 2</button>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <button type="button" class="btn btn-success btn-block" id="cook6">PREP 6</button>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="row h-25 ">
+                    <div class="col-md-12">
+                        <div class="card view food-tray">
+                            <div class="card-header">FOOD TRAY</div>
+                            <div class="card-block auto-y-overlow">
+                                <div class="container-fluid">
+                                    <div class="row" id="food-tray-list">
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="/socket.io/socket.io.js"></script>
+<script>
+
+    const socket = io();
+    const UPDATE_FREQUENCY = 10000; //initially set to 10s. check discard every update frequency
+    const EXPIRE_TIME = 1; //in mins
+    var orderList = document.getElementById("order-list");
+    var orderListNodes = orderList.childNodes;
+
+
+    var prepItemList = document.getElementById("prep-item-list");
+    var activeItem; //pointer to the selected item
+
+    var foodTrayList = document.getElementById("food-tray-list");
+    var foodTrayListNodes = foodTrayList.childNodes;
+
+    //buttons
+    var cook1 = document.getElementById("cook1");
+    var cook2 = document.getElementById("cook2");
+    var cook6 = document.getElementById("cook6");
+
+    //join the kitchen socket
+    socket.emit("join","kitchen");
+    //get all the orders
+    socket.emit("get all orders");
+    //populate the order list
+    socket.on("orders", updateAll);
+    //listener when something is discarded
+    socket.on("update", function (view, data) {
+        if(view === "order") {
+            updateOrders(data);
+        } else {
+            updateFoodTray(data);
+        }
+    } );
+
+    //check the foods every 10s
+    setInterval(checkFoods, UPDATE_FREQUENCY);
+
+    /*BUTTON ACTIONS --- COOKING*/
+    cook1.addEventListener("click", function () {
+        cook(1);
+    });
+
+    cook2.addEventListener("click", function () {
+        cook(2);
+    });
+
+    cook6.addEventListener("click", function () {
+        cook(6);
+    });
+
+    function cook(quantity) {
+        if(activeItem) {
+            socket.emit("cook", {id: parseInt(activeItem.itemId, 10), name: activeItem.itemName}, quantity);
+        }
+    }
+
+    /* Orders CRUD*/
+    //CREATING
+    function addOrders(orders) {
+
+        orders.forEach(function (order, index) {
+            addOrderCard(order, index);
+        } )
+    }
+    function addOrderCard(order, index) {
+        orderList.appendChild(createOrderCard(order, index));
+    }
+
+    function createOrderCard(order, index) {
+        console.log(order);
+
+
+        let container = document.createElement("div");
+        let card = document.createElement("div");
+        let cardHeader = document.createElement("div");
+        let cardFooter = document.createElement("div");
+
+        container.className = "col-md-4 h-25 pb-3";
+        card.className = "card item";
+        cardHeader.className = "card-header";
+        cardFooter.className = "card-footer text-muted";
+
+
+        let itemList = createItemList(order._items._items);
+        itemList.index = index;
+        cardHeader.innerHTML = "Order #"+order._orderNumber;
+        cardFooter.innerHTML = "Items: "+order._items._items.length;
+        card.appendChild(cardHeader);
+        card.appendChild(itemList);
+        card.appendChild(cardFooter);
+        container.appendChild(card);
+
+        container.order = order;
+
+        return container;
+    }
+
+    function createItemList(items, index) {
+
+        let itemList = document.createElement("ul");
+        itemList.index = index;
+        itemList.className = "list-group list-group-flush auto-y-overlow";
+
+        for(let x = 0 ; x < items.length ; x++) {
+            let item = document.createElement("li");
+            item.index = x;
+            item.className = "list-group-item";
+            console.log(items[x]);
+            if(items[x]._isDone) {
+                if(shouldDiscard(items[x])) {
+                    //add discard style if the food is beyond expire time
+
+                    appendDiscardFunction(true, item);
+                    item.classList.add("discard");
+
+                } else { //else mark is at done
+                    item.classList.add("done");
+                }
+            }
+            item.innerHTML = items[x]._name;
+            item.food = items[x];
+            itemList.appendChild(item)
+        }
+
+        return itemList;
+    }
+
+    function createFoodTrayItem(food, index) {
+
+        var container = document.createElement("div");
+
+        container.className = "col-md-6";
+        container.innerHTML = food._name;
+        container.food = food;
+        //if the food is Done
+        //check the time
+        if(food._isDone) {
+            if(shouldDiscard(food)) {
+                container.classList.add("discard")
+
+                appendDiscardFunction(false, container);
+            }
+        }
+        container.index = index;
+        return container;
+    }
+
+
+    function populateFoodTray(foodTray) {
+        foodTray.forEach(function (food, index) {
+            foodTrayList.appendChild(createFoodTrayItem(food, index));
+        })
+    }
+
+    //UPDATING
+    function updateAll(orders, foodTray) {
+        updateOrders(orders);
+        updateFoodTray(foodTray);
+    }
+
+    function updateOrders(orders) {
+        orderList.innerHTML = "";
+        prepItemList.innerHTML = "";
+        addOrders(orders);
+        populatePrepList();
+    }
+
+    function updateFoodTray(foodTray) {
+        foodTrayList.innerHTML = "";
+        populateFoodTray(foodTray);
+    }
+
+    function checkFoods() {
+        checkFoodTray();
+        checkFoodOrders();
+    }
+
+    function checkFoodTray(){
+
+        for(let x = 0 ; x < foodTrayListNodes.length ; x++) {
+            if(!foodTrayListNodes[x].classList.contains("discard")) {
+                if(shouldDiscard(foodTrayListNodes[x].food)) {
+                    foodTrayListNodes[x].classList.add("discard");
+                    appendDiscardFunction(false, foodTrayListNodes[x]);
+                }
+            }
+        }
+    }
+
+    function checkFoodOrders() {
+
+        for(let x = 0 ; x < orderListNodes.length ; x++) {
+            let items = orderListNodes[x].getElementsByTagName("ul")[0].childNodes;
+            for(let index = 0 ; index < items.length ; index++) {
+                if(items[index].food._isDone) {
+                    if(!items[index].classList.contains("discard")) {
+                        if(shouldDiscard(items[index].food)) {
+                            items[index].classList.add("discard");
+                            appendDiscardFunction(true, items[index]);
+                        }
+                    }
+                }
+
+            }
+        }
+    }
+    //DELETING
+
+
+    /*
+    * POPULATING PREPARATION ITEMS*/
+    function populatePrepList() {
+        let items = getUniqueItemsAsDict();
+        console.log(items);
+        for(let itemId in items){
+            let row = document.createElement("tr");
+            let dataCellName = document.createElement("td");
+            let dataCellQty = document.createElement("td");
+            let dataCellOrders = document.createElement("td");
+
+            row.className = "row prep-item";
+            dataCellName.className = "col-md-6";
+            dataCellQty.className = "col-md-1";
+            dataCellOrders.className = "col-md-5";
+
+            row.itemId = itemId;
+            row.itemName = items[itemId].name;
+            dataCellName.innerHTML = items[itemId].name;
+            dataCellQty.innerHTML = items[itemId].quantity;
+
+            items[itemId].inOrders.forEach(function (orderId) {
+                dataCellOrders.innerHTML += " #"+orderId;
+            } );
+
+            row.appendChild(dataCellName);
+            row.appendChild(dataCellQty);
+            row.appendChild(dataCellOrders);
+
+            //if item is in the current order.. emphasize it
+            console.log(items[itemId].inOrders);
+            if(items[itemId].inOrders.includes(orderListNodes[0].order._orderNumber)) {
+                console.log(orderListNodes[0].order._orderNumber);
+                row.className += " current";
+            }
+
+            row.addEventListener("click", function () {
+                if(activeItem) {
+                    activeItem.classList.remove("active-item");
+                }
+                this.classList.add("active-item");
+                activeItem = this;
+            });
+
+            prepItemList.appendChild(row);
+        }
+    }
+
+
+    function getUniqueItemsAsDict() {
+        let result = {};
+        for(let x = 0 ; x < orderListNodes.length ; x++) {
+            let order = orderListNodes[x].order;
+            let items = order._items._items;
+
+            items.forEach(function (item) {
+                if(!item._isDone) {
+
+                    if (typeof(result[item._id]) === 'undefined') {
+                        result[item._id] = {
+                            name: item._name,
+                            quantity: 1,
+                            inOrders: [order._orderNumber]
+                        }
+                    } else {
+
+                        result[item._id].quantity += 1;
+                        console.log("item already done");
+                        if (!(order._orderNumber in result[item._id].inOrders)) {
+                            result[item._id].inOrders.push(order._orderNumber);
+                        }
+
+                    }
+                }
+            });
+        }
+
+        return result
+    }
+
+    /*HELPER FUNCTIONS*/
+    function shouldDiscard(food) {
+
+        var time = new Date().getTime();
+        var diff = time - food._time;
+        return (diff / 60000 >= EXPIRE_TIME);
+    }
+
+    function appendDiscardFunction(fromOrderList, element) {
+        element.addEventListener("click", function () {
+            console.log("button clicked");
+            socket.emit("discard", fromOrderList, this.index, this.parentNode.index);
+        });
+    }
+
+</script>
+
+<!-- jQuery first, then Tether, then Bootstrap JS. -->
+<script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
+</body>
+</html>
