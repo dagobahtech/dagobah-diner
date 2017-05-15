@@ -11,7 +11,7 @@ $(document).ready(function() {
 				var newOrder = document.createElement("div");
 				newOrder.innerHTML = resp.inProgress[i];
 				newOrder.id = "orderNumber"+resp.inProgress[i];
-				newOrder.className = "order-Number";
+				newOrder.className = "order-Number col-sm-4 offset-sm-1";
 				document.getElementById("in-Progress").appendChild(newOrder);
 
 			}
@@ -20,7 +20,7 @@ $(document).ready(function() {
 				var serveOrder = document.createElement("div");
 				serveOrder.innerHTML = resp.nowServing[x];
 				serveOrder.id = "orderNumber"+resp.nowServing[x];
-				serveOrder.className = "order-Number";
+				serveOrder.className = "order-Number col-sm-4 offset-sm-1";
 				document.getElementById("serving-Now").appendChild(serveOrder);
 			}
 			console.log(arr);
