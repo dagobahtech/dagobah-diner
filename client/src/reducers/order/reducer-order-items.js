@@ -6,7 +6,8 @@
 const initialState = {
     id: 0,
     items: [], // no items in cart
-    total: 0
+    total: 0,
+    date: null
 };
 
 
@@ -55,7 +56,8 @@ export default function(state=initialState, action) {
          case "SET_ORDER_NUMBER":
             {
                 let newState = {...state};
-                newState.id = action.payload;
+                newState.id = action.orderId;
+                newState.date = action.date;
                 return newState;
             }
          default:

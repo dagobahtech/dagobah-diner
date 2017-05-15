@@ -315,7 +315,7 @@ io.on("connection", function(socket){
 
 		//console.log it for now
 		console.log(order);
-		socket.emit("orderinfo", userOrderNumber);
+		//socket.emit("orderinfo", userOrderNumber);
 
 
     order = calcTrueTotal(order);
