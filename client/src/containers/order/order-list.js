@@ -31,8 +31,8 @@ class OrderList extends Component {
     }
 
 
-    _updateOrderNumber(id) {
-        this.props.setOrderNumber(id);
+    _updateOrderNumber(id,date) {
+        this.props.setOrderNumber(id, date);
         console.log("pushing processing", id);
     }
 
