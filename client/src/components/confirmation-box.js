@@ -29,6 +29,18 @@ class ConfirmationBox extends Component {
         this.handleClose();
     }
 
+    createYesNoButton() {
+        if(this.props.confirmModalState.todoFunction) {
+            return (
+                <div className="right-align" style={{'paddingTop':'15px'}}>
+                    <hr/>
+                    <button className="btn btn-danger" onClick={this.handleYes}>Yes</button>&nbsp;
+                    <button className="btn btn-success" onClick={this.handleNo}>No</button>
+                </div>
+            )
+        }
+        return null;
+    }
     render() {
         return (
             <div>
@@ -39,12 +51,9 @@ class ConfirmationBox extends Component {
                             <h1>{this.props.confirmModalState.header}</h1>
                             <p>{this.props.confirmModalState.message}</p>
                             {this.props.confirmModalState.component}
-                            <hr/>
-                            <div className="right-align" style={{'paddingTop':'15px'}}>
+                            {this.createYesNoButton()}
 
-                                <button className="btn btn-danger" onClick={this.handleYes}>Yes</button>
-                                <button className="btn btn-success" onClick={this.handleNo}>No</button>
-                            </div>
+
                         </ModalDialog>
                     </ModalContainer>
                 }

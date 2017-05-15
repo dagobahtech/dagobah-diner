@@ -3,6 +3,13 @@ tr:hover {
     background-color: lightgray;
 }
 /*Classes*/
+
+.main {
+    background-image: url("./images/bg.png");
+    background-position: bottom right;
+    background-size: 50%;
+    background-repeat: no-repeat;
+}
 .menu-item{
     cursor: pointer;
     text-align: center;
@@ -54,15 +61,14 @@ tr:hover {
 }
 
 .item-popup {
-    width: 50vw;
-    height: 50vh;
-    position: absolute;
-    left:25vw;
-    top: 10vh;
-    box-shadow: 10px 10px 5px #888888;
-    z-index: 2;
+    width: 600px;
 }
 
+.logo {
+    padding: 50px 0px 50px 0px;
+    height: 70vh;
+
+}
 
 /* MENU TRANSITION HERE*/
 .menu-enter {
@@ -143,9 +149,16 @@ tr:hover {
 /* WELCOME SCREEN*/
 
 .welcome-bg {
-    background: url('https://media.giphy.com/media/11ieZ0aMPSvI5i/giphy.gif') no-repeat ;
-    background-size: 100%;
+    background: url('./images/bg.jpg') no-repeat ;
+    background-size: cover;
+}
 
+.welcome-bg-filter {
+    height: 100%;
+    width: 100%;
+    background-color: white;
+    opacity: 0.7;
+    position: absolute;
 }
 
 .TWords {
@@ -155,17 +168,43 @@ tr:hover {
     color: white;
 }
 
-.centerButt {
-    position: absolute;
-    bottom: 15vh;
-
-}
-
 /*BANNER*/
 .banner {
-    height: 80px;
+    max-height: 100px;
+    position: relative;
+    margin: 2px 0;
+}
+
+.logo-navbar {
+    max-width: 300px;
 }
 
 h1 {
     padding: 0px;
+}
+
+/* CURRENCY */
+.currency {
+    display: inline-block;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center center;
+}
+
+.currency-black {
+    background-image: url('./images/imperial-credit.png');
+}
+
+.currency-white {
+    background-image: url('./images/imperial-credit-w.png');
+}
+
+.currency-small {
+    height: 15px;
+    width: 10px;
+}
+
+.currency-large {
+    height: 30px;
+    width: 25px;
 }

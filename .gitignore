@@ -3,3 +3,5 @@
 node_modules/
 client/build
 dbconfig.js
+MenuPics/Thumbs.db
+client/buildjs

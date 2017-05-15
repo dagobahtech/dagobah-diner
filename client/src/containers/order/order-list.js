@@ -1,11 +1,16 @@
 import React, {Component} from 'react';
 import OrderItem from './order-item';
 import {connect} from 'react-redux';
-import {removeAllItem, confirmAction} from '../../actions/order/index';
+import {removeAllItem, confirmAction, setOrderNumber} from '../../actions/order/index';
 import {bindActionCreators} from 'redux';
 import NumberFormat from 'react-number-format';
+
 //import css
 import '../../css/order/menu.css'
+
+//import sockets
+const io = require("socket.io-client");
+
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 import { browserHistory } from 'react-router';
 /**
@@ -14,17 +19,33 @@ import { browserHistory } from 'react-router';
  * */
 class OrderList extends Component {
 
+    socket = io();
+
+    constructor() {
+        super();
+        this._updateOrderNumber = this._updateOrderNumber.bind(this);
+    }
+
+    componentDidMount() {
+        this.socket.on("orderinfo", this._updateOrderNumber);
+    }
+
+
+    _updateOrderNumber(id) {
+        this.props.setOrderNumber(id);
+        console.log("pushing processing", id);
+    }
 
     createOrderTable(){
         return (
             <div>
-                <table className="table-striped">
-                    <thead>
+                <table className="table-striped" style={{'width':'500px'}}>
+                    <thead className="thead-inverse">
                     <tr>
-                        <td>Name</td>
-                        <td>Quantity</td>
-                        <td>Price</td>
-                        <td>Subtotal</td>
+                        <th>Name</th>
+                        <th>Quantity</th>
+                        <th>Price</th>
+                        <th>Subtotal</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -33,21 +54,42 @@ class OrderList extends Component {
                             <tr>
                                 <td>{item.name}</td>
                                 <td>{item.quantity}</td>
-                                <td>{item.price}</td>
-                                <td>{item.price * item.quantity}</td>
+                                <td>
+                                    <div className="currency currency-black currency-small"></div>
+                                    <NumberFormat value={item.price}
+                                                  decimalPrecision={2}
+                                                  displayType={'text'} thousandSeparator={true}
+                                    />
+                                    </td>
+                                <td>
+                                    <div className="currency currency-black currency-small"></div>
+                                    <NumberFormat value={item.price * item.quantity}
+                                                  decimalPrecision={2}
+                                                  displayType={'text'} thousandSeparator={true}
+                                    />
+                                    </td>
                             </tr>
                         )
                     })}
                     </tbody>
                 </table>
-                <div className="right-align"><h3>Total: {this.props.orderedItems.total}</h3></div>
+                <hr/>
+                <div className="right-align"><h3>Total:
+                    <div className="currency currency-black currency-large"></div>
+                    <NumberFormat value={this.props.orderedItems.total}
+                                  decimalPrecision={2}
+                                  displayType={'text'} thousandSeparator={true}
+                    />
+                    </h3></div>
             </div>
         )
     }
+
     //TODO need to implement this
     confirmOrder() {
-        let comp = this.createOrderTable();
 
+        let comp = this.createOrderTable();
+        (this.props.orderedItems.items.length !== 0) &&
         this.props.confirmAction("Your order", "Are you ok with this order?", comp,
             ()=> {
                 console.log("Order has been submitted");
@@ -57,8 +99,11 @@ class OrderList extends Component {
                     total: this.props.orderedItems.total
                 };
                 //console.log(order);
-                this.props.socket.emit("send order", order);
-            })
+                this.socket.emit("send order", order);
+                //browserHistory.push('processing-order')
+                setTimeout(function() {browserHistory.push('processing-order')}, 100);
+            });
+
 
         //this.props.changeView("processing");
     }
@@ -76,16 +121,17 @@ class OrderList extends Component {
         return (
             <div className="card">
                 <div className="card-header">
-                    <h2>Total : <NumberFormat value={this.props.orderedItems.total}
+                    <h2>Total : <div className="currency currency-black currency-large"></div>
+                        <NumberFormat value={this.props.orderedItems.total}
                                               decimalPrecision={2}
                                               displayType={'text'} thousandSeparator={true}
-                                              suffix={' IC'}/></h2>
+                                              /></h2>
                 </div>
                 <div className="card-block">
                         <table className="table">
                             <thead className="container-fluid thead-inverse">
                                 <tr className="row">
-                                    <th className="col-md-1"></th>
+                                    <th className="col-md-1">&nbsp;</th>
                                     <th className="col-md-4">Item</th>
                                     <th className="col-md-1">Qty</th>
                                     <th className="col-md-2">Price</th>
@@ -105,13 +151,10 @@ class OrderList extends Component {
                             </ReactCSSTransitionGroup>
 
                         </table>
-                </div>
-                <div className="panel-footer right-align">
-                    <button className="btn btn-danger" onClick={() => this.requestRemove()}>Cancel Order</button>
-                    <button className="btn btn-info" onClick={() => this.confirmOrder()}>Confirm Order</button>
-                </div>
-                <div className="card-footer">
-                    This order is {this.props.orderedItems.type}
+                    <div className="right-align">
+                        <button className="btn btn-danger" onClick={() => this.requestRemove()}>Cancel Order</button>&nbsp;
+                        <button className="btn btn-success" onClick={() => this.confirmOrder()}>Confirm Order</button>
+                    </div>
                 </div>
             </div>
         )
@@ -129,7 +172,8 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
     return bindActionCreators({
         removeAllItem: removeAllItem,
-        confirmAction: confirmAction
+        confirmAction: confirmAction,
+        setOrderNumber: setOrderNumber
     }, dispatch);
 
 }

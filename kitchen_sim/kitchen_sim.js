@@ -5,22 +5,27 @@ $(document).ready(function() {
 
     console.log("kitchen_sim.js is loaded");
 
+    comboDiscount = 0.15;
+
     burger = {
         name: "Burger",
         price: 5.00,
-        time: 3
+        time: 3,
+        category: 1
     };
 
     fries = {
         name: "Fries",
         price: 3.00,
-        time: 2
+        time: 2,
+        category: 2
     };
 
     drink = {
         name: "Drink",
         price: 1.00,
-        time: 1
+        time: 1,
+        category: 3
     };
 
     var orderingDiv = document.getElementById("ordering");
@@ -29,11 +34,18 @@ $(document).ready(function() {
     var drinkButt = document.getElementById("drink");
     var orderDiv = document.getElementById("current_order");
     var totalDiv = document.getElementById("tprice");
+    var comboDiv = document.getElementById("combo");
+    var comboWrap = document.getElementById("combowrap");
+    var subTotalDiv = document.getElementById("subprice");
     var statusDiv = document.getElementById("status");
     var subButt = document.getElementById("submit");
 
-    order = [];
-    total = 0;
+    order = {
+        items: [],
+        discount: false,
+        total : 0,
+        subTotal : 0
+    };
 
     function sleep(milliseconds) {
         var start = new Date().getTime();
@@ -42,31 +54,63 @@ $(document).ready(function() {
         }
     }
 
+    //Discount Checker
+    function isDiscount (order){
+        var discount = false;
+        var category1 = false;
+        var category2 = false;
+        var category3 = false;
+        for (var i = 0; i < order.items.length; i++){
+            if (order.items[i].category == 1) {category1 = true;}
+            if (order.items[i].category == 2) {category2 = true;}
+            if (order.items[i].category == 3) {category3 = true;}
+        }
+        if (category1 && category2 && category3) {discount = true;}
+        return discount;
+    }
+
+    function calcTotal(order) {
+        if (order.discount){
+            subTotalDiv.innerHTML = "SubTotal $"+order.subTotal;
+            order.total = (order.subTotal * (1 - comboDiscount)).toFixed(2);
+            comboWrap.style.display = "block";
+            comboDiv.innerHTML = comboDiscount*100+"% Combo Discount $"+ (order.subTotal-order.total).toFixed(2);
+            totalDiv.innerHTML = "Total $"+order.total;
+        } else {
+            subTotalDiv.innerHTML = "SubTotal $"+order.subTotal;
+            order.total = order.subTotal;
+            totalDiv.innerHTML = "Total $"+order.total;
+        }
+    }
+    
     burgerButt.onclick = function() {
         var orderItem = document.createElement("div");
         orderItem.innerHTML = burger.name +"  $"+burger.price;
-        order.push(burger);
+        order.items.push(burger);
         orderDiv.appendChild(orderItem);
-        total += burger.price;
-        totalDiv.innerHTML = "$"+total;
+        order.subTotal += burger.price;
+        order.discount = isDiscount(order);
+        calcTotal(order);
     };
 
     friesButt.onclick = function() {
         var orderItem = document.createElement("div");
         orderItem.innerHTML = fries.name +"  $"+fries.price;
-        order.push(fries);
+        order.items.push(fries);
         orderDiv.appendChild(orderItem);
-        total += fries.price;
-        totalDiv.innerHTML = "$"+total;
+        order.subTotal += fries.price;
+        order.discount = isDiscount(order);
+        calcTotal(order);
     };
 
     drinkButt.onclick = function() {
         var orderItem = document.createElement("div");
         orderItem.innerHTML = drink.name +"  $"+drink.price;
-        order.push(drink);
+        order.items.push(drink);
         orderDiv.appendChild(orderItem);
-        total += drink.price;
-        totalDiv.innerHTML = "$"+total;
+        order.subTotal += drink.price;
+        order.discount = isDiscount(order);
+        calcTotal(order);
     };
 
     subButt.onclick = function () {

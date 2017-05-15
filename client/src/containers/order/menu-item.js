@@ -1,8 +1,9 @@
 import React, {Component} from 'react'
 import '../../css/order/menu.css'
 //import the actions
-import {selectItem} from '../../actions/order/index';
+import {selectItem, addItemToOrder, confirmAction} from '../../actions/order/index';
 import NumberFormat from 'react-number-format';
+import ActiveItem from './active-item';
 
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux'
@@ -11,6 +12,16 @@ import {connect} from 'react-redux'
  * */
 class MenuItem extends Component {
 
+    addToOrder() {
+        this.props.addItem(this.props.item, true);
+    }
+
+    showDetails() {
+        this.props.confirmAction("Food details",
+                                 "",
+                                 <ActiveItem item={this.props.item} isNew={true}/>, null);
+
+    }
     render() {
         /**
          * the structure of the item object is {
@@ -24,15 +35,26 @@ class MenuItem extends Component {
          * */
         return (
             <div className="card card-danger text-center menu-item"
-                 onClick={() => this.props.isClickable && this.props.selectItem(this.props.item, true)}>
+                 >
 
                 <div className="card-header">{this.props.item.name}</div>
-                <div className="card-block">Item pic</div>
+                <div className="card-block">
+                    <div className="form-group">
+                        <button className="btn btn-success col-12"
+                                onClick={() => this.props.isClickable && this.showDetails()}>
+                            Details
+                        </button>
+                        <hr/>
+                        <button className="btn btn-success col-12"
+                            onClick={()=> this.addToOrder()}>Add</button>
+                    </div>
+
+                </div>
                 <div className="card-footer"><strong>
+                    <div className="currency currency-white currency-small"></div>
                     <NumberFormat value={this.props.item.price}
                                   decimalPrecision={2}
                                   displayType={'text'} thousandSeparator={true}
-                                  suffix={' IC'}
                     /></strong>
                 </div>
             </div>
@@ -47,7 +69,9 @@ class MenuItem extends Component {
  * */
 function matchDispatchToProps(dispatch) {
     return bindActionCreators({
-        selectItem: selectItem
+        selectItem: selectItem,
+        addItem: addItemToOrder,
+        confirmAction: confirmAction
         //so basically what happens here is that the selectItem function that we imported
         //can now be access via the selectItem as a prop: this.props.selectItem.
     }, dispatch)

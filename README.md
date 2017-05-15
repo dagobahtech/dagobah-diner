@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/dagobahtech/acit2910.svg?branch=develop)](https://travis-ci.org/dagobahtech/acit2910)
+
 # ACIT 2910 Projects Course
 
 ## Team Name : Dagobah

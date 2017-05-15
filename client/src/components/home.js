@@ -11,7 +11,7 @@ import {Provider} from 'react-redux'
 const store = createStore(allReducers);
 
 class Home extends Component {
-    
+
     render() {
         return (
             <PageTransition>

@@ -1,8 +1,9 @@
 import React, {Component} from 'react'
-import {resetActiveItem, addItemToOrder} from '../../actions/order/index';
+import {resetActiveItem, addItemToOrder, closeConfirmation} from '../../actions/order/index';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import '../../css/order/menu.css';
+import NumberFormat from 'react-number-format';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 
 /**
@@ -31,46 +32,62 @@ class ActiveItem extends Component {
 
         //var item = Object.assign({}, ...this.props.activeItem);
         //this.. i don't why.. but i almost this killed me
-        const item = {
-            id: this.props.activeItem.payload.id,
-            name: this.props.activeItem.payload.name,
-            description: this.props.activeItem.payload.description,
-            price: this.props.activeItem.payload.price,
-            image: this.props.activeItem.payload.image,
-            quantity: quantity
-        };
-        this.props.addItem(item, this.props.activeItem.isNew);
+        let item = {...this.props.item};
+        item.quantity = quantity;
+        this.props.addItem(item, this.props.isNew);
         //then reset the current active item
-        this.props.resetActiveItem();
+        //this.props.resetActiveItem();
+        this.props.closeConfirmation();
     }
 
     render() {
 
-        const heading = (!this.props.activeItem || this.props.activeItem.isNew) ?  "Add New Item" : "View Item";
-        const buttonMessage = (!this.props.activeItem || this.props.activeItem.isNew) ?  "Add" : "Save";
-        var comp = null;
+        const buttonMessage = (this.props.isNew) ?  "Add" : "Save";
+        let comp = (
+            <div className="card item-popup">
+                <h3 className="card-header">{this.props.item.name}</h3>
+                <div className="card-block">
+                    <div className="container-fluid">
+                        <div className="row">
+                            <div className="col-md-8">
+                                <p>
+                                    {this.props.item.description}
+                                </p>
+                            </div>
+                            <div className="col-md-4">
+                                <img src={'/images/'+this.props.item.image_name} style={{'height':'auto', 'width':'150px'}}alt=""/>
+                            </div>
+                        </div>
+                        <div className="row">
+                            <div className="col-md-8 center-align">
+                                <button className='btn btn-danger' onClick={()=>this.updateQuantity("decrement")}>-</button> &nbsp;
+                                <input className='center-align' style={{'border':'0', 'font-weight':'bold'}} size='3' width='15px' type="text" defaultValue={this.props.item.quantity}
+                                       ref="quantity" name="quantity" min="1" step="1" readOnly/>&nbsp;
+                                <button className='btn btn-success' onClick={()=>this.updateQuantity("increment")}>+</button>
+                            </div>
+                            <div className="col-md-4 center-align">
+                                <h4>
+                                    <div className="currency currency-black currency-large"></div>
+                                    <NumberFormat value={this.props.item.price}
+                                                  decimalPrecision={2}
+                                                  displayType={'text'} thousandSeparator={true}
+                                /></h4>
+                            </div>
+                        </div>
+                        <hr/>
+                        <div className="row">
+                            <div className="col-md-4 offset-md-4 center-align">
+                                <button className="btn btn-success btn-block"
+                                        onClick={()=>this.addToOrder()}>{buttonMessage}</button>
 
-        if(this.props.activeItem) {
-            comp = (
+                            </div>
+                        </div>
 
-                <div className="card card-warning item-popup">
-                    <div className="card-header">
-                        <h2>{heading}</h2>
                     </div>
-                    <div className="card-block">
-                        <h2>{this.props.activeItem.payload.name}</h2>
-                        <p>{this.props.activeItem.payload.description}</p>
-                        <button onClick={()=>this.updateQuantity("decrement")}>Less</button>
-                        <input type="number" defaultValue={this.props.activeItem.payload.quantity}
-                               ref="quantity" name="quantity" min="1" step="1" readOnly/>
-                        <button onClick={()=>this.updateQuantity("increment")}>More</button>
-                        <button onClick={()=>this.addToOrder()}>{buttonMessage}</button>
-                        <button onClick={()=>this.props.resetActiveItem()}>Cancel</button>
-                    </div>
+
                 </div>
-
-            );
-        }
+            </div>
+        );
 
         return (
             <ReactCSSTransitionGroup component="div" transitionName="popup"
@@ -85,20 +102,14 @@ class ActiveItem extends Component {
     }
 }
 
-function mapStateToProps(state) {
-    return {
-        activeItem: state.activeItem, //now we can use this.props.menuItems
-        menuItems: state.menuItems
-    };
-}
-
 function matchDispatchToProps(dispatch) {
     return bindActionCreators({
         addItem: addItemToOrder,
         //so basically what happens here is that the selectItem function that we imported
         //can now be access via the selectItem as a prop: this.props.selectItem.,
-        resetActiveItem: resetActiveItem
+        resetActiveItem: resetActiveItem,
+        closeConfirmation: closeConfirmation
     }, dispatch)
 }
 
-export default connect(mapStateToProps, matchDispatchToProps)(ActiveItem);
+export default connect(null, matchDispatchToProps)(ActiveItem);
