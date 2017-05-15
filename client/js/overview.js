@@ -66,7 +66,15 @@ $(document).ready(function() {
 	document.getElementById("testServe").addEventListener("click", testNowServing,false);
 
 	document.getElementById("testFinish").addEventListener("click", testFinishOrder,false);
-	
+
+	const socket = io();
+
+	socket.emit("join","board");
+
+	socket.emit("test","word", function(miniTest){
+		document.body.style.backgroundColor = "black";
+	});
+		
 });
 
 // listen for updates refresh page
@@ -77,3 +85,5 @@ update inner html when done.
 when order is served remove from nowserving 
 update inner html when done.
 */
+
+

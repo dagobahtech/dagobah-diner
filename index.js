@@ -215,6 +215,11 @@ io.on("connection", function(socket){
 
 	});
 
+    socket.on("test", function(miniTest,anything){
+        console.log(miniTest);
+        anything(miniTest);
+    });
+
 });
 
 
