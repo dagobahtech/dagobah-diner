@@ -201,17 +201,54 @@ io.on("connection", function(socket){
 	socket.on("send order", function (order) {
 
         let userOrderNumber = kitchen.addOrder(order);
-		//console.log it for now
-		console.log(order);
-		socket.emit("orderinfo", userOrderNumber)
+        let order_date = null;
+
+        function dbInsertOrder() {
+            pg.connect(dbURL, function (err, client, done) {
+                if (err) {
+                    console.log
+                }
+                let dbQuery = "INSERT INTO order_submitted (total) VALUES ($1) RETURNING id, date";
+                client.query(dbQuery, [order.total], function (err, result) {
+                    if (err) {
+                        console.log(err);
+                    }
+                    console.log("Result first query: ");
+                    let order_id = result.rows[0].id;
+                    order_date = result.rows[0].date; // create new obj key with date value
+                    console.log(order_id);
+                    console.log(order_date);
+
+                    for (let i = 0; i < order.items.length; i++) {
+                        let dbQuery2 = "INSERT INTO item_in_order (order_id, item_id) VALUES ($1, $2)";
+                        client.query(dbQuery2, [order_id, order.items[i].id], function (err, result) {
+                        });
+                    }
+                    done();
+
+                    socket.emit("orderinfo", userOrderNumber, order_date);
+
+                    console.log("Order Saved in db");
+                });
+            });
+        }
+
+        // setTimeout set to 0 forces an async function
+        setTimeout(dbInsertOrder, 0);
+
+
+        //console.log it for now
+        console.log("Log the order: ");
+        console.log(order);
+        console.log("Ends order log");
 
         order = calcTrueTotal(order);
 
 		//send order id to customer
 
-        console.log(userOrderNumber);
+        // console.log(userOrderNumber);
         inProgress.push(userOrderNumber);
-        console.log(inProgress);
+        // console.log(inProgress);
 
 	});
 
