@@ -52,6 +52,12 @@ export function resetActiveItem() {
     }
 }
 
+export function setOrderNumber(id){
+    return {
+        type: "SET_ORDER_NUMBER",
+        payload: id
+    }
+}
 
 
 export function getMenuFor(category) {
