@@ -2,6 +2,8 @@
 	margin: 2px;
 	background-color: #C6FDDC;
 	border: 4px;
+	border-color: black;
+	border-style: double;
 }
 
 #in-Progress {
