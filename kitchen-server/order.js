@@ -1,7 +1,6 @@
 'use-strict';
 
 const ItemList = require("./item-list");
-const EXPIRE_TIME = 1; // in mins
 class Order {
 
     constructor(orderNumber) {
@@ -50,7 +49,7 @@ class Order {
             if(!this.items.getItemByIndex(x).isDone) {
                 return false;
             } else {
-                if(this._isExpired(this.items.getItemByIndex(x))) {
+                if(this.items.getItemByIndex(x).isExpired()) {
                     return false;
                 }
             }
@@ -62,12 +61,6 @@ class Order {
         return true;
     }
 
-    _isExpired(item) {  //should this be added to item.js instead?
-
-        var time = new Date().getTime();
-        var diff = time - item._time;
-        return (diff /60000 >= EXPIRE_TIME);
-    }
 }
 
 module.exports = Order;
