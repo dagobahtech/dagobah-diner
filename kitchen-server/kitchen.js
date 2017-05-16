@@ -154,8 +154,20 @@ class Kitchen {
             console.log(itemIndex, orderIndex);
             let order = this._orderQueue.orders[orderIndex];
             let item = order.items._items[itemIndex];
+            //check the food tray first before settings this
+            let foodTrayItems = this._foodTray.items;
+            for(let x = 0 ; x < foodTrayItems.length ; x++) {
+                if(foodTrayItems[x]._id === item._id) {
+                    item._isDone = foodTrayItems[x]._isDone;
+                    item._time = foodTrayItems[x]._time;
+                    foodTrayItems.splice(x, 1);
+                    return
+                }
+            }
+
             item._isDone = false;
             item._time = 0;
+
         } else {
             this._foodTray.items.splice(itemIndex, 1);
         }

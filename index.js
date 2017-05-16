@@ -256,7 +256,7 @@ io.on("connection", function(socket){
         if(socket.channel === "kitchen") {
             kitchen.discard(fromOrder, itemIndex, orderIndex);
             if(fromOrder) {
-                io.to(socket.channel).emit("update", "order", kitchen._orderQueue.orders);
+                io.to(socket.channel).emit("orders", kitchen._orderQueue.orders, kitchen._foodTray.items);
             } else
             {
                 io.to(socket.channel).emit("update","foodtray", kitchen._foodTray.items);
@@ -315,7 +315,7 @@ io.on("connection", function(socket){
 
 		//console.log it for now
 		console.log(order);
-		socket.emit("orderinfo", userOrderNumber);
+		//socket.emit("orderinfo", userOrderNumber);
 
 
     order = calcTrueTotal(order);

@@ -38,7 +38,7 @@ class CategoryMenu extends Component {
         return (
             items.map(function (item) {
                 return (
-                    <div className="col-sm-6 col-md-4 col-xl-3 pb-4 menu-item-container" key={item.id}>
+                    <div className="col-sm-6 col-md-4 pb-4 menu-item-container" key={item.id}>
                         <MenuItem item={item}  isClickable={true}/>
                     </div>
                     )
@@ -48,7 +48,7 @@ class CategoryMenu extends Component {
 
     render() {
         return (
-            <div className="card card-danger">
+            <div className="card card-danger menu-scrollable">
                 <div className="card-header center-align">
                     <CategoryNavigation/>
                 </div>
