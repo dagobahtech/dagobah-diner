@@ -107,6 +107,10 @@
             display: none;
         }
 
+        .selected .card-header {
+            background-color: green;
+            color: white;
+        }
         /*Scrollbar CSS*/
 
         ::-webkit-scrollbar {
@@ -293,6 +297,7 @@
             showStatus(true);
             socket.emit("cook", {id: parseInt(activeItem.itemId, 10), name: activeItem.itemName}, quantity);
             activeItem = undefined;
+            resetHighlight();
         }
     }
 
@@ -510,6 +515,7 @@
 
             row.itemId = item.itemId;
             row.itemName = item.name;
+            row.inOrders = item.inOrders;
             dataCellName.innerHTML = item.name;
             dataCellQty.innerHTML = item.quantity;
 
@@ -534,6 +540,7 @@
                 }
                 this.classList.add("active-item");
                 activeItem = this;
+                highligthOrders(this.inOrders);
             });
 
             prepItemList.appendChild(row);
@@ -635,6 +642,35 @@
         }
     }
 
+    function highligthOrders(orderInfoList) {
+        console.log("highlight orders");
+        for(let y = 0 ; y < orderListNodes.length ; y++) {
+
+            let orderContainer = orderListNodes[y];
+            let orderCard = orderContainer.childNodes[0];
+            let found = false;
+            for(let x = 0 ; x < orderInfoList.length ; x++) {
+                if(orderInfoList[x].order === orderContainer.order._orderNumber) {
+                    found = true;
+                    break;
+                }
+            }
+            if(found)
+            {
+                orderCard.classList.add("selected");
+            } else {
+                orderCard.classList.remove("selected");
+            }
+        }
+
+    }
+
+    function resetHighlight() {
+
+        for(let x = 0 ; x < orderListNodes.length ; x++) {
+            orderListNodes[x].classList.remove("selected");
+        }
+    }
 </script>
 
 <!-- jQuery first, then Tether, then Bootstrap JS. -->
