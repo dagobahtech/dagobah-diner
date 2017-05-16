@@ -5,7 +5,7 @@ const EXPIRE_TIME = 1; // in mins
 class Order {
 
     constructor(orderNumber) {
-        this._items = null;
+        this._items = new ItemList();
         this._orderNumber = orderNumber;
     }
 
@@ -62,7 +62,7 @@ class Order {
         return true;
     }
 
-    _isExpired(item) {
+    _isExpired(item) {  //should this be added to item.js instead?
 
         var time = new Date().getTime();
         var diff = time - item._time;
