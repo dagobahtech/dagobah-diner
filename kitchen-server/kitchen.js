@@ -76,6 +76,10 @@ class Kitchen {
         return orderNumber;
     }
 
+    popReadyItems(orderserved){
+        this._readyQueue.splice(orderServed,1);
+    }
+
     /*
     * rest the values of the kitchen
     * */

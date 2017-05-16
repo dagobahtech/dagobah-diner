@@ -30,10 +30,7 @@ var publicFolder = path.resolve(__dirname, "client/view");
 var adminFolder = path.resolve(__dirname, "client/view/admin");
 var pFolder = path.resolve(__dirname, "client/public");
 
-//TODO we can comment this out in the future. This values will be stored in the restaurant object
-// lists that hold order numbers for the day
-var inProgress = [];
-var nowServing = [];
+
 
 // redirect to css and js folders
 app.use("/scripts", express.static("client/buildjs"));
@@ -72,33 +69,6 @@ app.get("/orderview", function(req,resp) {
     resp.sendFile(pFolder+"/orderview.html");
 });
 
-app.get("/getOrderNumbers", function(req, resp){
-    resp.send({
-        inProgress: inProgress,
-        nowServing: nowServing
-    });
-});
-
-app.get("/testNowServing", function(req, resp) {
-    var justServed = inProgress[0];
-    nowServing.push(justServed);
-    inProgress.splice(0,1);
-    resp.send({
-        justServed: justServed,
-        nowServing: nowServing,
-        inProgress: inProgress
-    });
-});
-
-app.get("/testFinishOrder", function(req, resp) {
-    var justServed = nowServing[0];
-    nowServing.splice(0,1);
-    resp.send({
-        justServed: justServed,
-        nowServing: nowServing,
-        inProgress: inProgress
-    });
-});
 
 app.use(express.static(path.join(__dirname, "client","/build")));
 
@@ -237,6 +207,7 @@ io.on("connection", function(socket){
                         cookTimeout = undefined;
                         //then send back status of orders and foodtray back to kitchen client
                         io.to(socket.channel).emit("orders", kitchen._orderQueue.orders, kitchen._foodTray.items);
+                        io.to("board").emit("orders", kitchen._orderQueue.orders, kitchen._readyQueue.orders);
                     }, kitchen.COOK_DELAY );
                 } else {
                     //else send a message saying that the quantity is not valid
@@ -298,7 +269,7 @@ io.on("connection", function(socket){
                     done();
 
                     socket.emit("orderinfo", userOrderNumber, order_date);
-
+                    io.to("board").emit("orders", kitchen._orderQueue.orders, kitchen._readyQueue.orders);
                     console.log("Order Saved in db");
                 });
             });
@@ -317,6 +288,8 @@ io.on("connection", function(socket){
 		console.log(order);
 		socket.emit("orderinfo", userOrderNumber);
 
+        
+
 
     order = calcTrueTotal(order);
 
@@ -331,10 +304,13 @@ io.on("connection", function(socket){
         io.to("kitchen").emit("orders", kitchen._orderQueue.orders, kitchen._foodTray.items);
 	});
 
-    socket.on("test", function(miniTest,anything){
-        console.log(miniTest);
-        anything(miniTest);
+
+
+    socket.on("load orders", function(){
+        io.to("board").emit("orders", kitchen._orderQueue.orders, kitchen._readyQueue.orders);
     });
+
+
 
 });
 
