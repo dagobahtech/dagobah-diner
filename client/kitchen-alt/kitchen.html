@@ -7,6 +7,7 @@
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <style>
         .main{
             height: 100vh;
@@ -195,7 +196,7 @@
                                     </div>
                                     <div class="row" id="status">
                                         <div class="col-12">
-                                            PREPARATION IN PROGRESS
+                                            PREPARATION IN PROGRESS <i class="fa fa-spinner fa-spin" style="font-size:24px"></i>
                                         </div>
                                     </div>
 
@@ -228,7 +229,7 @@
 <script>
 
     const socket = io();
-    const UPDATE_FREQUENCY = 10000; //initially set to 10s. check discard every update frequency
+    const UPDATE_FREQUENCY = 2000; //initially set to 10s. check discard every update frequency
     const EXPIRE_TIME = 1; //in mins
     var orderList = document.getElementById("order-list");
     var orderListNodes = orderList.childNodes;
@@ -291,6 +292,7 @@
         if(activeItem) {
             showStatus(true);
             socket.emit("cook", {id: parseInt(activeItem.itemId, 10), name: activeItem.itemName}, quantity);
+            activeItem = undefined;
         }
     }
 
@@ -337,7 +339,7 @@
         return container;
     }
 
-    /*PREPARATIONS LIST*/
+
     function createItemList(items, index) {
 
         let itemList = document.createElement("ul");
@@ -487,12 +489,15 @@
     //DELETING
 
 
+    /*PREPARATIONS LIST*/
     /*
      * POPULATING PREPARATION ITEMS*/
     function populatePrepList() {
         let items = getUniqueItemsAsDict();
+        console.log("items");
         console.log(items);
-        for(let itemId in items){
+        items.forEach(function (item) {
+            console.log(item);
             let row = document.createElement("tr");
             let dataCellName = document.createElement("td");
             let dataCellQty = document.createElement("td");
@@ -503,13 +508,13 @@
             dataCellQty.className = "col-md-1";
             dataCellOrders.className = "col-md-5";
 
-            row.itemId = itemId;
-            row.itemName = items[itemId].name;
-            dataCellName.innerHTML = items[itemId].name;
-            dataCellQty.innerHTML = items[itemId].quantity;
+            row.itemId = item.itemId;
+            row.itemName = item.name;
+            dataCellName.innerHTML = item.name;
+            dataCellQty.innerHTML = item.quantity;
 
-            items[itemId].inOrders.forEach(function (orderId) {
-                dataCellOrders.innerHTML += " #"+orderId;
+            item.inOrders.forEach(function (orderInfo) {
+                dataCellOrders.innerHTML += " #"+orderInfo.order+"["+orderInfo.qty+"]";
             } );
 
             row.appendChild(dataCellName);
@@ -517,8 +522,8 @@
             row.appendChild(dataCellOrders);
 
             //if item is in the current order.. emphasize it
-            console.log(items[itemId].inOrders);
-            if(items[itemId].inOrders.includes(orderListNodes[0].order._orderNumber)) {
+            console.log(item.inOrders);
+            if(inOrderContainsOrder(item.inOrders, orderListNodes[0].order._orderNumber) !== -1) {
                 console.log(orderListNodes[0].order._orderNumber);
                 row.className += " current";
             }
@@ -532,12 +537,12 @@
             });
 
             prepItemList.appendChild(row);
-        }
+        })
     }
 
 
     function getUniqueItemsAsDict() {
-        let result = {};
+        let result = [];
         for(let x = 0 ; x < orderListNodes.length ; x++) {
             let order = orderListNodes[x].order;
             let items = order._items._items;
@@ -545,18 +550,32 @@
             items.forEach(function (item) {
                 if(!item._isDone) {
 
-                    if (typeof(result[item._id]) === 'undefined') {
-                        result[item._id] = {
+//                    if (typeof(result[item._id]) === 'undefined') {
+//                        result[item._id] = {
+//                            name: item._name,
+//                            quantity: 1,
+//                            inOrders: [{order: order._orderNumber, qty: 1}]
+//                        }
+//                    }
+                    let itemIndex = itemIndexInOrders(item._id, result);
+                    if(itemIndex === -1) {
+                        result.push({
+                            itemId: item._id,
                             name: item._name,
                             quantity: 1,
-                            inOrders: [order._orderNumber]
-                        }
+                            inOrders: [{order: order._orderNumber, qty: 1}]
+                        });
                     } else {
 
-                        result[item._id].quantity += 1;
-                        console.log("item already done");
-                        if (!(order._orderNumber in result[item._id].inOrders)) {
-                            result[item._id].inOrders.push(order._orderNumber);
+                        result[itemIndex].quantity += 1;
+
+                        let index = inOrderContainsOrder(result[itemIndex].inOrders, order._orderNumber);
+
+                        //does not contain the order number
+                        if(index === -1) {
+                            result[itemIndex].inOrders.push({order: order._orderNumber, qty: 1})
+                        } else {
+                            result[itemIndex].inOrders[index].qty += 1;
                         }
 
                     }
@@ -565,6 +584,26 @@
         }
 
         return result
+    }
+
+    function inOrderContainsOrder(inOrders, orderNumber) {
+        for(let x = 0 ; x < inOrders.length ; x++) {
+            if(inOrders[x].order === orderNumber){
+                return x;
+            }
+        }
+        return -1;
+    }
+
+    function itemIndexInOrders(itemId, list) {
+        for(let x = 0 ; x < list.length ; x++) {
+            let item = list[x];
+            if(item.itemId === itemId) {
+                return x;
+            }
+        }
+
+        return -1;
     }
 
     /*HELPER FUNCTIONS*/
