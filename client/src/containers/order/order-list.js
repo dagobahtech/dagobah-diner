@@ -152,7 +152,7 @@ class OrderList extends Component {
                         </table>
                     <div className="right-align">
                         <button className="btn btn-danger" onClick={() => this.requestRemove()}>Cancel Order</button>&nbsp;
-                        <button className="btn btn-success" onClick={() => this.confirmOrder()}>Confirm Order</button>
+                        <button className="btn btn-success" onClick={() => this.confirmOrder()} id="confirmButton">Confirm Order</button>
                     </div>
                 </div>
             </div>
