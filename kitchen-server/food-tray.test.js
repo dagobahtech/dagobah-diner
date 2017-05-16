@@ -15,31 +15,31 @@ var item4 = {
 var newTray = new FoodTray();
 
 beforeAll(() => {
-    newItemList.add(item1);
-    newItemList.add(item2);
-    newItemList.add(item3);
-    return newItemList;
+    newTray.add(item1);
+    newTray.add(item2);
+    newTray.add(item3);
+    return newTray;
 });
 
 afterAll(() => {
-    newItemList = null;
-    return newItemList;
+    newTray = null;
+    return newTray;
 });
 
 test("Has proper size", () => {
-    expect(newItemList.size).toBe(3);
+    expect(newTray.size).toBe(3);
 });
 
 test("Doesn't let you add a non-item", () => {
     function addItem4() {
-        newItemList.add(item4);
+        newTray.add(item4);
     }
     expect(addItem4).toThrow("item is not of type Item");
 });
 
 test("Item id at index 0", () => {
     function itemAtZero() {
-        var itemTemp = newItemList.foodAtIndex(0);
+        var itemTemp = newTray.foodAtIndex(0);
         return itemTemp.id
     }
     expect(itemAtZero()).toBe(1);
