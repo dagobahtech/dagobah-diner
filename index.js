@@ -25,16 +25,12 @@ const admin = require('./routes/admin');
 const dbURL = process.env.DATABASE_URL || "postgres://lpufbryv:FGc7GtCWBe6dyop0yJ2bu0pTXDoBJnEv@stampy.db.elephantsql.com:5432/lpufbryv";
 
 
-var publicFolder = path.resolve(__dirname, "client/view");
-
-var adminFolder = path.resolve(__dirname, "client/view/admin");
 var pFolder = path.resolve(__dirname, "client/public");
 
 
 
 // redirect to css and js folders
-app.use("/scripts", express.static("client/buildjs"));
-app.use("/styles", express.static("client/stylesheet"));
+app.use("/buildScripts", express.static("client/buildjs"));
 
 
 var adminFolder = path.resolve(__dirname, "client/admin");
