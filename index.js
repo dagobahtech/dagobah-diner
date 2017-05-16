@@ -310,8 +310,7 @@ io.on("connection", function(socket){
 		console.log(order);
 		//socket.emit("orderinfo", userOrderNumber);
 
-        
-
+         order = calcTrueTotal(order);
 
     order = calcTrueTotal(order);
 
@@ -325,13 +324,12 @@ io.on("connection", function(socket){
         //send it to kitchen
 
         io.to("kitchen").emit("orders", kitchen._orderQueue.orders, kitchen._readyQueue.orders, kitchen._foodTray.items);
+
 	});
 
     socket.on("load orders", function(){
         io.to("board").emit("orders", kitchen._orderQueue.orders, kitchen._readyQueue.orders);
     });
-
-
 
 });
 
