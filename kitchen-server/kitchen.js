@@ -16,7 +16,7 @@ class Kitchen {
          this._orderQueue = new OrderQueue();
          this._foodTray = new FoodTray();
          this._orderNumber = 0;
-         this.COOK_DELAY = 1000; //in milliseconds. set for 1 for now. change in the future
+         this.COOK_DELAY = 5000; //in milliseconds. set for 1 for now. change in the future
     }
 
     get orderQueue() {
@@ -76,6 +76,10 @@ class Kitchen {
         return orderNumber;
     }
 
+    popReadyItems(orderserved){
+        this._readyQueue.splice(orderServed,1);
+    }
+
     /*
     * rest the values of the kitchen
     * */
@@ -133,6 +137,10 @@ class Kitchen {
         this.printOrderQueue();
         this.printFoodTray();
         this.printReadyQueue();
+    }
+
+    serve(index) {
+        this._readyQueue.removeAtIndex(index);
     }
 
     //TODO discards
@@ -314,10 +322,13 @@ class Kitchen {
         console.log("updating the ready queue");
 
         for(let x = 0 ; x < orders.length ; x++) {
+            //console.log("checking " + orders[x]._orderNumber , x);
             if(orders[x].isDone()) {
                 console.log("found done");
+                console.log(orders.length);
                 //remove the order in order queue
                 let order = orderQueue.removeAtIndex(x);
+                x--; //cancel incrementing
                 //then queue it in ready queue
                 readyQueue.addOrder(order);
             }

@@ -18,6 +18,7 @@ class FoodTray {
         if(item instanceof Item) {
             this._items.push(item);
         } else {
+            throw "item is not of type Item";
             console.log(item, "item is not of type Item");
         }
     }

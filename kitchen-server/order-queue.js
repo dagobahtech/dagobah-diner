@@ -29,6 +29,8 @@ class OrderQueue {
     removeAtIndex(index) {
         return this._queue.removeAtIndex(index);
     }
+
+
 }
 
 module.exports = OrderQueue;

@@ -30,10 +30,7 @@ var publicFolder = path.resolve(__dirname, "client/view");
 var adminFolder = path.resolve(__dirname, "client/view/admin");
 var pFolder = path.resolve(__dirname, "client/public");
 
-//TODO we can comment this out in the future. This values will be stored in the restaurant object
-// lists that hold order numbers for the day
-var inProgress = [];
-var nowServing = [];
+
 
 // redirect to css and js folders
 app.use("/scripts", express.static("client/buildjs"));
@@ -72,33 +69,6 @@ app.get("/orderview", function(req,resp) {
     resp.sendFile(pFolder+"/orderview.html");
 });
 
-app.get("/getOrderNumbers", function(req, resp){
-    resp.send({
-        inProgress: inProgress,
-        nowServing: nowServing
-    });
-});
-
-app.get("/testNowServing", function(req, resp) {
-    var justServed = inProgress[0];
-    nowServing.push(justServed);
-    inProgress.splice(0,1);
-    resp.send({
-        justServed: justServed,
-        nowServing: nowServing,
-        inProgress: inProgress
-    });
-});
-
-app.get("/testFinishOrder", function(req, resp) {
-    var justServed = nowServing[0];
-    nowServing.splice(0,1);
-    resp.send({
-        justServed: justServed,
-        nowServing: nowServing,
-        inProgress: inProgress
-    });
-});
 
 app.use(express.static(path.join(__dirname, "client","/build")));
 
@@ -215,11 +185,11 @@ io.on("connection", function(socket){
     socket.on("get all orders", function () {
         //check if it is from the kitchen
         if(socket.channel === "kitchen") {
-            io.to(socket.channel).emit("orders", kitchen._orderQueue.orders, kitchen._foodTray.items);
+            io.to(socket.channel).emit("orders", kitchen._orderQueue.orders, kitchen._readyQueue.orders, kitchen._foodTray.items);
         }
     });
 
-    //kitchen UI requests to do a cook function
+    //kitchen client requests to do a cook function
     socket.on("cook", function (id, quantity) {
         //make sure its from the kitchen
         if(socket.channel === "kitchen") {
@@ -236,7 +206,9 @@ io.on("connection", function(socket){
                         //can be prepped
                         cookTimeout = undefined;
                         //then send back status of orders and foodtray back to kitchen client
-                        io.to(socket.channel).emit("orders", kitchen._orderQueue.orders, kitchen._foodTray.items);
+                        io.to(socket.channel).emit("orders", kitchen._orderQueue.orders, kitchen._readyQueue.orders, kitchen._foodTray.items);
+                        io.to(socket.channel).emit("status", false);
+                        io.to("board").emit("orders", kitchen._orderQueue.orders, kitchen._readyQueue.orders);
                     }, kitchen.COOK_DELAY );
                 } else {
                     //else send a message saying that the quantity is not valid
@@ -257,7 +229,7 @@ io.on("connection", function(socket){
         if(socket.channel === "kitchen") {
             kitchen.discard(fromOrder, itemIndex, orderIndex);
             if(fromOrder) {
-                io.to(socket.channel).emit("orders", kitchen._orderQueue.orders, kitchen._foodTray.items);
+                io.to(socket.channel).emit("orders", kitchen._orderQueue.orders,kitchen._readyQueue.orders, kitchen._foodTray.items);
             } else
             {
                 io.to(socket.channel).emit("update","foodtray", kitchen._foodTray.items);
@@ -283,6 +255,27 @@ io.on("connection", function(socket){
         });
     } );
 
+    //Kitchen client requests a serve function
+    socket.on("serve", function (index) {
+        if(socket.channel === "kitchen") {
+            kitchen.serve(index);
+            io.to(socket.channel).emit("update","ready", kitchen._readyQueue.orders);
+            io.to("board").emit("orders", kitchen._orderQueue.orders, kitchen._readyQueue.orders);
+        }
+    } );
+
+    //Kitchen client requests for cooking status
+    socket.on("status", function () {
+        if(socket.channel === "kitchen") {
+            if(cookTimeout) {
+                socket.emit("status", true)
+            } else {
+                socket.emit("status", false);
+            }
+        }
+    } );
+
+    //Customer client requests for menu items
 	socket.on("getItems", function(){
         socket.emit("sendData", dagobah.menuItems);
 	});
@@ -317,7 +310,7 @@ io.on("connection", function(socket){
                     done();
 
                     socket.emit("orderinfo", userOrderNumber, order_date);
-
+                    io.to("board").emit("orders", kitchen._orderQueue.orders, kitchen._readyQueue.orders);
                     console.log("Order Saved in db");
                 });
             });
@@ -336,19 +329,26 @@ io.on("connection", function(socket){
 		console.log(order);
 		//socket.emit("orderinfo", userOrderNumber);
 
+         order = calcTrueTotal(order);
 
     order = calcTrueTotal(order);
 
 		//send order id to customer
 
         // console.log(userOrderNumber);
-        inProgress.push(userOrderNumber);
+        //inProgress.push(userOrderNumber);
         // console.log(inProgress);
 
         //after receiving an order
         //send it to kitchen
-        io.to("kitchen").emit("orders", kitchen._orderQueue.orders, kitchen._foodTray.items);
+
+        io.to("kitchen").emit("orders", kitchen._orderQueue.orders, kitchen._readyQueue.orders, kitchen._foodTray.items);
+
 	});
+
+    socket.on("load orders", function(){
+        io.to("board").emit("orders", kitchen._orderQueue.orders, kitchen._readyQueue.orders);
+    });
 
 });
 
