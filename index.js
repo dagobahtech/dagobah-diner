@@ -228,7 +228,7 @@ io.on("connection", function(socket){
         if(socket.channel === "kitchen") {
             kitchen.discard(fromOrder, itemIndex, orderIndex);
             if(fromOrder) {
-                io.to(socket.channel).emit("orders", kitchen._orderQueue.orders, kitchen._foodTray.items);
+                io.to(socket.channel).emit("orders", kitchen._orderQueue.orders,kitchen._readyQueue.orders, kitchen._foodTray.items);
             } else
             {
                 io.to(socket.channel).emit("update","foodtray", kitchen._foodTray.items);

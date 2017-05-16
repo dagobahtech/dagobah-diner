@@ -322,10 +322,13 @@ class Kitchen {
         console.log("updating the ready queue");
 
         for(let x = 0 ; x < orders.length ; x++) {
+            //console.log("checking " + orders[x]._orderNumber , x);
             if(orders[x].isDone()) {
                 console.log("found done");
+                console.log(orders.length);
                 //remove the order in order queue
                 let order = orderQueue.removeAtIndex(x);
+                x--; //cancel incrementing
                 //then queue it in ready queue
                 readyQueue.addOrder(order);
             }
