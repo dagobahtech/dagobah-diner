@@ -51,6 +51,7 @@ class Order {
                 return false;
             } else {
                 if(this._isExpired(this.items.getItemByIndex(x))) {
+                    console.log("something is expired");
                     return false;
                 }
             }
