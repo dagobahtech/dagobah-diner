@@ -222,9 +222,10 @@ io.on("connection", function(socket){
         }
     });
 
-    //Kitchen client requests a discard
-    socket.on("discard", function (fromOrder, itemIndex, orderIndex) {
+    //Kitchen UI requests a discard
+    socket.on("discard", function (item_id, fromOrder, itemIndex, orderIndex) {
         //make sure its from the kitchen
+
         if(socket.channel === "kitchen") {
             kitchen.discard(fromOrder, itemIndex, orderIndex);
             if(fromOrder) {
@@ -234,6 +235,24 @@ io.on("connection", function(socket){
                 io.to(socket.channel).emit("update","foodtray", kitchen._foodTray.items);
             }
         }
+
+        pg.connect(dbURL, function(err, client, done) {
+            if(err){
+                console.log(err);
+            }
+
+            let dbQuery = "INSERT INTO item_discarded (item_id) VALUES ($1)";
+            client.query(dbQuery, [item_id], function(err, result) {
+                done();
+                if(err){
+                    console.log(err);
+                }
+
+                console.log("Db Discard Connection Ended");
+                console.log(result);
+
+            });
+        });
     } );
 
     //Kitchen client requests a serve function

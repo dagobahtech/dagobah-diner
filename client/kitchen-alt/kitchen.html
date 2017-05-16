@@ -624,7 +624,7 @@
     function appendDiscardFunction(fromOrderList, element) {
         element.addEventListener("click", function () {
             console.log("button clicked");
-            socket.emit("discard", fromOrderList, this.index, this.parentNode.index);
+            socket.emit("discard", this.food._id, fromOrderList, this.index, this.parentNode.index);
         });
     }
 
