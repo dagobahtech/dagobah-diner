@@ -131,12 +131,11 @@ class OrderList extends Component {
                         <table className="table">
                             <thead className="container-fluid thead-inverse">
                                 <tr className="row">
-                                    <th className="col-sm-1">&nbsp;</th>
-                                    <th className="col-sm-4">Item</th>
-                                    <th className="col-sm-1">Qty</th>
-                                    <th className="col-sm-2">Price</th>
-                                    <th className="col-sm-2">Subtotal</th>
-                                    <th className="col-sm-2">&nbsp;</th>
+                                    <th className="col-1">&nbsp;</th>
+                                    <th className="col-4">Item</th>
+                                    <th className="col-1">Qty</th>
+                                    <th className="col-2">Price</th>
+                                    <th className="col-4">Subtotal</th>
                                 </tr>
                             </thead>
 

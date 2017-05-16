@@ -185,11 +185,11 @@ io.on("connection", function(socket){
     socket.on("get all orders", function () {
         //check if it is from the kitchen
         if(socket.channel === "kitchen") {
-            io.to(socket.channel).emit("orders", kitchen._orderQueue.orders, kitchen._foodTray.items);
+            io.to(socket.channel).emit("orders", kitchen._orderQueue.orders, kitchen._readyQueue.orders, kitchen._foodTray.items);
         }
     });
 
-    //kitchen UI requests to do a cook function
+    //kitchen client requests to do a cook function
     socket.on("cook", function (id, quantity) {
         //make sure its from the kitchen
         if(socket.channel === "kitchen") {
@@ -206,7 +206,8 @@ io.on("connection", function(socket){
                         //can be prepped
                         cookTimeout = undefined;
                         //then send back status of orders and foodtray back to kitchen client
-                        io.to(socket.channel).emit("orders", kitchen._orderQueue.orders, kitchen._foodTray.items);
+                        io.to(socket.channel).emit("orders", kitchen._orderQueue.orders, kitchen._readyQueue.orders, kitchen._foodTray.items);
+                        io.to(socket.channel).emit("status", false);
                         io.to("board").emit("orders", kitchen._orderQueue.orders, kitchen._readyQueue.orders);
                     }, kitchen.COOK_DELAY );
                 } else {
@@ -222,19 +223,59 @@ io.on("connection", function(socket){
     });
 
     //Kitchen UI requests a discard
-    socket.on("discard", function (fromOrder, itemIndex, orderIndex) {
+    socket.on("discard", function (item_id, fromOrder, itemIndex, orderIndex) {
         //make sure its from the kitchen
+
         if(socket.channel === "kitchen") {
             kitchen.discard(fromOrder, itemIndex, orderIndex);
             if(fromOrder) {
-                io.to(socket.channel).emit("orders", kitchen._orderQueue.orders, kitchen._foodTray.items);
+                io.to(socket.channel).emit("orders", kitchen._orderQueue.orders,kitchen._readyQueue.orders, kitchen._foodTray.items);
             } else
             {
                 io.to(socket.channel).emit("update","foodtray", kitchen._foodTray.items);
             }
         }
+
+        pg.connect(dbURL, function(err, client, done) {
+            if(err){
+                console.log(err);
+            }
+
+            let dbQuery = "INSERT INTO item_discarded (item_id) VALUES ($1)";
+            client.query(dbQuery, [item_id], function(err, result) {
+                done();
+                if(err){
+                    console.log(err);
+                }
+
+                console.log("Db Discard Connection Ended");
+                console.log(result);
+
+            });
+        });
     } );
 
+    //Kitchen client requests a serve function
+    socket.on("serve", function (index) {
+        if(socket.channel === "kitchen") {
+            kitchen.serve(index);
+            io.to(socket.channel).emit("update","ready", kitchen._readyQueue.orders);
+            io.to("board").emit("orders", kitchen._orderQueue.orders, kitchen._readyQueue.orders);
+        }
+    } );
+
+    //Kitchen client requests for cooking status
+    socket.on("status", function () {
+        if(socket.channel === "kitchen") {
+            if(cookTimeout) {
+                socket.emit("status", true)
+            } else {
+                socket.emit("status", false);
+            }
+        }
+    } );
+
+    //Customer client requests for menu items
 	socket.on("getItems", function(){
         socket.emit("sendData", dagobah.menuItems);
 	});
@@ -288,29 +329,26 @@ io.on("connection", function(socket){
 		console.log(order);
 		//socket.emit("orderinfo", userOrderNumber);
 
-        
-
+         order = calcTrueTotal(order);
 
     order = calcTrueTotal(order);
 
 		//send order id to customer
 
         // console.log(userOrderNumber);
-        inProgress.push(userOrderNumber);
+        //inProgress.push(userOrderNumber);
         // console.log(inProgress);
 
         //after receiving an order
         //send it to kitchen
-        io.to("kitchen").emit("orders", kitchen._orderQueue.orders, kitchen._foodTray.items);
+
+        io.to("kitchen").emit("orders", kitchen._orderQueue.orders, kitchen._readyQueue.orders, kitchen._foodTray.items);
+
 	});
-
-
 
     socket.on("load orders", function(){
         io.to("board").emit("orders", kitchen._orderQueue.orders, kitchen._readyQueue.orders);
     });
-
-
 
 });
 

@@ -50,11 +50,10 @@ class Order {
                 return false;
             } else {
                 if(this.items.getItemByIndex(x).isExpired()) {
+                    console.log("something is expired");
                     return false;
                 }
             }
-
-
         }
         //if it reaches this point. they are all done
         //then return done
