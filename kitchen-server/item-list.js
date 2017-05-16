@@ -57,10 +57,13 @@ class ItemList {
     }
 
     printItems() {
+        var output = "";
         for(let x = 0 ; x < this._items.length ; x++) {
             let item = this.getItemByIndex(x);
+            output += item.toString()+"\n";
             console.log(item.toString());
         }
+        return output.trim();
     }
 
     clear() {
