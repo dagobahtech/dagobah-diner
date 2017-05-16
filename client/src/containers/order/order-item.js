@@ -27,28 +27,28 @@ class OrderItem extends Component {
     render() {
         return (
             <tr className="row">
-                <td className="col-md-1">
+                <td className="col-1">
                     <button className="btn btn-danger btn-sm"
                             onClick={() => this.removeItem(this.props.index)}>&Chi;
                     </button>
                 </td>
 
-                <td className="col-md-4">{this.props.item.name}</td>
-                <td className="col-md-1">{this.props.item.quantity}</td>
-                <td className="col-md-2">
+                <td className="col-4">{this.props.item.name}</td>
+                <td className="col-1">{this.props.item.quantity}</td>
+                <td className="col-2">
                     <div className="currency currency-black currency-small"></div>
                     <NumberFormat value={this.props.item.price}
                                   decimalPrecision={2}
                                   displayType={'text'} thousandSeparator={true}
                     />
                 </td>
-                <td className="col-md-2">
+                <td className="col-2">
                     <div className="currency currency-black currency-small"></div>
                     <NumberFormat value={this.props.item.quantity * this.props.item.price}
                                   decimalPrecision={2}
                                   displayType={'text'} thousandSeparator={true}
                     /></td>
-                <td className="col-md-1">
+                <td className="col-1">
                     <button className="btn btn-warning btn-sm"
                             onClick={() => this.showDetails()}>View
                     </button>

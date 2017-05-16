@@ -52,10 +52,11 @@ export function resetActiveItem() {
     }
 }
 
-export function setOrderNumber(id){
+export function setOrderNumber(id, date){
     return {
         type: "SET_ORDER_NUMBER",
-        payload: id
+        orderId: id,
+        date: date
     }
 }
 

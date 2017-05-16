@@ -31,15 +31,15 @@ class OrderList extends Component {
     }
 
 
-    _updateOrderNumber(id) {
-        this.props.setOrderNumber(id);
+    _updateOrderNumber(id,date) {
+        this.props.setOrderNumber(id, date);
         console.log("pushing processing", id);
     }
 
     createOrderTable(){
         return (
-            <div>
-                <table className="table-striped" style={{'width':'500px'}}>
+            <div id="confirmList">
+                <table className="table-striped">
                     <thead className="thead-inverse">
                     <tr>
                         <th>Name</th>
@@ -127,20 +127,19 @@ class OrderList extends Component {
                                               displayType={'text'} thousandSeparator={true}
                                               /></h2>
                 </div>
-                <div className="card-block">
+                <div className="card-block" id="cardOuter">
                         <table className="table">
                             <thead className="container-fluid thead-inverse">
                                 <tr className="row">
-                                    <th className="col-md-1">&nbsp;</th>
-                                    <th className="col-md-4">Item</th>
-                                    <th className="col-md-1">Qty</th>
-                                    <th className="col-md-2">Price</th>
-                                    <th className="col-md-2">Subtotal</th>
-                                    <th className="col-md-2">&nbsp;</th>
+                                    <th className="col-1">&nbsp;</th>
+                                    <th className="col-4">Item</th>
+                                    <th className="col-1">Qty</th>
+                                    <th className="col-2">Price</th>
+                                    <th className="col-4">Subtotal</th>
                                 </tr>
                             </thead>
 
-                            <ReactCSSTransitionGroup component="tbody" transitionName="order" className="container-fluid"
+                            <ReactCSSTransitionGroup component="tbody" transitionName="order" className="container-fluid" 
                                                      transitionEnterTimeout={300}
                                                      transitionLeaveTimeout={300}>
                                 {

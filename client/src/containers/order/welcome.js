@@ -16,7 +16,7 @@ class Welcome extends Component {
                     </div>
                     <div className="row">
                         <Link to="/order"
-                              className="btn btn-success col-lg-4 offset-lg-4 btn-lg">
+                              className="btn btn-success col-lg-4 offset-lg-4 btn-lg" id="startBut">
                             CLICK HERE TO START ORDERING
                         </Link>
                     </div>

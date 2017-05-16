@@ -2,11 +2,49 @@
 tr:hover {
     background-color: lightgray;
 }
-/*Classes*/
+/*Root and outer containers*/
+body {
+	overflow: hidden;
+}
+.navbar navbar-default navbar-static-top {
+	height: 20vh;
+	margin-bottom: 1vh;
+}
+#cardOuter {
+	overflow: hidden;
+	overflow-y: scroll;
+}
+.menu-scrollable {
+    max-height: 85vh;
+}
+#confirmList {
+	overflow: hidden;
+	overflow-y: scroll;
+	max-height: 60vh;
+	width: 50vw;	
+}
 
+.table-striped {
+	width: 100%;
+}
+/*Scrollbar styling*/
+#cardOuter::-webkit-scrollbar, .menu::-webkit-scrollbar, #confirmList::-webkit-scrollbar {
+	background-color: white;
+	width: 0.5vw;
+}
+#cardOuter::-webkit-scrollbar-track, .menu::-webkit-scrollbar-track, #confirmList::-webkit-scrollbar-track {
+	background-color: white;
+}
+#cardOuter::-webkit-scrollbar-thumb, .menu::-webkit-scrollbar-thumb, #confirmList::-webkit-scrollbar-thumb {
+	background-color: #d9534f;
+	border-radius: 5px;
+}
+/*Classes*/
 .main {
     background-image: url("./images/bg.png");
+/*	background-color: orange;*/
     background-position: bottom right;
+	background-attachment: fixed;
     background-size: 50%;
     background-repeat: no-repeat;
 }
@@ -15,7 +53,9 @@ tr:hover {
     text-align: center;
     height: 100%;
 }
-
+#startBut {
+	font-size: 1.5vw;
+}
 .menu-item .card-header {
     background-color: white;
     font-weight: bold;
@@ -30,17 +70,18 @@ tr:hover {
 }
 
 .menu-item-container {
-    transition: transform 100ms ease-in-out;
+	transition: all ease 0.2s;
     transform: scale(1);
 }
 .menu-item-container:hover {
-    transform: scale(1.2);
+    transform: scale(1.05);
     z-index: 1;
 }
 
 .menu {
     min-height: 70vh;
-    overflow: hidden;
+	overflow: hidden;
+    overflow-y: scroll;
 }
 
 .right-align {
@@ -150,6 +191,7 @@ tr:hover {
 
 .welcome-bg {
     background: url('./images/bg.jpg') no-repeat ;
+	background-attachment: fixed;
     background-size: cover;
 }
 

@@ -5,9 +5,10 @@
   "main": "index.js",
   "scripts": {
     "start": "node --use_strict index.js",
-    "build": "cd client && npm run build",
+    "build": "./node_modules/.bin/webpack && cd client && npm run build",
     "live": "cd client && npm start",
-    "test": "jest"
+    "test": "jest",
+    "test:night": "./node_modules/.bin/concurrently \"npm start\" \"nightwatch\""
   },
   "repository": {
     "type": "git",
@@ -21,6 +22,7 @@
   "homepage": "https://github.com/dagobahtech/acit2910#readme",
   "dependencies": {
     "body-parser": "^1.17.1",
+    "concurrently": "^3.4.0",
     "express": "^4.15.2",
     "express-session": "^1.15.2",
     "font-awesome": "^4.7.0",

@@ -5,3 +5,6 @@ client/build
 dbconfig.js
 MenuPics/Thumbs.db
 client/buildjs
+reports
+bin/chromedriver
+nightwatch.json

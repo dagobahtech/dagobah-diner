@@ -8,6 +8,11 @@ import {removeAllItem} from '../actions/order/index';
 
 class OrderProcessing extends Component {
 
+	formatTime(time){
+		if(time === null) return;
+		let newTime = time;
+		return (newTime.replace("T", " ").substring(0, 19));
+	}
     render() {
 
         return (
@@ -19,7 +24,7 @@ class OrderProcessing extends Component {
 					<div className="row">
 						<div className="col-lg-6 col-md-6 mx-auto">
 							<h2>Order #{this.props.orderedItems.id}</h2>
-							<h5>Date: Date Placeholder</h5>
+							<h5>Date: {this.formatTime(this.props.orderedItems.date)}</h5>
 							<table className="table ">
 								<thead className="thead-inverse">
 								<tr>

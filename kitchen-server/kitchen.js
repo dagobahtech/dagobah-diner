@@ -6,6 +6,9 @@ const Order = require("./order");
 const ItemList = require("./item-list");
 const FoodTray = require("./food-tray");
 
+//valid quantities to cook
+const VALID_QUANTITIES = [1,2,6];
+
 class Kitchen {
 
     constructor() {
@@ -13,6 +16,7 @@ class Kitchen {
          this._orderQueue = new OrderQueue();
          this._foodTray = new FoodTray();
          this._orderNumber = 0;
+         this.COOK_DELAY = 5000; //in milliseconds. set for 1 for now. change in the future
     }
 
     get orderQueue() {
@@ -72,6 +76,10 @@ class Kitchen {
         return orderNumber;
     }
 
+    popReadyItems(orderserved){
+        this._readyQueue.splice(orderServed,1);
+    }
+
     /*
     * rest the values of the kitchen
     * */
@@ -80,6 +88,12 @@ class Kitchen {
         this._readyQueue.clear();
         this._orderQueue.clear();
         this._foodTray.clear();
+        this.COOK_DELAY = 1000; //in milliseconds
+    }
+
+    //function to check if quantity can be cooked
+    canCook(quantity) {
+        return (VALID_QUANTITIES.includes(quantity));
     }
 
     //function to cook food
@@ -125,6 +139,10 @@ class Kitchen {
         this.printReadyQueue();
     }
 
+    serve(index) {
+        this._readyQueue.removeAtIndex(index);
+    }
+
     //TODO discards
     //two cases for discards
     //discarding from order just means resetting its values to not done
@@ -138,8 +156,29 @@ class Kitchen {
     *   order of the discard item
     * index: integer
     *   index of item to be discarded in the order*/
-    discard(fromOrder, orderNumber, index) {
+    discard(fromOrder, itemIndex, orderIndex) {
 
+        if(fromOrder) {
+            console.log(itemIndex, orderIndex);
+            let order = this._orderQueue.orders[orderIndex];
+            let item = order.items._items[itemIndex];
+            //check the food tray first before settings this
+            let foodTrayItems = this._foodTray.items;
+            for(let x = 0 ; x < foodTrayItems.length ; x++) {
+                if(foodTrayItems[x]._id === item._id) {
+                    item._isDone = foodTrayItems[x]._isDone;
+                    item._time = foodTrayItems[x]._time;
+                    foodTrayItems.splice(x, 1);
+                    return
+                }
+            }
+
+            item._isDone = false;
+            item._time = 0;
+
+        } else {
+            this._foodTray.items.splice(itemIndex, 1);
+        }
     }
 
     /*
@@ -283,15 +322,20 @@ class Kitchen {
         console.log("updating the ready queue");
 
         for(let x = 0 ; x < orders.length ; x++) {
+            //console.log("checking " + orders[x]._orderNumber , x);
             if(orders[x].isDone()) {
                 console.log("found done");
+                console.log(orders.length);
                 //remove the order in order queue
                 let order = orderQueue.removeAtIndex(x);
+                x--; //cancel incrementing
                 //then queue it in ready queue
                 readyQueue.addOrder(order);
             }
         }
     }
+
+
 }
 
 module.exports = Kitchen;
