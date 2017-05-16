@@ -6,10 +6,6 @@ tr:hover {
 body {
 	overflow: hidden;
 }
-.container-fluid {
-	height: 58vh;
-	margin-bottom: 1vh;
-}
 .navbar navbar-default navbar-static-top {
 	height: 20vh;
 	margin-bottom: 1vh;
@@ -18,8 +14,8 @@ body {
 	overflow: hidden;
 	overflow-y: scroll;
 }
-.card {
-	max-height: 80vh;
+.menu-scrollable {
+    max-height: 85vh;
 }
 #confirmList {
 	overflow: hidden;
@@ -78,7 +74,7 @@ body {
     transform: scale(1);
 }
 .menu-item-container:hover {
-    transform: scale(1.2);
+    transform: scale(1.05);
     z-index: 1;
 }
 

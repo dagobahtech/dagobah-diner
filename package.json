@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "node --use_strict index.js",
-    "build": "cd client && npm run build",
+    "build": "./node_modules/.bin/webpack && cd client && npm run build",
     "live": "cd client && npm start",
     "test": "jest"
   },
