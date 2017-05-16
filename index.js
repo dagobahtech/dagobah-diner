@@ -288,29 +288,14 @@ io.on("connection", function(socket){
 		console.log(order);
 		//socket.emit("orderinfo", userOrderNumber);
 
-        
+         order = calcTrueTotal(order);
 
-
-    order = calcTrueTotal(order);
-
-		//send order id to customer
-
-        // console.log(userOrderNumber);
-        inProgress.push(userOrderNumber);
-        // console.log(inProgress);
-
-        //after receiving an order
-        //send it to kitchen
         io.to("kitchen").emit("orders", kitchen._orderQueue.orders, kitchen._foodTray.items);
 	});
-
-
 
     socket.on("load orders", function(){
         io.to("board").emit("orders", kitchen._orderQueue.orders, kitchen._readyQueue.orders);
     });
-
-
 
 });
 
