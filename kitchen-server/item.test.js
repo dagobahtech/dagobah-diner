@@ -28,7 +28,13 @@ test("Is completed", () => {
 });
 
 test("Has a string with updated time.", ()=>{
-    const currentTime = new Date();
+    const currentTime = new Date().getTime();
     item.time = currentTime;
     expect(item.toString()).toBe("1 Elephont Burger true "+currentTime);
+});
+
+test("Item is expired", () => {
+    var pastTime = new Date().getTime() - 130000; //made more than a 120 seconds ago.
+    item.time = pastTime;
+    expect(item.isExpired()).toBeTruthy;
 });

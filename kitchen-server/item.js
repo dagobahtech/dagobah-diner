@@ -1,3 +1,5 @@
+const EXPIRE_TIME = 2; // in mins
+
 class Item {
 
     constructor(id, name, isDone, time) {
@@ -31,6 +33,12 @@ class Item {
         return this._id + " " + this._name + " " + this._isDone + " " + this._time;
     }
 
+    isExpired() {  //should this be added to item.js instead?
+
+        var time = new Date().getTime();
+        var diff = time - this._time;
+        return (diff /60000 >= EXPIRE_TIME);
+    }
 
 }
 
