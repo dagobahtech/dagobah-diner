@@ -31,11 +31,11 @@ var loginForm = path.resolve(__dirname, "client/admin/login.html");
 
 
 // redirect to css and js folders
-app.use("/buildScripts", express.static("client/buildjs"));
+//app.use("/buildScripts", express.static("client/buildjs"));
 
 
 // redirect to image, css and js folders
-app.use("/scripts", express.static("client/build"));
+app.use("/scripts", express.static("client/buildjs"));
 app.use("/styles", express.static("client/src/css"));
 app.use("/images", express.static("MenuPics"));
 
