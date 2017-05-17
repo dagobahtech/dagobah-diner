@@ -228,7 +228,7 @@ io.on("connection", function(socket){
                         io.to(socket.channel).emit("orders", kitchen._orderQueue.orders, kitchen._readyQueue.orders, kitchen._foodTray.items);
                         io.to(socket.channel).emit("status", false);
                         io.to("board").emit("orders", kitchen._orderQueue.orders, kitchen._readyQueue.orders);
-                    }, kitchen.COOK_DELAY );
+                    }, kitchen.cookDelay);
                 } else {
                     //else send a message saying that the quantity is not valid
                     io.to(socket.channel).emit("problem", "invalid quantity");
