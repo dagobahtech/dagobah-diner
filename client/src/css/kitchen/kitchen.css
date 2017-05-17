@@ -1,0 +1,124 @@
+.main{
+    height: 100vh;
+}
+
+.view {
+    height: 100%;
+    color: white;
+    background-color: #333;
+    border-color:white;
+}
+
+.view > .card-header {
+    color: white;
+    background-color: firebrick;
+}
+
+.view > .card-block {
+    overflow-y: auto;
+}
+
+.done {
+    background-color: lightgreen;
+}
+
+.discard {
+    background-color: indianred;
+    transition: background-color 0.3s ease-in-out;
+    color: white;
+    cursor: pointer;
+}
+
+.discard:hover {
+    background-color: orangered;
+}
+
+.item {
+    color: black;
+    max-height: 25vh;
+    cursor: default;
+}
+
+.main-item {
+    border: 2px solid darkgreen;
+}
+
+.auto-y-overlow{
+    overflow: auto;
+}
+
+.item > .card-header {
+    font-weight: bold;
+}
+
+.item > .card-footer {
+    padding: 0px;
+    text-align: center;
+}
+
+.item > .card-header {
+    padding: 2px;
+    font-size: 1.2em;
+}
+
+.current {
+    color: lightgreen;
+}
+
+.active-item, .prep-item:hover {
+    background-color: darkgreen;
+}
+
+.prep-item {
+    transition: background-color 0.3s ease-in-out;
+    cursor: pointer;
+}
+
+.cook-buttons{
+    text-align: center;
+    padding: 2px;
+}
+
+.food-tray .card-block {
+    padding: 2px;
+}
+
+.nopadding {
+    padding: 0 !important;
+    margin: 0 !important;
+}
+
+#status {
+    color: black;
+    font-size: large;
+    font-weight: bold;
+    padding: 5px;
+    display: none;
+}
+
+.selected .card-header {
+    background-color: green;
+    color: white;
+}
+/*Scrollbar CSS*/
+
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+    -webkit-border-radius: 0px;
+    border-radius: 0px;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+    -webkit-border-radius: 0px;
+    border-radius: 0px;
+    background: rgba(255,0,0,0.8);
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.5);
+}
+::-webkit-scrollbar-thumb:window-inactive {
+    background: rgba(255,0,0,0.4);
+}
