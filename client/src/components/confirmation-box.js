@@ -35,8 +35,8 @@ class ConfirmationBox extends Component {
                <div>
                     <hr/>
                     <div className="right-align" style={{'paddingTop':'15px'}}>
-                        <button className="btn btn-danger" style={{'margin':'2px'}} onClick={this.handleNo}>No</button>
-                        <button className="btn btn-success" style={{'margin':'2px'}} onClick={this.handleYes}>Yes</button>
+                        <button className="btn btn-danger" style={{'margin':'2px'}} onClick={this.handleNo} id="noConfirmButton">No</button>
+                        <button className="btn btn-success" style={{'margin':'2px'}} onClick={this.handleYes} id="yesConfirmButton">Yes</button>
                     </div>
                </div>
             )

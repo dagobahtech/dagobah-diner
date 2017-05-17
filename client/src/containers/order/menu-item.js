@@ -46,7 +46,7 @@ class MenuItem extends Component {
                         </button>
                         <hr/>
                         <button className="btn btn-success col-12"
-                            onClick={()=> this.addToOrder()}>Add</button>
+                            onClick={()=> this.addToOrder()} id={'addButton-'+this.props.item.id}>Add</button>
                     </div>
 
                 </div>

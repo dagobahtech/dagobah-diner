@@ -18,7 +18,7 @@ class OrderProcessing extends Component {
         return (
 			<div className="transition-item enter-up-exit-down">
 				<div>
-					<h1 className="center-align">Thank you for ordering</h1>
+					<h1 id="orderConfirmation" className="center-align">Thank you for ordering</h1>
 				</div>
 				<div className="container-fluid">
 					<div className="row">
