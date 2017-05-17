@@ -16,7 +16,8 @@ class Kitchen {
          this._orderQueue = new OrderQueue();
          this._foodTray = new FoodTray();
          this._orderNumber = 0;
-         this.COOK_DELAY = 5000; //in milliseconds. set for 1 for now. change in the future
+         this._maxOrderNumber = 10;
+         this._cookDelay = 5000; //in milliseconds. set for 1 for now. change in the future
     }
 
     get orderQueue() {
@@ -31,6 +32,18 @@ class Kitchen {
         return this._foodTray;
     }
 
+    set cookDelay(newDelay) {
+        this._cookDelay = newDelay;
+    };
+
+    get cookDelay() {
+        return this._cookDelay;
+    }
+
+    set maxOrderNumber(maxNum) {
+        this._maxOrderNumber = maxNum;
+    }
+
     //TODO need to refactor this shit. this shit is too smurfing long. is it because of error handling? :(
     /*
     * @params
@@ -39,6 +52,9 @@ class Kitchen {
     * @returns
     *   orderNumber: Integer*/
     addOrder(order) {
+        if(this._orderQueue.orders.length === this._maxOrderNumber) {
+            throw "Orders maxed";
+        }
         try {
             //check order
             //it needs to be defined and have an items property
@@ -51,17 +67,14 @@ class Kitchen {
                 if(!newOrder.items.isEmpty()) {
                     this._orderQueue.addOrder(newOrder);
                 } else {
-                    console.log("Order is empty");
-                    return;
+                    throw "empty order"
                 }
 
             } else {
-                console.log("order has a bad structure");
-                return;
+                throw 'bad structure'
             }
         } catch(error) {
-            console.log(error);
-            return;
+            throw error
         }
         //only increment order number if
         //order successfully added
@@ -88,7 +101,6 @@ class Kitchen {
         this._readyQueue.clear();
         this._orderQueue.clear();
         this._foodTray.clear();
-        this.COOK_DELAY = 1000; //in milliseconds
     }
 
     //function to check if quantity can be cooked
