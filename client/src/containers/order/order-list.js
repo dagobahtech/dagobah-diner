@@ -130,12 +130,12 @@ class OrderList extends Component {
                 <div className="card-block" id="cardOuter">
                         <table className="table">
                             <thead className="container-fluid thead-inverse">
-                                <tr className="row">
-                                    <th className="col-1">&nbsp;</th>
-                                    <th className="col-4">Item</th>
-                                    <th className="col-1">Qty</th>
-                                    <th className="col-2">Price</th>
-                                    <th className="col-4">Subtotal</th>
+                                <tr className="row" id="listOuter">
+                                    <th id="tablePad">&nbsp;</th>
+                                    <th id="tableItem">Item</th>
+                                    <th id="tableQty">Qty</th>
+                                    <th id="tablePrice">Price</th>
+                                    <th id="tablePad">Subtotal</th>
                                 </tr>
                             </thead>
 
