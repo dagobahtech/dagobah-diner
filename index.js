@@ -302,7 +302,23 @@ io.on("connection", function(socket){
 	//when order is received
 	socket.on("send order", function (order) {
 
-        let userOrderNumber = kitchen.addOrder(order);
+	    let userOrderNumber;
+	    try{
+            userOrderNumber = kitchen.addOrder(order);
+        } catch(err) {
+	        switch(err){
+                case "Orders maxed":
+                    socket.emit("ordererror", "All servers currently busy right now. Please try again later");
+                    break;
+                case "empty order":
+                    break;
+
+            }
+
+            return
+        }
+
+
         let order_date = null;
 
         function dbInsertOrder() {
@@ -350,7 +366,7 @@ io.on("connection", function(socket){
 
          order = calcTrueTotal(order);
 
-    order = calcTrueTotal(order);
+        order = calcTrueTotal(order);
 
 		//send order id to customer
 
