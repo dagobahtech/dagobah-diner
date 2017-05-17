@@ -92,3 +92,16 @@ export function populateItem(data){
         payload: data
     }
 }
+
+export function setProcessedOrder(order) {
+    return {
+        type: "SET_PROCESSED_ORDER",
+        payload: order
+    }
+}
+
+export function resetProcessedOrder() {
+    return {
+        type: "RESET_PROCESSED_ORDER"
+    }
+}
