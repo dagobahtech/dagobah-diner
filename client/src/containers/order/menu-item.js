@@ -34,7 +34,7 @@ class MenuItem extends Component {
          * the item can be access using this.props.item
          * */
         return (
-            <div className="card card-danger text-center menu-item"
+            <div className="card card-danger text-center menu-item" id="itemInner"
                  >
 
                 <div className="card-header">{this.props.item.name}</div>

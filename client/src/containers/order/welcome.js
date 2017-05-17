@@ -14,9 +14,9 @@ class Welcome extends Component {
                     <div className="row">
                         <img src={logo} alt="" className="logo"/>
                     </div>
-                    <div className="row">
+                    <div className="row" id="startOuter">
                         <Link to="/order"
-                              className="btn btn-success col-lg-4 offset-lg-4 btn-lg" id="startBut">
+							id="startBut">
                             CLICK HERE TO START ORDERING
                         </Link>
                     </div>
