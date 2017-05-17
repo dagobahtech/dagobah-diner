@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import {resetActiveItem, addItemToOrder, closeConfirmation} from '../../actions/order/index';
+import {resetActiveItem, addItemToOrder, closeConfirmation, confirmAction} from '../../actions/order/index';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import '../../css/order/menu.css';
@@ -13,13 +13,37 @@ import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
  * */
 class ActiveItem extends Component {
 
+    constructor() {
+        super();
+        this.state = {
+            status: ""
+        }
+    }
     updateQuantity(direction) {
+
+        let maxQuantity = 6;
+        if(this.props.isNew) {
+            //if its from order, check if it is in the order list
+            let items = this.props.orderedItems.items;
+            for(let x = 0 ; x < items.length ; x++) {
+                if(this.props.item.id === items[x].id) {
+                    maxQuantity -= items[x].quantity;
+                    break;
+                }
+            }
+        }
+
         let quantity = parseInt(this.refs.quantity.value, 10);
 
         if(direction === "increment") {
-            quantity += 1;
+            if(quantity < maxQuantity) {
+                quantity += 1;
+            } else {
+                this.setState({status: "Sorry, You cannot add more than "+ maxQuantity+" of this item "})
+            }
         } else {
             if(quantity !== 1) {
+                this.setState({status: ""});
                 quantity -= 1;
             }
         }
@@ -27,22 +51,127 @@ class ActiveItem extends Component {
     }
 
     addToOrder() {
+        //before adding this item to order
+        //check the max order first
+
         //make sure quantity is int
         let quantity = parseInt(this.refs.quantity.value, 10);
 
         //var item = Object.assign({}, ...this.props.activeItem);
-        //this.. i don't why.. but i almost this killed me
         let item = {...this.props.item};
         item.quantity = quantity;
+
+        let items = this.props.orderedItems.items;
+
         this.props.addItem(item, this.props.isNew);
         //then reset the current active item
         //this.props.resetActiveItem();
         this.props.closeConfirmation();
     }
 
+    showButtons() {
+
+        return (
+            <div>
+                <button className='btn btn-danger' onClick={()=>this.updateQuantity("decrement")}>-</button> &nbsp;
+                <input className='center-align' style={{'border':'0', 'font-weight':'bold'}} size='3' width='15px' type="text" defaultValue={this.props.item.quantity}
+                       ref="quantity" name="quantity" min="1" step="1" readOnly/>&nbsp;
+                <button className='btn btn-success' onClick={()=>this.updateQuantity("increment")}>+</button>
+                <div style={{"color":"red"}}>
+                    {this.state.status}
+                </div>
+            </div>
+        )
+    }
+
+    showAdd() {
+        const buttonMessage = (this.props.isNew) ?  "Add" : "Save";
+        return(
+            <div className="row">
+                <div className="col-md-4 offset-md-4 center-align">
+                    <button className="btn btn-success btn-block"
+                            onClick={()=>this.addToOrder()}>{buttonMessage}</button>
+
+                </div>
+            </div>
+        )
+    }
+
+    showMaxMessage(message) {
+        return (<div style={{color:'red'}}> {message}</div>)
+    }
+
+
+
+    isMaxedItem() {
+
+        let maxQuantity = 6;
+
+        if(!this.props.isNew){return false; }
+        let items = this.props.orderedItems.items;
+
+        for(let x = 0 ; x < items.length ; x++) {
+            if(this.props.item.id === items[x].id) {
+                if(items[x].quantity === maxQuantity){
+                    return true;
+                }
+            }
+        }
+        return false
+    }
+
+    isInOrderedItems() {
+        let items = this.props.orderedItems.items;
+
+        for(let x = 0 ; x < items.length ; x++) {
+            if(this.props.item.id === items[x].id) {
+                return true;
+            }
+        }
+
+        return false;
+    }
     render() {
 
-        const buttonMessage = (this.props.isNew) ?  "Add" : "Save";
+        const maxItems = 10;
+        let innerComp;
+        let buttonComp;
+        //if max orders
+        if(this.props.orderedItems.items.length === maxItems) {
+            //is it in order?
+            if(this.isInOrderedItems()) {
+                if (this.isMaxedItem()) {
+                    innerComp = this.showMaxMessage("Cannot add more of this item");
+                } else {
+                    innerComp = this.showButtons()
+                    buttonComp = this.showAdd();
+                }
+            } else {
+                innerComp = this.showMaxMessage("Cannot add more items");
+            }
+        } else {
+            if(this.isMaxedItem()) {
+                innerComp = this.showMaxMessage("Cannot add more items");
+            } else {
+                innerComp = this.showButtons();
+                buttonComp = this.showAdd();
+            }
+        }
+
+        //if this is not in ordereditems and is max orders, don't accept
+        // if(!isInOrderedItems()) {
+        //     if(this.props.orderedItems.items.length === maxOrders) {
+        //         innerComp = this.showMaxMessage("Cannot add more items. Max items reached");
+        //     }
+        // } else {
+        //     if(this.isMaxedItem()) {
+        //         innerComp = this.showMaxMessage("Cannot add more of this item. Max items reached");
+        //     } else {
+        //         innerComp = this.showButtons();
+        //     }
+        // }
+
+
         let comp = (
             <div className="card item-popup">
                 <h3 className="card-header">{this.props.item.name}</h3>
@@ -60,10 +189,7 @@ class ActiveItem extends Component {
                         </div>
                         <div className="row">
                             <div className="col-md-8 center-align">
-                                <button className='btn btn-danger' onClick={()=>this.updateQuantity("decrement")}>-</button> &nbsp;
-                                <input className='center-align' style={{'border':'0', 'font-weight':'bold'}} size='3' width='15px' type="text" defaultValue={this.props.item.quantity}
-                                       ref="quantity" name="quantity" min="1" step="1" readOnly/>&nbsp;
-                                <button className='btn btn-success' onClick={()=>this.updateQuantity("increment")}>+</button>
+                                { innerComp }
                             </div>
                             <div className="col-md-4 center-align">
                                 <h4>
@@ -75,13 +201,8 @@ class ActiveItem extends Component {
                             </div>
                         </div>
                         <hr/>
-                        <div className="row">
-                            <div className="col-md-4 offset-md-4 center-align">
-                                <button className="btn btn-success btn-block"
-                                        onClick={()=>this.addToOrder()}>{buttonMessage}</button>
+                        { buttonComp }
 
-                            </div>
-                        </div>
 
                     </div>
 
@@ -102,14 +223,21 @@ class ActiveItem extends Component {
     }
 }
 
+function mapStateToProps(state) {
+    return {
+        orderedItems: state.orderedItems //now we can use this.props.orderedItems
+    };
+}
+
 function matchDispatchToProps(dispatch) {
     return bindActionCreators({
         addItem: addItemToOrder,
         //so basically what happens here is that the selectItem function that we imported
         //can now be access via the selectItem as a prop: this.props.selectItem.,
         resetActiveItem: resetActiveItem,
-        closeConfirmation: closeConfirmation
+        closeConfirmation: closeConfirmation,
+        confirmAction: confirmAction
     }, dispatch)
 }
 
-export default connect(null, matchDispatchToProps)(ActiveItem);
+export default connect(mapStateToProps, matchDispatchToProps)(ActiveItem);

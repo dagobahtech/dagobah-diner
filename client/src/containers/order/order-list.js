@@ -24,16 +24,22 @@ class OrderList extends Component {
     constructor() {
         super();
         this._updateOrderNumber = this._updateOrderNumber.bind(this);
+        this._handleErrorMessage = this._handleErrorMessage.bind(this);
     }
 
     componentDidMount() {
         this.socket.on("orderinfo", this._updateOrderNumber);
+        this.socket.on("ordererror", this._handleErrorMessage);
     }
 
 
+    _handleErrorMessage(message) {
+        this.props.confirmAction("Something went wrong", message,<div/>, null);
+    }
     _updateOrderNumber(id,date) {
         this.props.setOrderNumber(id, date);
         console.log("pushing processing", id);
+        browserHistory.push('processing-order');
     }
 
     createOrderTable(){
@@ -101,7 +107,7 @@ class OrderList extends Component {
                 //console.log(order);
                 this.socket.emit("send order", order);
                 //browserHistory.push('processing-order')
-                setTimeout(function() {browserHistory.push('processing-order')}, 100);
+
             });
 
 
@@ -163,8 +169,8 @@ class OrderList extends Component {
 
 function mapStateToProps(state) {
     return {
-        orderedItems: state.orderedItems, //now we can use this.props.orderedItems
-        socket: state.socket
+        orderedItems: state.orderedItems //now we can use this.props.orderedItems
+
     };
 }
 
