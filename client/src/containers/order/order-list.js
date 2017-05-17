@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import OrderItem from './order-item';
 import {connect} from 'react-redux';
-import {removeAllItem, confirmAction, setOrderNumber} from '../../actions/order/index';
+import {removeAllItem, confirmAction, setOrderNumber, setProcessedOrder} from '../../actions/order/index';
 import {bindActionCreators} from 'redux';
 import NumberFormat from 'react-number-format';
 
@@ -25,14 +25,30 @@ class OrderList extends Component {
         super();
         this._updateOrderNumber = this._updateOrderNumber.bind(this);
         this._handleErrorMessage = this._handleErrorMessage.bind(this);
+        this._setProcessedOrder = this._setProcessedOrder.bind(this);
+
+        //container for functions coming from the server
+        this.state = {
+            processedOrder: null
+        }
     }
+
 
     componentDidMount() {
         this.socket.on("orderinfo", this._updateOrderNumber);
         this.socket.on("ordererror", this._handleErrorMessage);
+        this.socket.on("processed order", this._setProcessedOrder);
     }
 
+    _setProcessedOrder(order) {
+        this.setState({
+            processedOrder: order
+        });
+        this.props.setProcessedOrder(order);
 
+        this.confirmOrder();
+
+    }
     _handleErrorMessage(message) {
         this.props.confirmAction("Something went wrong", message,<div/>, null);
     }
@@ -43,6 +59,8 @@ class OrderList extends Component {
     }
 
     createOrderTable(){
+
+
         return (
             <div id="confirmList">
                 <table className="table-striped">
@@ -55,7 +73,7 @@ class OrderList extends Component {
                     </tr>
                     </thead>
                     <tbody>
-                    {this.props.orderedItems.items.map(function (item) {
+                    {this.state.processedOrder.items.map(function (item) {
                         return (
                             <tr>
                                 <td>{item.name}</td>
@@ -80,13 +98,31 @@ class OrderList extends Component {
                     </tbody>
                 </table>
                 <hr/>
-                <div className="right-align"><h3>Total:
+
+                <div className="right-align"><h5>SubTotal:
                     <div className="currency currency-black currency-large"></div>
-                    <NumberFormat value={this.props.orderedItems.total}
+                    <NumberFormat value={this.state.processedOrder.subTotal}
                                   decimalPrecision={2}
                                   displayType={'text'} thousandSeparator={true}
                     />
-                    </h3></div>
+                    </h5>
+                </div>
+                <div className="right-align">
+                    <h5>{this.state.processedOrder.comboDiscount * 100}% Combo Discount:
+                        <div className="currency currency-black currency-large"></div>
+                        <NumberFormat value={this.state.processedOrder.subTotal - this.state.processedOrder.total}
+                                      decimalPrecision={2}
+                                      displayType={'text'} thousandSeparator={true}
+                        />
+                    </h5>
+                </div>
+                <div className="right-align">
+                    <h3>Total: <div className="currency currency-black currency-large"></div>
+                        <NumberFormat value={this.state.processedOrder.total}
+                                      decimalPrecision={2}
+                                      displayType={'text'} thousandSeparator={true}
+                        /> </h3>
+                </div>
             </div>
         )
     }
@@ -114,6 +150,10 @@ class OrderList extends Component {
         //this.props.changeView("processing");
     }
 
+    verifyOrder() {
+        (this.props.orderedItems.items.length !== 0) &&
+        this.socket.emit("verify order", this.props.orderedItems);
+    }
     requestRemove() {
 
         //browserHistory.push("/");
@@ -158,7 +198,7 @@ class OrderList extends Component {
                         </table>
                     <div className="right-align">
                         <button className="btn btn-danger" onClick={() => this.requestRemove()}>Cancel Order</button>&nbsp;
-                        <button className="btn btn-success" onClick={() => this.confirmOrder()} id="confirmButton">Confirm Order</button>
+                        <button className="btn btn-success" onClick={() => this.verifyOrder()} id="confirmButton">Confirm Order</button>
                     </div>
                 </div>
             </div>
@@ -178,7 +218,8 @@ function mapDispatchToProps(dispatch) {
     return bindActionCreators({
         removeAllItem: removeAllItem,
         confirmAction: confirmAction,
-        setOrderNumber: setOrderNumber
+        setOrderNumber: setOrderNumber,
+        setProcessedOrder: setProcessedOrder
     }, dispatch);
 
 }

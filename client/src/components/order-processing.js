@@ -35,7 +35,7 @@ class OrderProcessing extends Component {
 								</tr>
 								</thead>
 								<tbody>
-                                {this.props.orderedItems.items.map(function(item){
+                                {this.props.processedOrder.items.map(function(item){
                                     return(<tr>
 										<td>{item.name}</td>
 										<td className="center-align">x{item.quantity}</td>
@@ -55,13 +55,33 @@ class OrderProcessing extends Component {
                                 })}
 								</tbody>
 							</table>
+
+
+							<div className="right-align"><h5>SubTotal:
+								<div className="currency currency-black currency-large"></div>
+								<NumberFormat value={this.props.processedOrder.subTotal}
+											  decimalPrecision={2}
+											  displayType={'text'} thousandSeparator={true}
+								/>
+							</h5>
+							</div>
 							<div className="right-align">
-								<h4>Total:<div className="currency currency-black currency-large"></div>
-									<NumberFormat value={this.props.orderedItems.total}
+								<h5>{this.props.processedOrder.comboDiscount * 100}% Combo Discount:
+									<div className="currency currency-black currency-large"></div>
+									<NumberFormat value={this.props.processedOrder.subTotal - this.props.processedOrder.total}
 												  decimalPrecision={2}
 												  displayType={'text'} thousandSeparator={true}
-									/></h4>
+									/>
+								</h5>
 							</div>
+							<div className="right-align">
+								<h3>Total: <div className="currency currency-black currency-large"></div>
+									<NumberFormat value={this.props.processedOrder.total}
+												  decimalPrecision={2}
+												  displayType={'text'} thousandSeparator={true}
+									/> </h3>
+							</div>
+
 							<div className="btn btn-success btn-lg center-block" style={{'cursor':'pointer'}} onClick={()=> { browserHistory.push("/"); this.props.removeAllItem()}}>Done</div>
 
 						</div>
@@ -76,7 +96,7 @@ class OrderProcessing extends Component {
 function mapStateToProps(state) {
 	return {
 		orderedItems: state.orderedItems,
-        socket: state.socket
+        processedOrder: state.processedOrder
 	};
 }
 

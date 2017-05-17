@@ -167,7 +167,7 @@ function calcTrueTotal(order) {
     var total = 0;
     for (var i=0; i<order.items.length; i++){
         for(var j=0; j<dagobah.menuItems.length; j++){
-            if (dagobah.menuItems[j].id == order.items[i].id){
+            if (dagobah.menuItems[j].id === order.items[i].id){
                 subTotal += order.items[i].quantity * dagobah.menuItems[j].price;
             }
         }
@@ -180,7 +180,7 @@ function calcTrueTotal(order) {
     }
     order.subTotal = subTotal;
     order.total = total;
-
+    order.comboDiscount = comboDiscount; //Jed - added this so this could be passed to client
     return order;
 }
 
@@ -299,6 +299,10 @@ io.on("connection", function(socket){
         socket.emit("sendData", dagobah.menuItems);
 	});
 
+	//client asks to verify order
+    socket.on("verify order", function (order) {
+        socket.emit("processed order", calcTrueTotal(order));
+    });
 	//when order is received
 	socket.on("send order", function (order) {
 
@@ -344,7 +348,7 @@ io.on("connection", function(socket){
                     }
                     done();
 
-                    socket.emit("orderinfo", userOrderNumber, order_date);
+                    socket.emit("orderinfo", userOrderNumber, order_date, calcTrueTotal(order));
                     io.to("board").emit("orders", kitchen._orderQueue.orders, kitchen._readyQueue.orders);
                     console.log("Order Saved in db");
                 });
@@ -364,9 +368,8 @@ io.on("connection", function(socket){
 		console.log(order);
 		//socket.emit("orderinfo", userOrderNumber);
 
-         order = calcTrueTotal(order);
 
-        order = calcTrueTotal(order);
+
 
 		//send order id to customer
 
@@ -384,6 +387,7 @@ io.on("connection", function(socket){
     socket.on("load orders", function(){
         io.to("board").emit("orders", kitchen._orderQueue.orders, kitchen._readyQueue.orders);
     });
+
 
 });
 
