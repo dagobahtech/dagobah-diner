@@ -9,7 +9,7 @@
     "live": "cd client && npm start",
     "test": "./node_modules/.bin/jest",
     "test:night": "./node_modules/.bin/concurrently \"npm start\" \"nightwatch --env chrome\"",
-    "test:firefox": "./node_modules/.bin/nightwatch",
+    "test:firefox": "./node_modules/.bin/concurrently \"npm start\" \"./node_modules/.bin/nightwatch\"",
     "dagobah": "npm install && cd client && npm install && cd .. && npm run build && npm start"
   },
   "repository": {

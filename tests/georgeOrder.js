@@ -5,7 +5,7 @@ module.exports = {
 
     'George Order': function(browser){
         browser
-            .url('http://localhost:3000/order')
+            .url('localhost:3000/order')
             .pause(2000)
             .click("#menuButton1")
             .pause(1000)
