@@ -55,9 +55,12 @@ In the terminal, run `npm run test` from the root folder to start jest unit test
 
 ### Functional Testing
 
-1. Download the appropriate ChromeDriver for you OS from here: [Chrome Driver](https://chromedriver.storage.googleapis.com/index.html?path=2.29/)
-2. Move the downloaded file into the `bin` folder in the project root folder.
-3. In the terminal, run `npm run test:night` from the root folder start nightwatch functional testing.
+> Make sure to have already installed the latest version of [Firefox web browser](https://www.mozilla.org/en-US/firefox/desktop/) on your machine.
+
+1. Download the appropriate FirefoxDriver for you OS from here: [Firefox Driver](https://github.com/mozilla/geckodriver/releases)
+2. Extract the archive and move the file into the `bin` folder in the project root folder.
+3. Edit `nightwatch.json` line 16 adding the path for the driver file (e.g. `"webdriver.gecko.driver" : "./bin/geckodriver"`).  On Windows, make sure to add the .exe extension at the end.
+4. In the terminal, run `npm run test:firefox` from the root folder to start Nightwatch functional testing.
 
 
 

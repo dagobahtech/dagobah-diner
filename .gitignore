@@ -11,3 +11,4 @@ bin/chromedriver
 selenium-debug.log
 .DS_Store
 
+/bin/geckodriver

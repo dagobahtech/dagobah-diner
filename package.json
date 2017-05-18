@@ -8,7 +8,8 @@
     "build": "./node_modules/.bin/webpack && cd client && npm run build",
     "live": "cd client && npm start",
     "test": "./node_modules/.bin/jest",
-    "test:night": "./node_modules/.bin/concurrently \"npm start\" \"nightwatch\"",
+    "test:night": "./node_modules/.bin/concurrently \"npm start\" \"./node_modules/.bin/nightwatch --env chrome\"",
+    "test:firefox": "./node_modules/.bin/concurrently \"npm start\" \"./node_modules/.bin/nightwatch\"",
     "dagobah": "npm install && cd client && npm install && cd .. && npm run build && npm start"
   },
   "repository": {
@@ -36,6 +37,7 @@
     "webpack": "^2.5.1"
   },
   "devDependencies": {
-    "jest": "^20.0.0"
+    "jest": "^20.0.0",
+    "nightwatch": "^0.9.15"
   }
 }
