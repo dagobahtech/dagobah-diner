@@ -13,6 +13,28 @@ import {connect} from 'react-redux'
 class MenuItem extends Component {
 
     addToOrder() {
+
+        const maxQuantity = this.props.itemConstraints.maxItemQuantity;
+        const maxItem = this.props.itemConstraints.maxItemCount;
+        let found = false;
+        //check if the this item based on constraint.. don't add more than the servers max items
+        let items = this.props.orderedItems.items;
+        for(let x = 0 ; x < items.length ; x++) {
+            if(items[x].id === this.props.item.id) {
+                if(items[x].quantity === maxQuantity) {
+                    this.props.confirmAction("Sorry!", "You cannot add more "+this.props.item.name, <div/>, null);
+                    return;
+                }
+                found = true;
+            }
+        }
+        if(!found) {
+            if(this.props.orderedItems.items.length === maxItem) {
+                this.props.confirmAction("Sorry!", "Max number of items reached", <div/>, null);
+                return;
+            }
+        }
+
         this.props.addItem(this.props.item, true);
     }
 
@@ -20,7 +42,6 @@ class MenuItem extends Component {
         this.props.confirmAction("Food details",
                                  "",
                                  <ActiveItem item={this.props.item} isNew={true}/>, null);
-
     }
     render() {
         /**
@@ -34,7 +55,7 @@ class MenuItem extends Component {
          * the item can be access using this.props.item
          * */
         return (
-            <div className="card card-danger text-center menu-item"
+            <div className="card card-danger text-center menu-item" id="itemInner"
                  >
 
                 <div className="card-header">{this.props.item.name}</div>
@@ -46,7 +67,7 @@ class MenuItem extends Component {
                         </button>
                         <hr/>
                         <button className="btn btn-success col-12"
-                            onClick={()=> this.addToOrder()}>Add</button>
+                            onClick={()=> this.addToOrder()} id={'addButton-'+this.props.item.id}>Add</button>
                     </div>
 
                 </div>
@@ -60,6 +81,13 @@ class MenuItem extends Component {
             </div>
         );
     }
+}
+
+function mapStateToProps(state) {
+    return {
+        orderedItems: state.orderedItems, //now we can use this.props.orderedItems
+        itemConstraints: state.itemConstraints
+    };
 }
 
 /**
@@ -84,4 +112,4 @@ function matchDispatchToProps(dispatch) {
  *
  * connect is from react-redux
  * */
-export default connect(null, matchDispatchToProps)(MenuItem);
+export default connect(mapStateToProps, matchDispatchToProps)(MenuItem);

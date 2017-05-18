@@ -38,7 +38,7 @@ class CategoryMenu extends Component {
         return (
             items.map(function (item) {
                 return (
-                    <div className="col-sm-6 col-md-4 pb-4 menu-item-container" key={item.id}>
+                    <div id="item" key={item.id}>
                         <MenuItem item={item}  isClickable={true}/>
                     </div>
                     )
@@ -54,13 +54,14 @@ class CategoryMenu extends Component {
                 </div>
                 <div className="card-block menu" style={{'backgroundColor': 'white'}}>
                     <div className="container-fluid">
-                        <div className="col-md-3 pb-4 menu-item-container" key={1}>
+                        <div id="item" key={1}>
                         </div>
                         <ReactCSSTransitionGroup transitionName="menu"
                                                  transitionEnterTimeout={300}
                                                  transitionLeave={false}
                                                  component="div"
-                                                 className="row">
+                                                 className="row"
+												 id="itemOuter">
 
                             {this.createMenuItems()}
 

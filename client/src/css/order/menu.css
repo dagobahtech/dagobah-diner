@@ -1,10 +1,26 @@
+/*Font Sourcing*/
+@font-face {
+  font-family: "Orbitron Black";
+  src: url(../../../fonts/OrbitronBlack.ttf);
+}
+@font-face {
+  font-family: "Chau Philomene One";
+  src: url(../../../fonts/ChauPhilomeneOne-Regular.ttf);
+}
 /*Global*/
+body {
+	font-family: "Orbitron Black", "Chau Philomene One";
+}
 tr:hover {
     background-color: lightgray;
 }
 /*Root and outer containers*/
 body {
 	overflow: hidden;
+}
+.container-fluid {
+	height: 58vh;
+	margin-bottom: 1vh;
 }
 .navbar navbar-default navbar-static-top {
 	height: 20vh;
@@ -14,16 +30,15 @@ body {
 	overflow: hidden;
 	overflow-y: scroll;
 }
-.menu-scrollable {
-    max-height: 85vh;
+.card {
+	max-height: 80vh;
 }
 #confirmList {
 	overflow: hidden;
 	overflow-y: scroll;
 	max-height: 60vh;
-	width: 50vw;	
+	width: 50vw;
 }
-
 .table-striped {
 	width: 100%;
 }
@@ -39,6 +54,65 @@ body {
 	background-color: #d9534f;
 	border-radius: 5px;
 }
+
+/*Start button*/
+#startOuter {
+	display: flex;
+    justify-content: center;
+}
+#startBut {
+	font-size: 150%;
+    width: 50vw;
+    border: solid rgba(255,255,255,0.8) 2px;
+    background-color: rgba(255,255,255,0.4);
+    padding: 3px 0 3px 0;
+    color: black;
+    text-align: center;
+    border-radius: 5px;
+	transition: all ease 0.5s;
+}
+#startBut:hover {
+	margin-top: -10px;
+	text-decoration: none;
+}
+/*Item Styling*/
+#itemOuter {
+	display: flex;
+	flex-flow: row wrap;
+}
+#item {
+	flex-grow: 1;
+	margin: 10px;
+	transition: all ease 0.5s;
+}
+#item:hover {
+	margin-top: -10px;
+	margin-bottom: 20px;
+}
+/*menuButtons*/
+#menuButtonsOuter {
+	display: flex;
+	flex-flow: row wrap;
+}
+#menuButton1,#menuButton2,#menuButton3 {
+	flex-grow: 1;
+	max-width: 100%;
+	font-size: 120%;
+}
+/*orderTable*/
+#listOuter {
+	display: flex;
+	flex-flow: row;
+}
+#tablePad {
+	flex-grow: 1;
+}
+#tableQty, #tablePrice, #tableSub {
+	flex-grow: 3;
+}
+#tableItem {
+	flex-grow: 10;
+}
 /*Classes*/
 .main {
     background-image: url("./images/bg.png");
@@ -53,9 +127,7 @@ body {
     text-align: center;
     height: 100%;
 }
-#startBut {
-	font-size: 1.5vw;
-}
+
 .menu-item .card-header {
     background-color: white;
     font-weight: bold;
@@ -74,7 +146,7 @@ body {
     transform: scale(1);
 }
 .menu-item-container:hover {
-    transform: scale(1.05);
+    transform: scale(1.2);
     z-index: 1;
 }
 
@@ -199,7 +271,7 @@ body {
     height: 100%;
     width: 100%;
     background-color: white;
-    opacity: 0.7;
+    opacity: 0.2;
     position: absolute;
 }
 

@@ -1,0 +1,128 @@
+body {
+	background-image: url("images/concept-art-science-fiction-artwork-yoda-dagobah-1920x1080-22848.jpg");
+	background-size: cover;
+	background-attachment: fixed;
+	background-repeat: no-repeat;
+	overflow: hidden;
+}
+
+#title, #card1, #card2 {
+/*	background-color: rgba(255,255,255,0.5);*/
+	height: 100vh;
+	padding-top: 40vh;
+	margin-bottom: -40vh;
+	width: 100vw;
+	transition: all ease 1s;
+}
+#card1, #card2 {
+	background-attachment: fixed;
+	background-repeat: no-repeat;
+	background-size: cover;
+}
+#card1 {
+	background-image: url(images/dagobah_1ab566e6.jpeg);
+	transition: all ease 1.5s;
+	padding-top: 100vh;
+}
+#card2 {
+	background-image: url("images/Dagobah_890df592.jpeg");
+	padding: 1vw;
+}
+#outer, #outer1, #outer2, #outer3 {
+	display: flex;
+	flex-flow: column;
+	align-items: center;
+	transition: all ease 2s;
+}
+#outer2 {
+	opacity: 1;
+}
+#TWords, #A1Words {
+	font-family: monospace;
+	font-size: 10vh;
+	color: white;
+}
+#outer3 {
+	flex-flow: row;
+}
+#food {
+	display: flex;
+	flex-flow: row wrap;
+	width: 70%;
+	height: 100%;
+/*	background-color: blue;*/
+	padding-top: 80vh;
+	transition: all ease 1.5s;
+}
+#items {
+	width: 30%;
+	height: 90vh;
+	background-color: white;
+	margin: 1vw;
+}
+#foodItem {
+	background-color: black;
+	color: white;
+	width: 8vw;
+	height: 8vw;
+	border: solid white 2px;
+	margin: 1vw;
+	flex-grow: 1;
+	opacity: 0;
+	transition: all ease 2s;
+}
+#start {
+	width: 15vw;
+	height: 5vh;
+	border: none;
+	background-color: rgba(255,255,255,0.5);
+	font-size: 1.7vw;
+	transition: all ease 0.5s;
+	border-radius: 5px;
+}
+#start:hover {
+	background-color: white;
+	transition: all ease 0.5s;
+}
+#ButtonOuter {
+	display: flex;
+	flex-flow: row;
+	align-items: center;
+}
+#opt1, #opt2 {
+	margin: 2px;
+	width: 15vw;
+	height: 5vh;
+	border: none;
+	background-color: rgba(255,255,255,0.5);
+	font-size: 1.7vw;
+	transition: all ease 0.5s;
+	border-radius: 2px;
+	padding: 0;
+}
+#orderList {
+	background-color: lightblue;
+	margin: 0.5vw;
+	border: none;
+	margin-top: 10vh;
+	opacity: 0;
+	transition: all ease 1s;
+	font-size: 1vw;
+	display: flex;
+	flex-flow: row;
+	justify-content: space-between;
+}
+#text {
+	margin: 0.5vw;
+}
+#items {
+	overflow-y: scroll;
+}
+#delete {
+	background-color: red;
+	color: white;
+	font-size: 1vw;
+	border: none;
+/*	height: ;*/
+}
+ 

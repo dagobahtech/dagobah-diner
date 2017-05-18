@@ -1,7 +1,19 @@
 <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" preserveAspectRatio="xMidYMid meet" viewBox="355 204 393 122">
+<defs>
+  <style type="text/css">
+    @font-face {
+      font-family: Orbitron Black;
+      src: url(../../../fonts/OrbitronBlack.ttf);
+    }
+	@font-face {
+	  font-family: Chau Philomene One;
+	  src: url(../../../fonts/ChauPhilomeneOne-Regular.ttf);
+	  }
+  </style>
+</defs>
 	<g data-item-type="text" data-item="Business" id="logo__item--business" class="logo__item">
 		<g transform="translate(454.28125 273.62894212705146) scale(1 1) rotate(0 0 0)">
-			<text data-part-id="logo__item--business" dy="0" dominant-baseline="auto" alignment-baseline="auto" font-family="Comfortaa" font-size="32px" fill="#EA2127" letter-spacing="0" font-weight="normal" font-style="normal" data-font-family="Comfortaa" data-font-weight="normal" data-font-style="normal" data-ttf-url="./Montserrat-Bold.otf">LUKE'S LUNCHBOX</text>
+			<text data-part-id="logo__item--business" dy="0" dominant-baseline="auto" alignment-baseline="auto" font-family="Orbitron Black, Chau Philomene One" font-size="32px" fill="#EA2127" letter-spacing="0" font-weight="normal" font-style="normal" data-font-family="Orbitron Black, Chau Philomene One" data-font-weight="normal" data-font-style="normal" data-ttf-url="./Montserrat-Bold.otf">LUKE'S LUNCHBOX</text>
 		</g>
 	</g><g data-item-type="image" data-item="Image" id="logo__item--logo_0" class="logo__item">
 	<g class="logo__item__inner" transform="translate(342.91922580753464 204) scale(0.8251561663066898 0.8251561663066898) rotate(0 0 0)">
@@ -24,6 +36,6 @@
 	</g>
 </g><g data-item-type="text" id="logo__item--tagline_1" data-item="Tagline" class="logo__item">
 	<g class="logo__item__inner" transform="translate(562 296) scale(1 1) rotate(0 0 0)">
-		<text dy="0" dominant-baseline="auto" alignment-baseline="auto" font-family="Indie Flower" font-size="18px" fill="#000000" letter-spacing="1" data-font-family="Indie Flower" data-font-weight="normal" data-font-style="normal" font-weight="normal" font-style="normal" data-ttf-url="/builder_assets/fontsttf/font-open-sans-normal-normal.ttf" data-part-id="logo__item--tagline_1__0" data-font-filename="indie-flower-normal-normal">Experience Dagobah</text>
+		<text dy="0" dominant-baseline="auto" alignment-baseline="auto" font-family="Orbitron Black, Chau Philomene One" font-size="18px" fill="#000000" letter-spacing="1" data-font-family="Orbitron Black, Chau Philomene One" data-font-weight="normal" data-font-style="normal" font-weight="normal" font-style="normal" data-ttf-url="/builder_assets/fontsttf/font-open-sans-normal-normal.ttf" data-part-id="logo__item--tagline_1__0" data-font-filename="indie-flower-normal-normal">Experience Dagobah</text>
 	</g>
 </g></svg>
