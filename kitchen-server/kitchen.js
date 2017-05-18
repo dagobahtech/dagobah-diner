@@ -6,8 +6,13 @@ const Order = require("./order");
 const ItemList = require("./item-list");
 const FoodTray = require("./food-tray");
 
+//define constants
 //valid quantities to cook
 const VALID_QUANTITIES = [1,2,6];
+const DEFAULT_MAX_ORDER = 10;
+const DEFAULT_COOK_DELAY = 5000;
+const DEFAULT_MAX_ITEM_COUNT = 10;
+const DEFAULT_MAX_ITEM_QUANTITY = 6;
 
 class Kitchen {
 
@@ -16,10 +21,10 @@ class Kitchen {
          this._orderQueue = new OrderQueue();
          this._foodTray = new FoodTray();
          this._orderNumber = 0;
-         this._maxOrderNumber = 10;
-         this._cookDelay = 5000; //in milliseconds. set for 1 for now. change in the future
-         this._maxItemPerOrder = 10;
-         this._maxQuantityPerItem = 6;
+         this._maxOrderNumber = DEFAULT_MAX_ORDER;
+         this._cookDelay = DEFAULT_COOK_DELAY; //in milliseconds. set for 1 for now. change in the future
+         this._maxItemPerOrder = DEFAULT_MAX_ITEM_COUNT;
+         this._maxQuantityPerItem = DEFAULT_MAX_ITEM_QUANTITY;
     }
 
     set maxItemPerOrder(newCount) {
