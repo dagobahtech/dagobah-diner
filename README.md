@@ -16,30 +16,52 @@
 
 Fast food system for the planet of Dagobah
 
-# Building the Project
-
 ## Pre requisites
 
 * Latest Node JS <https://nodejs.org/en/>
 
-## Steps
+## Running the Webapp
 
-### Windows
-1. Open command prompt in the root folder
-2. run __npm install__
-3. Go to client folder and run __npm install__
-4. Build the project by running __npm run build__
+To run the webapp make sure you pull the latest commit from our develop branch then:
 
-### MAC OS/X & Linux
+1. In the terminal: `cd` into the Dagobah project folder.
+2. Run `npm run dagobah` to automatically install all the dependencies, build the project for production, and run the server.
+3. Wait for the terminal to display the message:
 
-# Running the the server locally
+	* `Server is running on port 3000`
+	* `MR. Repo is watching you.`
+	* `Menu array in the server updated!`
+4. The webapp is now ready.
 
-## Steps
+### Order Page:
+1. Open your browser and type `localhost:3000` to access the order page.
+2. Add items to your cart and confirm the order to receive your receipt. This will add the order to the kitchen queue.
 
-### Windows
+### Orders In Process Page:
+1. Open your browser and type `localhost:3000/orderview` to access the orders in process page.
 
-1. Open command prompt in project's root folder.
-2. Run __npm start__
+### Kitchen Page:
+1. Open your browser and type `localhost:3000/login` to access the login page for the kitchen.
+2. Type **kitchen** in the username input and **dagobahtech** for the password to login.
 
-*Note: the server will be running on port 3000. Make sure no applicatin is running on that port*
+### Admin Page:
+1. Open your browser and type `localhost:3000/login` to access the login page for the admin.
+2. Type **admin** in the username input and **dagobahtech** for the password to login.
+
+## Running the tests
+
+### Unit Testing:
+In the terminal, run `npm run test` from the root folder to start jest unit testing.
+
+### Functional Testing
+
+> Make sure to have already installed the latest version of [Firefox web browser](https://www.mozilla.org/en-US/firefox/desktop/) on your machine.
+
+1. Download the appropriate FirefoxDriver for you OS from here: [Firefox Driver](https://github.com/mozilla/geckodriver/releases)
+2. Extract the archive and move the file into the `bin` folder in the project root folder.
+3. Edit `nightwatch.json` line 16 adding the path for the driver file (e.g. `"webdriver.gecko.driver" : "./bin/geckodriver"`).  On Windows, make sure to add the .exe extension at the end.
+4. In the terminal, run `npm run test:firefox` from the root folder to start Nightwatch functional testing.
+
+
+
 

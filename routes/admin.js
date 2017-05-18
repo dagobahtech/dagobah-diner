@@ -13,7 +13,7 @@ router.get("/", function (req, resp) {
     if (req.session.user_id === 1) {
         resp.sendFile(adminFolder + "/dashboard.html");
     } else {
-        resp.sendFile(loginForm);
+        resp.redirect("/login");
     }
 });
 
@@ -29,7 +29,7 @@ router.get("/create", function(req, resp) {
 router.get("/logout", function(req, resp) {
     req.session.destroy();
 
-    resp.sendFile(loginForm);
+    resp.redirect("/login");
 
 });
 
@@ -61,7 +61,7 @@ router.post("/getSummary", function(req, resp) {
     pg.connect(dbURL, function(err, client, done) {
         if(err){console.log(err)}
 
-        let dbQuery = "SELECT to_char(date AT TIME ZONE 'MST', 'YYYY-MM-DD') as date, COUNT(id) AS orders FROM order_submitted GROUP BY to_char(date AT TIME ZONE 'MST', 'YYYY-MM-DD') ORDER BY date;"
+        let dbQuery = "SELECT to_char(date AT TIME ZONE 'MST', 'YYYY-MM-DD') as date, COUNT(id) AS orders FROM order_submitted GROUP BY to_char(date AT TIME ZONE 'MST', 'YYYY-MM-DD') ORDER BY date;";
         client.query(dbQuery,[], function(err, result){
             done();
             if(err){console.log(err)}

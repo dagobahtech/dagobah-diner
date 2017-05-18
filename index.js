@@ -41,6 +41,7 @@ app.use("/images", express.static("MenuPics"));
 
 app.use("/admin-css", express.static("client/admin/stylesheet"));
 app.use("/jquery", express.static("node_modules/jquery/dist"));
+app.use("/bootstrap", express.static("node_modules/bootstrap/dist"));
 
 
 app.use(bodyParser.urlencoded({
@@ -397,7 +398,10 @@ io.on("connection", function(socket){
         io.to("board").emit("orders", kitchen._orderQueue.orders, kitchen._readyQueue.orders);
     });
 
-
+    //client order page requests for item constraints
+    socket.on("get constraints", function () {
+        socket.emit("send constraints", kitchen.maxItemPerOrder, kitchen.maxQuantityPerItem);
+    });
 });
 
 

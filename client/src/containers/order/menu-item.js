@@ -14,8 +14,8 @@ class MenuItem extends Component {
 
     addToOrder() {
 
-        const maxQuantity = 6;
-        const maxItem = 10;
+        const maxQuantity = this.props.itemConstraints.maxItemQuantity;
+        const maxItem = this.props.itemConstraints.maxItemCount;
         let found = false;
         //check if the this item based on constraint.. don't add more than the servers max items
         let items = this.props.orderedItems.items;
@@ -85,7 +85,8 @@ class MenuItem extends Component {
 
 function mapStateToProps(state) {
     return {
-        orderedItems: state.orderedItems //now we can use this.props.orderedItems
+        orderedItems: state.orderedItems, //now we can use this.props.orderedItems
+        itemConstraints: state.itemConstraints
     };
 }
 

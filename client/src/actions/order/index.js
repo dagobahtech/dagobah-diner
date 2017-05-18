@@ -105,3 +105,25 @@ export function resetProcessedOrder() {
         type: "RESET_PROCESSED_ORDER"
     }
 }
+
+export function setMaxItemQuantity(newQuantity) {
+    return {
+        type: "SET_MAX_ITEM_QUANTITY",
+        payload: newQuantity
+    }
+}
+
+export function setMaxItemCount(newCount) {
+    return {
+        type: "SET_MAX_ITEM_COUNT",
+        payload: newCount
+    }
+}
+
+export function setConstraints(newCount, newQuantity) {
+    return {
+        type: "SET_CONSTRAINTS",
+        maxItemQuantity: newQuantity,
+        maxItemCount: newCount
+    }
+}

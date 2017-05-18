@@ -8,6 +8,7 @@ import MenuItemsReducer from './reducer-menu-items';
 import ActiveItemReducer from './reducer-active-item';
 import ConfirmModalState from './reducer-confirmation';
 import ProcessedOrderReducer from './reducer-processed-order';
+import ItemConstraintsReducer from './reducer-item-constraints';
 
 
 const allReducers = combineReducers({
@@ -15,7 +16,8 @@ const allReducers = combineReducers({
     orderedItems: OrderedItemReducer,
     activeItem: ActiveItemReducer,
     modalState: ConfirmModalState,
-    processedOrder: ProcessedOrderReducer
+    processedOrder: ProcessedOrderReducer,
+    itemConstraints: ItemConstraintsReducer
 });
 
 export default allReducers;

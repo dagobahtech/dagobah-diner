@@ -21,7 +21,8 @@ class ActiveItem extends Component {
     }
     updateQuantity(direction) {
 
-        let maxQuantity = 6;
+        let maxQuantity = this.props.itemConstraints.maxItemQuantity;
+
         if(this.props.isNew) {
             //if its from order, check if it is in the order list
             let items = this.props.orderedItems.items;
@@ -61,7 +62,7 @@ class ActiveItem extends Component {
         let item = {...this.props.item};
         item.quantity = quantity;
 
-        let items = this.props.orderedItems.items;
+        //let items = this.props.orderedItems.items;
 
         this.props.addItem(item, this.props.isNew);
         //then reset the current active item
@@ -105,7 +106,7 @@ class ActiveItem extends Component {
 
     isMaxedItem() {
 
-        let maxQuantity = 6;
+        let maxQuantity = this.props.itemConstraints.maxItemQuantity;
 
         if(!this.props.isNew){return false; }
         let items = this.props.orderedItems.items;
@@ -133,7 +134,7 @@ class ActiveItem extends Component {
     }
     render() {
 
-        const maxItems = 10;
+        const maxItems = this.props.itemConstraints.maxItemCount;
         let innerComp;
         let buttonComp;
         //if max orders
@@ -225,7 +226,8 @@ class ActiveItem extends Component {
 
 function mapStateToProps(state) {
     return {
-        orderedItems: state.orderedItems //now we can use this.props.orderedItems
+        orderedItems: state.orderedItems, //now we can use this.props.orderedItems
+        itemConstraints: state.itemConstraints
     };
 }
 

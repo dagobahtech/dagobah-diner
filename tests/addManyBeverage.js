@@ -2,7 +2,7 @@ module.exports = {
 
 	'Add 3 drinks': function(browser){
 		browser
-			.url('localhost:3000/order')
+			.url('http://localhost:3000/order')
 			.pause(2000)
 			.click("#menuButton3")
 			.pause(1000)
