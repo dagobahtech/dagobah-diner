@@ -1,5 +1,5 @@
 .main{
-    height: 100vh;
+    height: 93vh;
 }
 
 .view {
@@ -133,4 +133,8 @@
     width: 100%;
     color: black;
     font-size: 1em;
+}
+
+#mainNav .navbar-brand {
+    width: 200px;
 }
