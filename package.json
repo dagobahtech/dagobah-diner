@@ -8,7 +8,8 @@
     "build": "./node_modules/.bin/webpack && cd client && npm run build",
     "live": "cd client && npm start",
     "test": "./node_modules/.bin/jest",
-    "test:night": "./node_modules/.bin/concurrently \"npm start\" \"nightwatch\""
+    "test:night": "./node_modules/.bin/concurrently \"npm start\" \"nightwatch\"",
+    "dagobah": "npm install && cd client && npm install && cd .. && npm run build && npm start"
   },
   "repository": {
     "type": "git",
