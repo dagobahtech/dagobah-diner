@@ -12,7 +12,7 @@
 * Jed Iquin
 * '_Mr. Repo Man_' Daniele Lisi
 
-# About
+## About
 
 Fast food system for the planet of Dagobah
 
@@ -31,7 +31,7 @@ To run the webapp make sure you pull the latest commit from our develop branch t
 	* `Server is running on port 3000`
 	* `MR. Repo is watching you.`
 	* `Menu array in the server updated!`
-4. The webapp is now ready.
+4. The server is running, proceed to the **Order** | **Kitchen** | **Admin** section to use the app.
 
 ### Order Page:
 1. Open your browser and type `localhost:3000` to access the order page.
@@ -50,8 +50,10 @@ To run the webapp make sure you pull the latest commit from our develop branch t
 
 ## Running the tests
 
+Before running the tests, make sure the node server is running in a separate terminal window.
+To start the server, run `npm start` in the project root folder.
 ### Unit Testing:
-In the terminal, run `npm run test` from the root folder to start jest unit testing.
+In a new terminal window, run `npm run test` from the root folder to start jest unit testing.
 
 ### Functional Testing
 
@@ -60,8 +62,7 @@ In the terminal, run `npm run test` from the root folder to start jest unit test
 1. Download the appropriate FirefoxDriver for you OS from here: [Firefox Driver](https://github.com/mozilla/geckodriver/releases)
 2. Extract the archive and move the file into the `bin` folder in the project root folder.
 3. Edit `nightwatch.json` line 16 adding the path for the driver file (e.g. `"webdriver.gecko.driver" : "./bin/geckodriver"`).  On Windows, make sure to add the .exe extension at the end.
-4. In the terminal, run `npm run test:firefox` from the root folder to start Nightwatch functional testing.
+4. In a new terminal window, run `npm run test:firefox` from the root folder to start Nightwatch functional testing.
 
 
-
-
+## FAQ Section

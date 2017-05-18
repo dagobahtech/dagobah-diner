@@ -1,7 +1,7 @@
 module.exports = {
 	'Add meal' : function(browser){
 		browser
-			.url('localhost:3000/order')
+			.url('http://localhost:3000/order')
 			.pause(2000)
 			.click('#menuButton1')
 			.pause(2000)
