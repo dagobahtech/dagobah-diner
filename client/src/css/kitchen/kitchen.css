@@ -122,3 +122,15 @@
 ::-webkit-scrollbar-thumb:window-inactive {
     background: rgba(255,0,0,0.4);
 }
+
+.progress {
+    position: relative;
+}
+
+.progress span {
+    position: absolute;
+    display: block;
+    width: 100%;
+    color: black;
+    font-size: 1em;
+}

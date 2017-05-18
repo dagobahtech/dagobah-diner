@@ -93,6 +93,11 @@ function createOrderCard(order, index) {
     let cardHeader = document.createElement("div");
     let cardFooter = document.createElement("div");
 
+    let numItems = order._items._items.length;
+    let numItemsNotDone = getDoneItemsCount(order);
+    let loadingBar = createLoadingBar(0, numItemsNotDone, numItems);
+
+
     container.className = "col-md-4 h-25 pb-3";
     card.className = "card item";
     cardHeader.className = "card-header";
@@ -102,7 +107,8 @@ function createOrderCard(order, index) {
     let itemList = createItemList(order._items._items);
     itemList.index = index;
     cardHeader.innerHTML = "Order #"+order._orderNumber;
-    cardFooter.innerHTML = "Items: "+order._items._items.length;
+    cardFooter.appendChild(loadingBar);
+    //cardFooter.innerHTML = "Items: "+order._items._items.length;
     card.appendChild(cardHeader);
     card.appendChild(itemList);
     card.appendChild(cardFooter);
@@ -113,7 +119,27 @@ function createOrderCard(order, index) {
     return container;
 }
 
+function createLoadingBar(minValue, currentValue, maxValue) {
+    let loaderContainer = document.createElement("div");
+    let loader = document.createElement("div");
+    let span = document.createElement("span");
 
+    loaderContainer.className = "progress";
+
+    loader.setAttribute("role", "progressbar");
+    loader.setAttribute("aria-valuenow", currentValue);
+    loader.setAttribute("aria-valuemin", minValue);
+    loader.setAttribute("aria-valuemax", maxValue)
+    loader.className = "progress-bar progress-bar-striped bg-success";
+    loader.role = "progressbar";
+    let width = parseInt(currentValue/maxValue * 100);
+    loader.style.width = width+"%";
+
+    span.innerHTML = currentValue + "/" + maxValue+ " Done";
+    loaderContainer.appendChild(loader);
+    loaderContainer.appendChild(span);
+    return loaderContainer;
+}
 function createItemList(items, index) {
 
     let itemList = document.createElement("ul");
@@ -439,4 +465,17 @@ function resetHighlight() {
     for(let x = 0 ; x < orderListNodes.length ; x++) {
         orderListNodes[x].classList.remove("selected");
     }
+}
+
+function getDoneItemsCount(order) {
+
+    let result = 0;
+    let items = order._items._items;
+
+    for(let x = 0 ; x < items.length ; x++) {
+        if(items[x]._isDone) {
+            result++;
+        }
+    }
+    return result;
 }
