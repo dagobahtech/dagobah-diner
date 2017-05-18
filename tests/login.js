@@ -1,7 +1,7 @@
 module.exports = {
     'Login test': function (browser) {
         browser
-            .url('localhost:3000/login')
+            .url('http://localhost:3000/login')
             .waitForElementVisible('body', 1000)
             .setValue('input[name="username"]', 'kitchen')
             .setValue('input[name="password"]', 'dagobahtech')
