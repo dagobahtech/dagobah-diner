@@ -13,7 +13,7 @@ router.get("/", function (req, resp) {
     if (req.session.user_id === 1) {
         resp.sendFile(adminFolder + "/dashboard.html");
     } else {
-        resp.sendFile(loginForm);
+        resp.redirect("/login");
     }
 });
 
@@ -29,7 +29,7 @@ router.get("/create", function(req, resp) {
 router.get("/logout", function(req, resp) {
     req.session.destroy();
 
-    resp.sendFile(loginForm);
+    resp.redirect("/login");
 
 });
 
