@@ -176,7 +176,7 @@ class ActiveItem extends Component {
         let comp = (
             <div className="card item-popup">
                 <h3 className="card-header">{this.props.item.name}</h3>
-                <div className="card-block">
+                <div className="card-block" id="cardBack">
                     <div className="container-fluid">
                         <div className="row">
                             <div className="col-md-8">

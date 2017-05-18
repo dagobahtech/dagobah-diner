@@ -185,7 +185,7 @@ class OrderList extends Component {
                                     <th id="tableItem">Item</th>
                                     <th id="tableQty">Qty</th>
                                     <th id="tablePrice">Price</th>
-                                    <th id="tablePad">Subtotal</th>
+                                    <th id="tablePad">Sub total</th>
                                 </tr>
                             </thead>
 
@@ -200,8 +200,8 @@ class OrderList extends Component {
                             </ReactCSSTransitionGroup>
 
                         </table>
-                    <div className="right-align">
-                        <button className="btn btn-danger" onClick={() => this.requestRemove()}>Cancel Order</button>&nbsp;
+                    <div className="right-align" id="orderListButtons">
+                        <button className="btn btn-danger" onClick={() => this.requestRemove()} id="cancelButton">Cancel Order</button>&nbsp;
                         <button className="btn btn-success" onClick={() => this.verifyOrder()} id="confirmButton">Confirm Order</button>
                     </div>
                 </div>
