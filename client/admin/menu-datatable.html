@@ -101,7 +101,7 @@
         weekday: "long", year: "numeric", month: "short",
         day: "numeric", hour: "2-digit", minute: "2-digit"
     };
-    $('#tableUpdateTime').html(time.toLocaleString("en-us",options));
+    $('#tableUpdateTime').html("Last Update: " + time.toLocaleString("en-us",options));
 
     $('#menuTable').html("Updating..");
 
