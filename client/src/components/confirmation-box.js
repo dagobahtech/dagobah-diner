@@ -51,7 +51,7 @@ class ConfirmationBox extends Component {
                     <ModalContainer onClose={this.handleClose}>
                         <ModalDialog onClose={this.handleClose}>
                             <h1>{this.props.confirmModalState.header}</h1>
-                            <p>{this.props.confirmModalState.message}</p>
+                            <p id="errorMessage">{this.props.confirmModalState.message}</p>
                             {this.props.confirmModalState.component}
                             {this.createYesNoButton()}
 
