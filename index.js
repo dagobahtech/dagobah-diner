@@ -325,6 +325,7 @@ io.on("connection", function(socket){
 
         let order_date = null;
         let processedTotal = calcTrueTotal(order);
+        processedTotal.id = userOrderNumber;
         function dbInsertOrder() {
             pg.connect(dbURL, function (err, client, done) {
                 if (err) {
@@ -347,8 +348,8 @@ io.on("connection", function(socket){
                         });
                     }
                     done();
-
-                    socket.emit("orderinfo", userOrderNumber, order_date, processedTotal);
+                    processedTotal.date = order_date;
+                    socket.emit("orderinfo", processedTotal);
                     io.to("board").emit("orders", kitchen._orderQueue.orders, kitchen._readyQueue.orders);
                     console.log("Order Saved in db");
                 });
