@@ -13,6 +13,10 @@ class OrderProcessing extends Component {
 		let newTime = time;
 		return (newTime.replace("T", " ").substring(0, 19));
 	}
+
+	componentDidMount() {
+		this.props.removeAllItem();
+	}
     render() {
 
         return (
@@ -23,8 +27,8 @@ class OrderProcessing extends Component {
 				<div className="container-fluid">
 					<div className="row">
 						<div className="col-lg-6 col-md-6 mx-auto">
-							<h2>Order #{this.props.orderedItems.id}</h2>
-							<h5>Date: {this.formatTime(this.props.orderedItems.date)}</h5>
+							<h2>Order #{this.props.processedOrder.id}</h2>
+							<h5>Date: {this.formatTime(this.props.processedOrder.date)}</h5>
 							<table className="table ">
 								<thead className="thead-inverse">
 								<tr>
@@ -95,7 +99,6 @@ class OrderProcessing extends Component {
 
 function mapStateToProps(state) {
 	return {
-		orderedItems: state.orderedItems,
         processedOrder: state.processedOrder
 	};
 }
