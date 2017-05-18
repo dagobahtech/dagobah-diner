@@ -72,12 +72,10 @@
             </div>
             <div class="card-block">
                 <div class="table-responsive">
-                    <table id="menuTable" class="table table-striped table-bordered" cellspacing="0" width="100%">
-
-                    </table>
+                    <table id="menuTable" class="table table-striped table-bordered" cellspacing="0" width="100%"></table>
                 </div>
             </div>
-            <div class="card-footer small text-muted">Updated date/time</div>
+            <div id="tableUpdateTime" class="card-footer small text-muted">...</div>
         </div>
     </div>
 </div>
@@ -97,47 +95,52 @@
 
 <!--Custom JS Script, will move to separate file-->
 <script>
-    $(document).ready(function(){
 
-        var dataSet = [];
+    var time = new Date();
+    var options = {
+        weekday: "long", year: "numeric", month: "short",
+        day: "numeric", hour: "2-digit", minute: "2-digit"
+    };
+    $('#tableUpdateTime').html(time.toLocaleString("en-us",options));
 
-        $.ajax({
-            url: "/menu-items",
-            type: "POST",
-            success: function(response) {
+    $('#menuTable').html("Updating..");
 
-                var menuItems = [];
 
-                for (let i = 0; i < response.length; i++){
-
-                    let item = [];
-                    item.push(response[i].name);
-                    item.push(response[i].category);
-                    item.push(response[i].description);
-                    item.push(response[i].kitchen_station_id);
-                    item.push(response[i].price);
-
-                    menuItems.push(item);
-                }
-
-                dataSet = menuItems;
-                console.log(dataSet);
-            },
-            async: false
-        });
-
-        $('#menuTable').DataTable({
-            data: dataSet,
-            columns: [
-                {title: 'Name'},
-                {title: 'Category'},
-                {title: 'Description'},
-                {title: 'Cook Station'},
-                {title: 'Price'}
-            ]
-        });
+    var dataSet = [];
+    $.ajax({
+        url: "/menu-items",
+        type: "POST",
+        success: function(response) {
+            var menuItems = [];
+            for (let i = 0; i < response.length; i++){
+                let item = [];
+                item.push(response[i].name);
+                item.push(response[i].category);
+                item.push(response[i].description);
+                item.push(response[i].kitchen_station_id);
+                item.push(response[i].price);
+                menuItems.push(item);
+            }
+            dataSet = menuItems;
+        },
+        async: true
     });
 
+    $(document).ready(function(){
+        setTimeout(function() {
+            $('#menuTable').html("");
+            $('#menuTable').DataTable({
+                data: dataSet,
+                columns: [
+                    {title: 'Name'},
+                    {title: 'Category'},
+                    {title: 'Description'},
+                    {title: 'Cook Station'},
+                    {title: 'Price'}
+                ]
+            });
+        }, 1000);
+    });
 </script>
 </body>
 </html>

@@ -66,14 +66,14 @@
 
             <!-- Cards -->
             <div class="row">
-                <div class="col-sm-6 col-xl-4 mb-3">
+                <div class="col-12 col-sm-4 mb-3">
                     <div class="card card-inverse card-success h-100">
                         <div class="card-block">
                             <div class="card-block-icon">
                                 <i class="fa fa-fw fa-check-square-o"></i>
                             </div>
                             <div id="totalOrdersCard" class="mr-5">
-                                10 Total Orders!
+                                Loading..
                             </div>
                         </div>
                         <a href="#" class="card-footer clearfix small z-1">
@@ -82,7 +82,7 @@
                         </a>
                     </div>
                 </div>
-                <div class="col-sm-6 col-xl-4 mb-3">
+                <div class="col-12 col-sm-4 mb-3">
                     <div class="card card-inverse card-primary h-100">
                         <div class="card-block">
                             <div class="card-block-icon">
@@ -98,7 +98,7 @@
                         </a>
                     </div>
                 </div>
-                <div class="col-sm-6 col-xl-4 mb-3">
+                <div class="col-12 col-sm-4 mb-3">
                     <div class="card card-inverse card-danger h-100">
                         <div class="card-block">
                             <div class="card-block-icon">
@@ -119,13 +119,13 @@
             <!--Area Chart-->
                 <div class="card mb-3">
                     <div class="card-header">
-                        <i class="fa fa-area-chart"></i> Daily Orders during current week
+                        <i class="fa fa-area-chart"></i> Daily Orders
                     </div>
                     <div class="card-block">
-                        <canvas id="dailyOrdersChart" width="500" height="200"></canvas>
+                        <canvas id="dailyOrdersChart" width="100" height="35"></canvas>
                     </div>
-                    <div class="card-footer small text-muted">
-                        Last update: date/time
+                    <div id="tableUpdateTime" class="card-footer small text-muted">
+                        ...
                     </div>
                 </div>
             <!-- ./ Area Chart-->
@@ -140,53 +140,89 @@
 <script src="/jquery/jquery.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.bundle.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.13.0/moment.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.1.0/Chart.bundle.min.js"></script>
 
 
 <!--Custom Javascript will be moved to separate .js-->
 <script>
 
-    var dataAreaChart = {
-        labels: ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
-        datasets: [{
-            label: "Orders",
-            lineTension: 0.3,
-            backgroundColor: "rgba(2,117,216,0.2)",
-            borderColor: "rgba(2,117,216,1)",
-            pointRadius: 5,
-            pointBackgroundColor: "rgba(2,117,216,1)",
-            pointBorderColor: "rgba(255,255,255,0.8)",
-            pointHoverRadius: 5,
-            pointHoverBackgroundColor: "rgba(2,117,216,1)",
-            pointHitRadius: 20,
-            pointBorderWidth: 2,
-            pointHitRadius: 10,
-            data: [40, 59, 80, 81, 56, 55, 40],
-        }]
+    var time = new Date();
+    var options = {
+        weekday: "long", year: "numeric", month: "short",
+        day: "numeric", hour: "2-digit", minute: "2-digit"
     };
 
-    var ctx = document.getElementById("dailyOrdersChart");
-    var myChart = new Chart(ctx, {
-        type: "line",
-        data: dataAreaChart,
-        options: {
-            legend: {
-                display: false
-            },
-            scales: {
-                xAxes: [{
-//                    type: 'time',
-                    time: {
-                        unit: 'day'
-                    }
-                }],
-                yAxes: [{
-                    ticks: {
-                        beginAtZero:true
-                    }
-                }]
+    $('#tableUpdateTime').html(time.toLocaleString("en-us", options));
+
+    var dateArray = [];
+    var ordersArray = [];
+
+    var ordersDate = null;
+
+    $.ajax({
+        url: "/admin/getSummary",
+        type: "POST",
+        success: function(response) {
+
+            ordersDate = response.ordersDate;
+            var totalOrders = 0;
+
+            for (var i = 0; i < response.ordersDate.length; i++) {
+                totalOrders += parseInt(response.ordersDate[i].orders);
+
+
+
+                dateArray.push(response.ordersDate[i].date);
+                ordersArray.push(response.ordersDate[i].orders);
             }
+
+            $('#totalOrdersCard').html(totalOrders + " Total orders!");
+
         }
+    });
+
+    $(document).ready(function() {
+        var dataAreaChart = {
+            labels: dateArray,
+            datasets: [{
+                label: "Orders",
+                lineTension: 0.3,
+                backgroundColor: "rgba(2,117,216,0.2)",
+                borderColor: "rgba(2,117,216,1)",
+                pointRadius: 5,
+                pointBackgroundColor: "rgba(2,117,216,1)",
+                pointBorderColor: "rgba(255,255,255,0.8)",
+                pointHoverRadius: 5,
+                pointHoverBackgroundColor: "rgba(2,117,216,1)",
+                pointHitRadius: 20,
+                pointBorderWidth: 2,
+                pointHitRadius: 10,
+                data: ordersArray,
+            }]
+        };
+
+        var ctx = document.getElementById("dailyOrdersChart");
+        setTimeout(function() {
+            var myChart = new Chart(ctx, {
+                type: "line",
+                data: dataAreaChart,
+                options: {
+                    legend: {
+                        display: false
+                    },
+                    scales: {
+                        yAxes: [{
+                            ticks: {
+                                beginAtZero: true
+                            }
+                        }]
+                    },
+                    responsive:true,
+                    maintainAspectRatio: true
+                }
+            });
+        }, 1000);
     });
 
 </script>
