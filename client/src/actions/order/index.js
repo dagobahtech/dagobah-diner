@@ -120,7 +120,7 @@ export function setMaxItemCount(newCount) {
     }
 }
 
-export function setConstraints(newQuantity, newCount) {
+export function setConstraints(newCount, newQuantity) {
     return {
         type: "SET_CONSTRAINTS",
         maxItemQuantity: newQuantity,
