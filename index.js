@@ -39,6 +39,9 @@ app.use("/scripts", express.static("client/buildjs"));
 app.use("/styles", express.static("client/src/css"));
 app.use("/images", express.static("MenuPics"));
 
+app.use("/admin-css", express.static("client/admin/stylesheet"));
+app.use("/jquery", express.static("node_modules/jquery/dist"));
+
 
 app.use(bodyParser.urlencoded({
     extended: true
@@ -122,6 +125,11 @@ function getMenuItems() {
 
 exports.getMenuItems = getMenuItems(); // DL - export the function to be used in "/routes/admin.js"
 
+app.post("/menu-items", function(req, resp){
+
+    resp.send(dagobah.menuItems);
+
+});
 
 //add app.get before this call
 app.get('*', function (request, response){

@@ -4,61 +4,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>Admin Dashboard - Dagobah</title>
+    <title>Dashboard - Administrator</title>
 
     <!--Bootstrap 4 CDN-->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
     <!--Font-Awesome Icons-->
     <script src="https://use.fontawesome.com/b973fe404b.js"></script>
+
     <!--Will move to custom .css-->
-    <style>
+    <link rel="stylesheet" href="/admin-css/admin.css">
 
-
-        #mainNav .navbar-collapse .navbar-nav.sidebar-nav {
-            position: absolute;
-            top: 0;
-            left: 0;
-            overflow: auto;
-            flex-direction: column;
-            height: 100vh;
-            width: 200px;
-            margin-top: 54px;
-            background: #292b2c;
-        }
-
-        .active {
-            color: white;
-        }
-
-        .content-wrapper {
-
-        }
-            @media (min-width: 990px) {
-                .content-wrapper {
-                    margin-left: 200px;
-                }
-            }
-
-        .z-0 {
-            z-index: 0;
-        }
-
-        .z-1 {
-            z-index: 1;
-        }
-
-        .card-block-icon {
-            font-size: 5rem;
-            position: absolute;
-            z-index: 0;
-            top: -25px;
-            right: 0;
-            transform: rotate(15deg);
-        }
-
-
-
-    </style>
 </head>
 <body>
     <!--NavBar-->
@@ -66,17 +21,17 @@
         <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarEx" aria-controls="navbarEx" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
-        <a class="navbar-brand" href="/admin-dashboard">Dagobah Administrator</a>
+        <a class="navbar-brand" href="admin/admin-dashboard">Dagobah Administrator</a>
         <div class="collapse navbar-collapse" id="navbarEx">
             <ul class="sidebar-nav navbar-nav">
                 <li class="nav-item active">
-                    <a class="nav-link" href="/admin-dashboard"><i class="fa fa-fw fa-dashboard"></i> Dashboard</a>
+                    <a class="nav-link" href="admin"><i class="fa fa-fw fa-dashboard"></i> Dashboard</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/admin-menu"><i class="fa fa-fw fa-glass"></i> Menu</a>
+                    <a class="nav-link" href="admin/menu-datatable"><i class="fa fa-fw fa-glass"></i> Menu</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/admin-menu"><i class="fa fa-fw fa-line-chart"></i> Statistics</a>
+                    <a class="nav-link" href="admin/statistics"><i class="fa fa-fw fa-line-chart"></i> Statistics</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link nav-link-collapse collapsed" data-toggle="collapse" href="#collapseComponents"><i class="fa fa-fw fa-wrench"></i> Settings</a>
@@ -92,7 +47,7 @@
             </ul>
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item">
-                    <a class="nav-link" href="#"><i class="fa fa-fw fa-sign-out"></i> Logout</a>
+                    <a id="logoutButton" class="nav-link" href="/admin/logout"><i class="fa fa-fw fa-sign-out"></i> Logout</a>
                 </li>
             </ul>
         </div>
@@ -105,8 +60,8 @@
 
             <!--Breadcrumbs section-->
             <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="#"></a>Dashboard</li>
-                <li class="breadcrumb-item active"><a href="#"></a>Summary</li>
+                <li class="breadcrumb-item"><a href="/admin">Dashboard</a></li>
+                <li class="breadcrumb-item active"><a href="/admin">Summary</a></li>
             </ol>
 
             <!-- Cards -->
@@ -182,7 +137,7 @@
 
 
 <!--Bootstrap Core & jQuery-->
-<script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>
+<script src="/jquery/jquery.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.bundle.js"></script>

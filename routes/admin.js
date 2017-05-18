@@ -17,9 +17,20 @@ router.get("/", function (req, resp) {
     }
 });
 
+router.get("/menu-datatable", function(req, resp){
+    resp.sendFile(adminFolder + "/menu-datatable.html");
+});
+
 //temporary route to createitems
 router.get("/create", function(req, resp) {
    resp.sendFile(adminFolder + "/createItems.html");
+});
+
+router.get("/logout", function(req, resp) {
+    req.session.destroy();
+
+    resp.sendFile(loginForm);
+
 });
 
 router.post("/createItem", function (req, resp) {

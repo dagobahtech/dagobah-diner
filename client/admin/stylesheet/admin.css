@@ -1,0 +1,41 @@
+#mainNav .navbar-collapse .navbar-nav.sidebar-nav {
+    position: absolute;
+    top: 0;
+    left: 0;
+    overflow: auto;
+    flex-direction: column;
+    height: 100vh;
+    width: 200px;
+    margin-top: 54px;
+    background: #292b2c;
+}
+
+.active {
+    color: white;
+}
+
+.content-wrapper {
+
+}
+@media (min-width: 990px) {
+    .content-wrapper {
+        margin-left: 200px;
+    }
+}
+
+.z-0 {
+    z-index: 0;
+}
+
+.z-1 {
+    z-index: 1;
+}
+
+.card-block-icon {
+    font-size: 5rem;
+    position: absolute;
+    z-index: 0;
+    top: -25px;
+    right: 0;
+    transform: rotate(15deg);
+}
