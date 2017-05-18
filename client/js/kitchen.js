@@ -3,7 +3,7 @@
  */
 const socket = io();
 const UPDATE_FREQUENCY = 2000; //initially set to 10s. check discard every update frequency
-const EXPIRE_TIME = 1; //in mins
+let EXPIRE_TIME = 2; //in mins
 var orderList = document.getElementById("order-list");
 var orderListNodes = orderList.childNodes;
 
@@ -21,6 +21,8 @@ var cook1 = document.getElementById("cook1");
 var cook2 = document.getElementById("cook2");
 var cook6 = document.getElementById("cook6");
 
+//ask for the the kitchen's expire time
+socket.emit("expiry");
 //join the kitchen socket
 socket.emit("join","kitchen");
 //get all the orders
@@ -40,6 +42,12 @@ socket.on("update", function (view, data) {
     }
 } );
 
+//listen to expiry time change
+socket.on("expiry", setExpiryTime);
+
+function setExpiryTime(time) {
+    EXPIRE_TIME = time;
+}
 socket.on("status", showStatus);
 
 //preserve the button style
