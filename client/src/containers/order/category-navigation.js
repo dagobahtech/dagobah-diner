@@ -40,16 +40,16 @@ class CategoryNavigation extends Component {
         return (
 
             <div className="btn-group menu-button" id="menuButtonsOuter" role="group">
-                <button type="button" id="menuButton" className={classStringMain}
+                <button type="button" id="menuButton1" className={classStringMain}
                         onClick={() => this.setView('main')}
                         >
                     Main
                 </button>
-                <button type="button" id="menuButton" className={classStringSide}
+                <button type="button" id="menuButton2" className={classStringSide}
                         onClick={() => this.setView('side')}>
                     Side
                 </button>
-                <button type="button" id="menuButton" className={classStringBev}
+                <button type="button" id="menuButton3" className={classStringBev}
                         onClick={() => this.setView('beverage')}>
                     Beverage
                 </button>
