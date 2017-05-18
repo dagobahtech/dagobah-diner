@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import OrderItem from './order-item';
 import {connect} from 'react-redux';
-import {removeAllItem, confirmAction, setOrderNumber, setProcessedOrder} from '../../actions/order/index';
+import {removeAllItem, confirmAction, setOrderNumber, setProcessedOrder, setConstraints} from '../../actions/order/index';
 import {bindActionCreators} from 'redux';
 import NumberFormat from 'react-number-format';
 
@@ -26,7 +26,7 @@ class OrderList extends Component {
         this._updateOrderNumber = this._updateOrderNumber.bind(this);
         this._handleErrorMessage = this._handleErrorMessage.bind(this);
         this._setProcessedOrder = this._setProcessedOrder.bind(this);
-
+        this._setConstraints = this._setConstraints.bind(this);
         //container for functions coming from the server
         this.state = {
             processedOrder: null
@@ -38,6 +38,12 @@ class OrderList extends Component {
         this.socket.on("orderinfo", this._updateOrderNumber);
         this.socket.on("ordererror", this._handleErrorMessage);
         this.socket.on("processed order", this._setProcessedOrder);
+        this.socket.on("send constraints", this._setConstraints);
+        this.socket.emit("get constraints");
+    }
+
+    _setConstraints(maxItemPerOrder, maxQuantityPerItem) {
+        this.props.setConstraints(maxItemPerOrder, maxQuantityPerItem);
     }
 
     _setProcessedOrder(order) {
@@ -59,8 +65,6 @@ class OrderList extends Component {
     }
 
     createOrderTable(){
-
-
         return (
             <div id="confirmList">
                 <table className="table-striped">
@@ -219,7 +223,8 @@ function mapDispatchToProps(dispatch) {
         removeAllItem: removeAllItem,
         confirmAction: confirmAction,
         setOrderNumber: setOrderNumber,
-        setProcessedOrder: setProcessedOrder
+        setProcessedOrder: setProcessedOrder,
+        setConstraints: setConstraints
     }, dispatch);
 
 }

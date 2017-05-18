@@ -398,7 +398,10 @@ io.on("connection", function(socket){
         io.to("board").emit("orders", kitchen._orderQueue.orders, kitchen._readyQueue.orders);
     });
 
-
+    //client order page requests for item constraints
+    socket.on("get constraints", function () {
+        socket.emit("send constraints", kitchen.maxItemPerOrder, kitchen.maxQuantityPerItem);
+    });
 });
 
 

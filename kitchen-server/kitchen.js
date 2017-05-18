@@ -18,6 +18,24 @@ class Kitchen {
          this._orderNumber = 0;
          this._maxOrderNumber = 10;
          this._cookDelay = 5000; //in milliseconds. set for 1 for now. change in the future
+         this._maxItemPerOrder = 10;
+         this._maxQuantityPerItem = 6;
+    }
+
+    set maxItemPerOrder(newCount) {
+        this._maxItemPerOrder = newCount;
+    }
+
+    get maxItemPerOrder() {
+        return this._maxItemPerOrder;
+    }
+
+    set maxQuantityPerItem(newQuantity) {
+        this._maxQuantityPerItem = newQuantity;
+    }
+
+    get maxQuantityPerItem() {
+        return this._maxQuantityPerItem;
     }
 
     get orderQueue() {
