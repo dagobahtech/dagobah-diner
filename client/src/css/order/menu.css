@@ -7,82 +7,9 @@
   font-family: "Chau Philomene One";
   src: url(../../../fonts/ChauPhilomeneOne-Regular.ttf);
 }
-/* latin */
-@font-face {
-  font-family: 'Aclonica';
-  font-style: normal;
-  font-weight: 400;
-  src: local('Aclonica Regular'), local('Aclonica-Regular'), url(https://fonts.gstatic.com/s/aclonica/v7/KL5OjqZGxkpCc9qpqsIjA_esZW2xOQ-xsNqO47m55DA.woff2) format('woff2');
-  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215;
-}
-/* latin */
-@font-face {
-  font-family: 'Gochi Hand';
-  font-style: normal;
-  font-weight: 400;
-  src: local('Gochi Hand'), local('GochiHand-Regular'), url(https://fonts.gstatic.com/s/gochihand/v7/ZZzTGmufF-Wq8IS3fkpBu_k_vArhqVIZ0nv9q090hN8.woff2) format('woff2');
-  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215;
-}
-/* latin */
-@font-face {
-  font-family: 'La Belle Aurore';
-  font-style: normal;
-  font-weight: 400;
-  src: local('La Belle Aurore'), local('LaBelleAurore'), url(https://fonts.gstatic.com/s/labelleaurore/v7/Irdbc4ASuUoWDjd_Wc3md8dxVGbf3qyhvoXHfU-LjZg.woff2) format('woff2');
-  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215;
-}
-/* vietnamese */
-@font-face {
-  font-family: 'Patrick Hand SC';
-  font-style: normal;
-  font-weight: 400;
-  src: local('Patrick Hand SC'), local('PatrickHandSC-Regular'), url(https://fonts.gstatic.com/s/patrickhandsc/v4/OYFWCgfCR-7uHIovjUZXsQ4e77NeSCkUYMQ0PMPG4Hg.woff2) format('woff2');
-  unicode-range: U+0102-0103, U+1EA0-1EF9, U+20AB;
-}
-/* latin-ext */
-@font-face {
-  font-family: 'Patrick Hand SC';
-  font-style: normal;
-  font-weight: 400;
-  src: local('Patrick Hand SC'), local('PatrickHandSC-Regular'), url(https://fonts.gstatic.com/s/patrickhandsc/v4/OYFWCgfCR-7uHIovjUZXsWxIpCjoByBH_5BMoCOCdCY.woff2) format('woff2');
-  unicode-range: U+0100-024F, U+1E00-1EFF, U+20A0-20AB, U+20AD-20CF, U+2C60-2C7F, U+A720-A7FF;
-}
-/* latin */
-@font-face {
-  font-family: 'Patrick Hand SC';
-  font-style: normal;
-  font-weight: 400;
-  src: local('Patrick Hand SC'), local('PatrickHandSC-Regular'), url(https://fonts.gstatic.com/s/patrickhandsc/v4/OYFWCgfCR-7uHIovjUZXsZi4I2Fwo6sqyzVodtQ85Ik.woff2) format('woff2');
-  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215;
-}
-/* latin-ext */
-@font-face {
-  font-family: 'Peralta';
-  font-style: normal;
-  font-weight: 400;
-  src: local('Peralta'), local('Peralta-Regular'), url(https://fonts.gstatic.com/s/peralta/v4/jbQtT-MQyWNAGyL7Aeatq_Y6323mHUZFJMgTvxaG2iE.woff2) format('woff2');
-  unicode-range: U+0100-024F, U+1E00-1EFF, U+20A0-20AB, U+20AD-20CF, U+2C60-2C7F, U+A720-A7FF;
-}
-/* latin */
-@font-face {
-  font-family: 'Peralta';
-  font-style: normal;
-  font-weight: 400;
-  src: local('Peralta'), local('Peralta-Regular'), url(https://fonts.gstatic.com/s/peralta/v4/u9VnQ6kM-5PI2V8JsmWmHw.woff2) format('woff2');
-  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215;
-}
-/* latin */
-@font-face {
-  font-family: 'Unkempt';
-  font-style: normal;
-  font-weight: 400;
-  src: local('Unkempt'), url(https://fonts.gstatic.com/s/unkempt/v7/Alnku_j0xDI8qmyWIe7Srg.woff2) format('woff2');
-  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215;
-}
 /*Global*/
 body {
 	font-family: "Orbitron Black", "Chau Philomene One";
-	background-color: #EDC5B5;
 }
 tr:hover {
     background-color: lightgray;
@@ -105,26 +32,6 @@ body {
 }
 .card {
 	max-height: 80vh;
-	background-color: #63674A;
-	border: solid #5A2525 1px;
-}
-#cardBack {
-	background-color:white;
-}
-.table {
-	color: white;
-}
-#confirmButton, #cancelButton {
-	flex-grow: 1;
-}
-#orderListButtons {
-    position: absolute;
-    bottom: 0;
-    display: flex;
-    flex-flow: row;
-    justify-content: space-between;
-    width: 100%;
-    margin: 0px -20px 0 -20px;
 }
 #confirmList {
 	overflow: hidden;
@@ -136,23 +43,16 @@ body {
 	width: 100%;
 }
 /*Scrollbar styling*/
-.menu::-webkit-scrollbar, #confirmList::-webkit-scrollbar {
+#cardOuter::-webkit-scrollbar, .menu::-webkit-scrollbar, #confirmList::-webkit-scrollbar {
 	background-color: white;
 	width: 0.5vw;
 }
-.menu::-webkit-scrollbar-track, #confirmList::-webkit-scrollbar-track {
+#cardOuter::-webkit-scrollbar-track, .menu::-webkit-scrollbar-track, #confirmList::-webkit-scrollbar-track {
 	background-color: white;
 }
 #cardOuter::-webkit-scrollbar-thumb, .menu::-webkit-scrollbar-thumb, #confirmList::-webkit-scrollbar-thumb {
-	background-color: #5A2525;
+	background-color: #d9534f;
 	border-radius: 5px;
-}
-#cardOuter::-webkit-scrollbar-track {
-	background-color: #63674A;
-}
-#cardOuter::-webkit-scrollbar {
-	background-color: #63674A;
-	width: 0.6vw;
 }
 
 /*Start button*/
@@ -180,14 +80,10 @@ body {
 	display: flex;
 	flex-flow: row wrap;
 }
-#itemInner {
-	border: solid #5A2525 1px;
-}
 #item {
 	flex-grow: 1;
 	margin: 10px;
 	transition: all ease 0.5s;
-	width: 200px;
 }
 #item:hover {
 	margin-top: -10px;
@@ -198,60 +94,25 @@ body {
 	display: flex;
 	flex-flow: row wrap;
 }
-/*.btn-danger.active {*/
-/*	background-color: #878C6D;*/
-/*	border: none;*/
-/*}*/
 #menuButton1,#menuButton2,#menuButton3 {
 	flex-grow: 1;
 	max-width: 100%;
 	font-size: 120%;
-	background-color: #63674A;
-	transition: all ease 0.5s;
-	border: none;
-}
-#menuButton1Active,#menuButton2Active,#menuButton3Active {
-	flex-grow: 1;
-	max-width: 100%;
-	font-size: 120%;
-	transition: all ease 0.5s;
-	background-color: #878C6D;
-	border: none;
-}
-#menuButton1Active:focus, #menuButton2Active:focus, #menuButton3Active:focus {
-	box-shadow: none;
-}
-#menuButton1:hover,#menuButton2:hover,#menuButton3:hover {
-	background-color: #878C6D;
-	border: none;
 }
 /*orderTable*/
 #listOuter {
 	display: flex;
 	flex-flow: row;
-	background-color: #5A2525;
-	margin-bottom: 20px;
 }
-#tablePad, #itemPad, #itemView {
-	width: 10px;
+#tablePad {
 	flex-grow: 1;
 }
-#tableQty, #tablePrice, #tableSub, #itemQty, #itemPrice, #itemSub {
-	width: 30px;
+#tableQty, #tablePrice, #tableSub {
 	flex-grow: 3;
 }
-#itemName {
-	width: 50px;
-	flex-grow: 10;
-}
 #tableItem {
-	width: 25px;
 	flex-grow: 10;
 }
-
-#tablePad, #tableQty, #tablePrice, #tableSub, #tableItem {
-	background-color: transparent;
-} 
 /*Classes*/
 .main {
     background-image: url("./images/bg.png");
@@ -271,9 +132,7 @@ body {
     background-color: white;
     font-weight: bold;
 }
-.card-header {
-	border-bottom: solid #5A2525 5px;
-}
+
 .menu-item .card-footer {
     color: white;
 }
@@ -281,6 +140,7 @@ body {
 .menu-item .card-block {
     background-color: white;
 }
+
 .menu-item-container {
 	transition: all ease 0.2s;
     transform: scale(1);

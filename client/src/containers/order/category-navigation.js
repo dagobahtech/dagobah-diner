@@ -28,34 +28,28 @@ class CategoryNavigation extends Component {
         var classStringSide = classString;
         var classStringBev = classString;
 
-		var butString1 = "menuButton1";
-		var butString2 = "menuButton2";
-		var butString3 = "menuButton3";
-		
         if(this.state.currentView === "main") {
             classStringMain += " active";
-			butString1 += "Active";
         } else if(this.state.currentView === "side") {
             classStringSide += " active";
-			butString2 += "Active";
         } else {
             classStringBev += " active";
-			butString3 += "Active";
         }
+
 
         return (
 
             <div className="btn-group menu-button" id="menuButtonsOuter" role="group">
-                <button type="button" id={butString1} className={classStringMain}
+                <button type="button" id="menuButton1" className={classStringMain}
                         onClick={() => this.setView('main')}
                         >
                     Main
                 </button>
-                <button type="button" id={butString2} className={classStringSide}
+                <button type="button" id="menuButton2" className={classStringSide}
                         onClick={() => this.setView('side')}>
                     Side
                 </button>
-                <button type="button" id={butString3} className={classStringBev}
+                <button type="button" id="menuButton3" className={classStringBev}
                         onClick={() => this.setView('beverage')}>
                     Beverage
                 </button>
