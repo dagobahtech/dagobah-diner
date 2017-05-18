@@ -13,18 +13,22 @@ class OrderProcessing extends Component {
 		let newTime = time;
 		return (newTime.replace("T", " ").substring(0, 19));
 	}
+
+	componentDidMount() {
+		this.props.removeAllItem();
+	}
     render() {
 
         return (
 			<div className="transition-item enter-up-exit-down">
 				<div>
-					<h1 className="center-align">Thank you for ordering</h1>
+					<h1 id="orderConfirmation" className="center-align">Thank you for ordering</h1>
 				</div>
 				<div className="container-fluid">
 					<div className="row">
 						<div className="col-lg-6 col-md-6 mx-auto">
-							<h2>Order #{this.props.orderedItems.id}</h2>
-							<h5>Date: {this.formatTime(this.props.orderedItems.date)}</h5>
+							<h2>Order #{this.props.processedOrder.id}</h2>
+							<h5>Date: {this.formatTime(this.props.processedOrder.date)}</h5>
 							<table className="table ">
 								<thead className="thead-inverse">
 								<tr>
@@ -35,7 +39,7 @@ class OrderProcessing extends Component {
 								</tr>
 								</thead>
 								<tbody>
-                                {this.props.orderedItems.items.map(function(item){
+                                {this.props.processedOrder.items.map(function(item){
                                     return(<tr>
 										<td>{item.name}</td>
 										<td className="center-align">x{item.quantity}</td>
@@ -55,13 +59,33 @@ class OrderProcessing extends Component {
                                 })}
 								</tbody>
 							</table>
+
+
+							<div className="right-align"><h5>SubTotal:
+								<div className="currency currency-black currency-large"></div>
+								<NumberFormat value={this.props.processedOrder.subTotal}
+											  decimalPrecision={2}
+											  displayType={'text'} thousandSeparator={true}
+								/>
+							</h5>
+							</div>
 							<div className="right-align">
-								<h4>Total:<div className="currency currency-black currency-large"></div>
-									<NumberFormat value={this.props.orderedItems.total}
+								<h5>{this.props.processedOrder.comboDiscount * 100}% Combo Discount:
+									<div className="currency currency-black currency-large"></div>
+									<NumberFormat value={this.props.processedOrder.subTotal - this.props.processedOrder.total}
 												  decimalPrecision={2}
 												  displayType={'text'} thousandSeparator={true}
-									/></h4>
+									/>
+								</h5>
 							</div>
+							<div className="right-align">
+								<h3>Total: <div className="currency currency-black currency-large"></div>
+									<NumberFormat value={this.props.processedOrder.total}
+												  decimalPrecision={2}
+												  displayType={'text'} thousandSeparator={true}
+									/> </h3>
+							</div>
+
 							<div className="btn btn-success btn-lg center-block" style={{'cursor':'pointer'}} onClick={()=> { browserHistory.push("/"); this.props.removeAllItem()}}>Done</div>
 
 						</div>
@@ -75,8 +99,7 @@ class OrderProcessing extends Component {
 
 function mapStateToProps(state) {
 	return {
-		orderedItems: state.orderedItems,
-        socket: state.socket
+        processedOrder: state.processedOrder
 	};
 }
 

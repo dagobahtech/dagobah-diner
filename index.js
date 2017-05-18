@@ -31,13 +31,17 @@ var loginForm = path.resolve(__dirname, "client/admin/login.html");
 
 
 // redirect to css and js folders
-app.use("/buildScripts", express.static("client/buildjs"));
+//app.use("/buildScripts", express.static("client/buildjs"));
 
 
 // redirect to image, css and js folders
-app.use("/scripts", express.static("client/build"));
+app.use("/scripts", express.static("client/buildjs"));
 app.use("/styles", express.static("client/src/css"));
 app.use("/images", express.static("MenuPics"));
+
+app.use("/admin-css", express.static("client/admin/stylesheet"));
+app.use("/jquery", express.static("node_modules/jquery/dist"));
+app.use("/bootstrap", express.static("node_modules/bootstrap/dist"));
 
 
 app.use(bodyParser.urlencoded({
@@ -122,6 +126,11 @@ function getMenuItems() {
 
 exports.getMenuItems = getMenuItems(); // DL - export the function to be used in "/routes/admin.js"
 
+app.post("/menu-items", function(req, resp){
+
+    resp.send(dagobah.menuItems);
+
+});
 
 //add app.get before this call
 app.get('*', function (request, response){
@@ -167,7 +176,7 @@ function calcTrueTotal(order) {
     var total = 0;
     for (var i=0; i<order.items.length; i++){
         for(var j=0; j<dagobah.menuItems.length; j++){
-            if (dagobah.menuItems[j].id == order.items[i].id){
+            if (dagobah.menuItems[j].id === order.items[i].id){
                 subTotal += order.items[i].quantity * dagobah.menuItems[j].price;
             }
         }
@@ -180,7 +189,7 @@ function calcTrueTotal(order) {
     }
     order.subTotal = subTotal;
     order.total = total;
-
+    order.comboDiscount = comboDiscount; //Jed - added this so this could be passed to client
     return order;
 }
 
@@ -228,7 +237,7 @@ io.on("connection", function(socket){
                         io.to(socket.channel).emit("orders", kitchen._orderQueue.orders, kitchen._readyQueue.orders, kitchen._foodTray.items);
                         io.to(socket.channel).emit("status", false);
                         io.to("board").emit("orders", kitchen._orderQueue.orders, kitchen._readyQueue.orders);
-                    }, kitchen.COOK_DELAY );
+                    }, kitchen.cookDelay);
                 } else {
                     //else send a message saying that the quantity is not valid
                     io.to(socket.channel).emit("problem", "invalid quantity");
@@ -299,19 +308,40 @@ io.on("connection", function(socket){
         socket.emit("sendData", dagobah.menuItems);
 	});
 
+	//client asks to verify order
+    socket.on("verify order", function (order) {
+        socket.emit("processed order", calcTrueTotal(order));
+    });
 	//when order is received
 	socket.on("send order", function (order) {
 
-        let userOrderNumber = kitchen.addOrder(order);
-        let order_date = null;
+	    let userOrderNumber;
+	    try{
+            userOrderNumber = kitchen.addOrder(order);
+        } catch(err) {
+	        switch(err){
+                case "Orders maxed":
+                    socket.emit("ordererror", "All servers currently busy right now. Please try again later");
+                    break;
+                case "empty order":
+                    break;
 
+            }
+
+            return
+        }
+
+
+        let order_date = null;
+        let processedTotal = calcTrueTotal(order);
+        processedTotal.id = userOrderNumber;
         function dbInsertOrder() {
             pg.connect(dbURL, function (err, client, done) {
                 if (err) {
                     console.log
                 }
                 let dbQuery = "INSERT INTO order_submitted (total) VALUES ($1) RETURNING id, date";
-                client.query(dbQuery, [order.total], function (err, result) {
+                client.query(dbQuery, [processedTotal.total], function (err, result) {
                     if (err) {
                         console.log(err);
                     }
@@ -327,8 +357,8 @@ io.on("connection", function(socket){
                         });
                     }
                     done();
-
-                    socket.emit("orderinfo", userOrderNumber, order_date);
+                    processedTotal.date = order_date;
+                    socket.emit("orderinfo", processedTotal);
                     io.to("board").emit("orders", kitchen._orderQueue.orders, kitchen._readyQueue.orders);
                     console.log("Order Saved in db");
                 });
@@ -348,9 +378,8 @@ io.on("connection", function(socket){
 		console.log(order);
 		//socket.emit("orderinfo", userOrderNumber);
 
-         order = calcTrueTotal(order);
 
-    order = calcTrueTotal(order);
+
 
 		//send order id to customer
 
@@ -368,6 +397,7 @@ io.on("connection", function(socket){
     socket.on("load orders", function(){
         io.to("board").emit("orders", kitchen._orderQueue.orders, kitchen._readyQueue.orders);
     });
+
 
 });
 

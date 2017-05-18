@@ -1,9 +1,20 @@
 .order-Number {
 	margin: 2px;
-	background-color: #C6FDDC;
+	
 	border: 4px;
 	border-color: black;
 	border-style: double;
+	
+}
+
+.notServed {
+	color: rgb(245, 226, 151);
+	background-color: rgb(130, 85, 27);
+}
+
+.justServed { 
+	color: rgb(208, 230, 176);
+	background-color: rgb(48, 68, 83);
 }
 
 #in-Progress {
@@ -50,4 +61,5 @@
 
 body{
 	margin: 0;
+	background-color: #fbddb0;
 }
