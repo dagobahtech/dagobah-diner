@@ -41,6 +41,7 @@ app.use("/images", express.static("MenuPics"));
 
 app.use("/admin-css", express.static("client/admin/stylesheet"));
 app.use("/jquery", express.static("node_modules/jquery/dist"));
+app.use("/bootstrap", express.static("node_modules/bootstrap/dist"));
 
 
 app.use(bodyParser.urlencoded({
