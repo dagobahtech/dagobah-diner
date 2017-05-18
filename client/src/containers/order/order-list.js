@@ -52,9 +52,9 @@ class OrderList extends Component {
     _handleErrorMessage(message) {
         this.props.confirmAction("Something went wrong", message,<div/>, null);
     }
-    _updateOrderNumber(id,date) {
-        this.props.setOrderNumber(id, date);
-        console.log("pushing processing", id);
+    _updateOrderNumber(order) {
+        this.props.setProcessedOrder(order);
+        console.log("pushing processing", order.id);
         browserHistory.push('processing-order');
     }
 

@@ -332,14 +332,15 @@ io.on("connection", function(socket){
 
 
         let order_date = null;
-
+        let processedTotal = calcTrueTotal(order);
+        processedTotal.id = userOrderNumber;
         function dbInsertOrder() {
             pg.connect(dbURL, function (err, client, done) {
                 if (err) {
                     console.log
                 }
                 let dbQuery = "INSERT INTO order_submitted (total) VALUES ($1) RETURNING id, date";
-                client.query(dbQuery, [order.total], function (err, result) {
+                client.query(dbQuery, [processedTotal.total], function (err, result) {
                     if (err) {
                         console.log(err);
                     }
@@ -355,8 +356,8 @@ io.on("connection", function(socket){
                         });
                     }
                     done();
-
-                    socket.emit("orderinfo", userOrderNumber, order_date, calcTrueTotal(order));
+                    processedTotal.date = order_date;
+                    socket.emit("orderinfo", processedTotal);
                     io.to("board").emit("orders", kitchen._orderQueue.orders, kitchen._readyQueue.orders);
                     console.log("Order Saved in db");
                 });
