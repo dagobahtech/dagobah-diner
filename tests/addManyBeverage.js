@@ -16,6 +16,7 @@ module.exports = {
 			.pause(1000)
 			.click('#yesConfirmButton')
 			.pause(2000)
+			.assert.urlEquals('http://localhost:3000/processing-order')
 			.end()
 
 	}
