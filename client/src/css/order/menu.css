@@ -94,7 +94,7 @@ body {
 	display: flex;
 	flex-flow: row wrap;
 }
-#menuButton {
+#menuButton1,#menuButton2,#menuButton3 {
 	flex-grow: 1;
 	max-width: 100%;
 	font-size: 120%;
