@@ -534,3 +534,7 @@ h1 {
 .btn-success {
     background-color: darkgreen;
 }
+
+.btn-danger {
+    background-color: firebrick;
+}
