@@ -23,7 +23,7 @@ class CategoryNavigation extends Component {
     render() {
         //specify a class set
 
-        var classString = "btn dag-btn";
+        var classString = "btn dag-btn styled-font";
         var classStringMain = classString;
         var classStringSide = classString;
         var classStringBev = classString;

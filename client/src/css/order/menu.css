@@ -7,78 +7,22 @@
     font-family: "Chau Philomene One";
     src: url(../../../fonts/ChauPhilomeneOne-Regular.ttf);
 }
-/* latin */
+
 @font-face {
-    font-family: 'Aclonica';
-    font-style: normal;
-    font-weight: 400;
-    src: local('Aclonica Regular'), local('Aclonica-Regular'), url(https://fonts.gstatic.com/s/aclonica/v7/KL5OjqZGxkpCc9qpqsIjA_esZW2xOQ-xsNqO47m55DA.woff2) format('woff2');
-    unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215;
+    font-family: "Lobster";
+    src: url(../../../fonts/Lobster-Regular.ttf);
 }
-/* latin */
+
 @font-face {
-    font-family: 'Gochi Hand';
-    font-style: normal;
-    font-weight: 400;
-    src: local('Gochi Hand'), local('GochiHand-Regular'), url(https://fonts.gstatic.com/s/gochihand/v7/ZZzTGmufF-Wq8IS3fkpBu_k_vArhqVIZ0nv9q090hN8.woff2) format('woff2');
-    unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215;
+    font-family: "Dancing Script";
+    src: url(../../../fonts/DancingScript-Regular.ttf);
 }
-/* latin */
+
 @font-face {
-    font-family: 'La Belle Aurore';
-    font-style: normal;
-    font-weight: 400;
-    src: local('La Belle Aurore'), local('LaBelleAurore'), url(https://fonts.gstatic.com/s/labelleaurore/v7/Irdbc4ASuUoWDjd_Wc3md8dxVGbf3qyhvoXHfU-LjZg.woff2) format('woff2');
-    unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215;
+    font-family: "Patua One";
+    src: url(../../../fonts/PatuaOne-Regular.ttf);
 }
-/* vietnamese */
-@font-face {
-    font-family: 'Patrick Hand SC';
-    font-style: normal;
-    font-weight: 400;
-    src: local('Patrick Hand SC'), local('PatrickHandSC-Regular'), url(https://fonts.gstatic.com/s/patrickhandsc/v4/OYFWCgfCR-7uHIovjUZXsQ4e77NeSCkUYMQ0PMPG4Hg.woff2) format('woff2');
-    unicode-range: U+0102-0103, U+1EA0-1EF9, U+20AB;
-}
-/* latin-ext */
-@font-face {
-    font-family: 'Patrick Hand SC';
-    font-style: normal;
-    font-weight: 400;
-    src: local('Patrick Hand SC'), local('PatrickHandSC-Regular'), url(https://fonts.gstatic.com/s/patrickhandsc/v4/OYFWCgfCR-7uHIovjUZXsWxIpCjoByBH_5BMoCOCdCY.woff2) format('woff2');
-    unicode-range: U+0100-024F, U+1E00-1EFF, U+20A0-20AB, U+20AD-20CF, U+2C60-2C7F, U+A720-A7FF;
-}
-/* latin */
-@font-face {
-    font-family: 'Patrick Hand SC';
-    font-style: normal;
-    font-weight: 400;
-    src: local('Patrick Hand SC'), local('PatrickHandSC-Regular'), url(https://fonts.gstatic.com/s/patrickhandsc/v4/OYFWCgfCR-7uHIovjUZXsZi4I2Fwo6sqyzVodtQ85Ik.woff2) format('woff2');
-    unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215;
-}
-/* latin-ext */
-@font-face {
-    font-family: 'Peralta';
-    font-style: normal;
-    font-weight: 400;
-    src: local('Peralta'), local('Peralta-Regular'), url(https://fonts.gstatic.com/s/peralta/v4/jbQtT-MQyWNAGyL7Aeatq_Y6323mHUZFJMgTvxaG2iE.woff2) format('woff2');
-    unicode-range: U+0100-024F, U+1E00-1EFF, U+20A0-20AB, U+20AD-20CF, U+2C60-2C7F, U+A720-A7FF;
-}
-/* latin */
-@font-face {
-    font-family: 'Peralta';
-    font-style: normal;
-    font-weight: 400;
-    src: local('Peralta'), local('Peralta-Regular'), url(https://fonts.gstatic.com/s/peralta/v4/u9VnQ6kM-5PI2V8JsmWmHw.woff2) format('woff2');
-    unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215;
-}
-/* latin */
-@font-face {
-    font-family: 'Unkempt';
-    font-style: normal;
-    font-weight: 400;
-    src: local('Unkempt'), url(https://fonts.gstatic.com/s/unkempt/v7/Alnku_j0xDI8qmyWIe7Srg.woff2) format('woff2');
-    unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215;
-}
+
 /*Global*/
 body {
     /*font-family: "Orbitron Black", "Chau Philomene One";
@@ -258,6 +202,9 @@ body {
     /*background-size: cover;*/
 }
 
+.styled-font {
+    font-family: "Lobster";
+}
 .menu-item{
     cursor: pointer;
     text-align: center;

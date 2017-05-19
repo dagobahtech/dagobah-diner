@@ -50,7 +50,7 @@ class ConfirmationBox extends Component {
                     this.props.confirmModalState.isShowing &&
                     <ModalContainer onClose={this.handleClose}>
                         <ModalDialog onClose={this.handleClose}>
-                            <h1>{this.props.confirmModalState.header}</h1>
+                            <h1 className="styled-font">{this.props.confirmModalState.header}</h1>
                             <p id="errorMessage">{this.props.confirmModalState.message}</p>
                             {this.props.confirmModalState.component}
                             {this.createYesNoButton()}
