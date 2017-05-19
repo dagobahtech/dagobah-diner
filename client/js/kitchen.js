@@ -8,6 +8,7 @@ var orderList = document.getElementById("order-list");
 var orderListNodes = orderList.childNodes;
 
 var prepItemList = document.getElementById("prep-item-list");
+var prepItemListNodes = prepItemList.childNodes;
 var activeItem; //pointer to the selected item
 
 var foodTrayList = document.getElementById("food-tray-list");
@@ -20,7 +21,7 @@ var readyListNodes = readyList.childNodes;
 var cook1 = document.getElementById("cook1");
 var cook2 = document.getElementById("cook2");
 var cook6 = document.getElementById("cook6");
-
+let selectedIndex; //save the selected index so it is preserved when new orders arrive
 //ask for the the kitchen's expire time
 socket.emit("expiry");
 //join the kitchen socket
@@ -53,7 +54,7 @@ socket.on("status", showStatus);
 //preserve the button style
 const buttonStyle = document.getElementById("buttons").style;
 
-//check the foods every 10s
+//check the foods every 2s
 setInterval(checkFoods, UPDATE_FREQUENCY);
 
 /*BUTTON ACTIONS --- COOKING*/
@@ -74,6 +75,7 @@ function cook(quantity) {
         showStatus(true);
         socket.emit("cook", {id: parseInt(activeItem.itemId, 10), name: activeItem.itemName}, quantity);
         activeItem = undefined;
+        selectedIndex = undefined;
         resetHighlight();
     }
 }
@@ -304,7 +306,7 @@ function populatePrepList() {
     let items = getUniqueItemsAsDict();
     console.log("items");
     console.log(items);
-    items.forEach(function (item) {
+    items.forEach(function (item, index) {
         console.log(item);
         let row = document.createElement("tr");
         let dataCellName = document.createElement("td");
@@ -319,6 +321,7 @@ function populatePrepList() {
         row.itemId = item.itemId;
         row.itemName = item.name;
         row.inOrders = item.inOrders;
+        row.index = index
         dataCellName.innerHTML = item.name;
         dataCellQty.innerHTML = item.quantity;
 
@@ -344,10 +347,17 @@ function populatePrepList() {
             this.classList.add("active-item");
             activeItem = this;
             highligthOrders(this.inOrders);
+            selectedIndex = this.index;
+            console.log("selected index" + selectedIndex);
         });
 
         prepItemList.appendChild(row);
-    })
+    });
+
+    if(selectedIndex !== undefined) {
+        prepItemListNodes[selectedIndex].classList.add("active-item");
+        activeItem = prepItemListNodes[selectedIndex];
+    }
 }
 
 
@@ -360,13 +370,6 @@ function getUniqueItemsAsDict() {
         items.forEach(function (item) {
             if(!item._isDone) {
 
-//                    if (typeof(result[item._id]) === 'undefined') {
-//                        result[item._id] = {
-//                            name: item._name,
-//                            quantity: 1,
-//                            inOrders: [{order: order._orderNumber, qty: 1}]
-//                        }
-//                    }
                 let itemIndex = itemIndexInOrders(item._id, result);
                 if(itemIndex === -1) {
                     result.push({
