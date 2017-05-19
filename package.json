@@ -2,16 +2,23 @@
   "name": "dagobah-fastfood",
   "version": "1.0.0",
   "description": "Fast food delivery system for planet Dagobah",
+  "engines": {
+    "node": "7.8.x"
+  },
   "main": "index.js",
   "scripts": {
     "start": "node --use_strict index.js",
     "build": "./node_modules/.bin/webpack && cd client && npm run build",
-    "live": "cd client && npm start",
+    "heroku-postbuild": "webpack && cd client/ && npm install --only=dev && npm install && npm run build",
     "test": "./node_modules/.bin/jest",
     "test:night": "./node_modules/.bin/concurrently \"npm start\" \"nightwatch --env chrome\"",
     "test:firefox": "./node_modules/.bin/nightwatch",
     "dagobah": "npm install && cd client && npm install && cd .. && npm run build && npm start"
   },
+  "cacheDirectories": [
+    "node_modules",
+    "client/node_modules"
+  ],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/dagobahtech/acit2910.git"
@@ -31,7 +38,6 @@
     "font-awesome": "^4.7.0",
     "jquery": "^3.2.1",
     "multer": "^1.3.0",
-    "nightwatch": "^0.9.15",
     "pg": "^6.1.5",
     "socket.io": "^1.7.4",
     "webpack": "^2.5.1"
