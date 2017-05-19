@@ -530,3 +530,7 @@ h1 {
     background-color: #E4DBCB;
     border: 3px solid #342D1E;
 }
+
+.btn-success {
+    background-color: darkgreen;
+}
