@@ -8,23 +8,22 @@ class Welcome extends Component {
 
     render() {
         return (
-            <div className="welcome-bg transition-item enter-down-exit-up">
-                <div className="welcome-bg-filter">&nbsp;</div>
-                <div className="container">
-                    <div className="row">
-                        <img src={logo} alt="" className="logo"/>
+
+                <div className="flx-embed welcome-bg-outer transition-item enter-down-exit-up" >
+                    <div className="welcome-bg-banner">
+                        Dagobah <span style={{'color':'orange'}}>Diner</span> <br />
+                        <div className="sub">We bet you won’t find better</div>
                     </div>
-                    <div className="row" id="startOuter">
-                        <Link to="/order"
-							id="startBut">
-                            CLICK HERE TO START ORDERING
-                        </Link>
+                    <div className="welcome-bg-button-span">
+                        <Link to="order" className="welcome-bg-button">Click Here to Start Ordering</Link>
+                    </div>
+                    <div className="welcome-bg-cover"></div>
+                    <div className="welcome-bg-container">
+                        <iframe className="welcome-bg" src="https://media.flixel.com/cinemagraph/prnarfpf3ar3aewyydky?hd=false" frameborder="0" allowfullscreen></iframe>
+
                     </div>
                 </div>
 
-
-
-            </div>
         );
     }
 }

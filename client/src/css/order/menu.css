@@ -404,20 +404,88 @@ body {
 
 /* WELCOME SCREEN*/
 
+/*.welcome-bg {*/
+    /*background: url('./images/bg.jpg') no-repeat ;*/
+    /*background-attachment: fixed;*/
+    /*background-size: cover;*/
+/*}*/
+
+/*.welcome-bg-filter {*/
+    /*height: 100%;*/
+    /*width: 100%;*/
+    /*background-color: white;*/
+    /*opacity: 0.2;*/
+    /*position: absolute;*/
+/*}*/
+
+.welcome-bg-outer {
+    height:100vh;
+    overflow:hidden;
+    background-color: black;
+}
+
+.welcome-bg-container {
+    position:relative;
+    width:100%;
+}
+
 .welcome-bg {
-    background: url('./images/bg.jpg') no-repeat ;
-    background-attachment: fixed;
-    background-size: cover;
+    position:absolute;
+    top:0;
+    left:0;
+    width:100vw;
+    height:100vh;
 }
 
-.welcome-bg-filter {
-    height: 100%;
-    width: 100%;
-    background-color: white;
-    opacity: 0.2;
+.welcome-bg-banner {
+
+    font-family: 'Lobster', cursive;
+    color: white;
+    padding: 0px;
+    margin: 0px;
+    z-index: 1;
+    font-size: 5vw;
     position: absolute;
+    left: 0;
+    right: 0;
+    text-align: center;
+    margin-top: 15vh;
 }
 
+.welcome-bg-button {
+    padding: 15px;
+    display: inline-block;
+    font-family: 'Patua One', cursive;
+    color: white;
+    font-size: 2vw;
+    background-color: rgba(0,0,0,0.5);
+    border-radius: 5px;
+    margin:auto;
+    cursor: pointer;
+    transform: scale(1,1);
+    transition: color 0.2s ease-in, transform 0.2s ease-in;
+}
+
+.welcome-bg-button:hover {
+    transform: scale(1.1,1.1);
+    color: orange
+}
+
+.welcome-bg-button-span {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 5vh;
+    text-align: center;
+    z-index: 2;
+}
+
+.welcome-bg-cover {
+    width: 100vw;
+    height: 100vh;
+    position: absolute;
+    z-index: 1;
+}
 .TWords {
     top: 40%;
     position: relative;
