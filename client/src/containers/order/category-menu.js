@@ -38,7 +38,7 @@ class CategoryMenu extends Component {
         return (
             items.map(function (item) {
                 return (
-                    <div id="item" key={item.id}>
+                    <div className="col-12 col-md-6 col-lg-4 pb-3 menu-item-container" key={item.id}>
                         <MenuItem item={item}  isClickable={true}/>
                     </div>
                     )
@@ -48,11 +48,11 @@ class CategoryMenu extends Component {
 
     render() {
         return (
-            <div className="card card-danger menu-scrollable">
+            <div className="card dag-card menu-scrollable">
                 <div className="card-header center-align">
                     <CategoryNavigation/>
                 </div>
-                <div className="card-block menu" style={{'backgroundColor': 'white'}}>
+                <div className="card-block menu">
                     <div className="container-fluid">
                         <div id="item" key={1}>
                         </div>
@@ -60,8 +60,7 @@ class CategoryMenu extends Component {
                                                  transitionEnterTimeout={300}
                                                  transitionLeave={false}
                                                  component="div"
-                                                 className="row"
-												 id="itemOuter">
+                                                 className="row">
 
                             {this.createMenuItems()}
 

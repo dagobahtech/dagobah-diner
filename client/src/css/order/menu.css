@@ -81,12 +81,12 @@
 }
 /*Global*/
 body {
-    font-family: "Orbitron Black", "Chau Philomene One";
-    background-color: #EDC5B5;
+    /*font-family: "Orbitron Black", "Chau Philomene One";
+    background-color: #EDC5B5;*/
 }
-tr:hover {
-    background-color: lightgray;
-}
+/*tr:hover {*/
+    /*background-color: lightgray;*/
+/*}*/
 /*Root and outer containers*/
 body {
     overflow: hidden;
@@ -103,17 +103,18 @@ body {
     overflow: hidden;
     overflow-y: scroll;
 }
-.card {
-    max-height: 80vh;
-    background-color: #63674A;
-    border: solid #5A2525 1px;
-}
-#cardBack {
-    background-color:white;
-}
-.table {
-    color: white;
-}
+/*.card {*/
+    /*max-height: 80vh;*/
+    /*background-color: #342D1E;*/
+    /*border: solid #342D1E 1px;*/
+/*}*/
+/*#cardBack {*/
+    /*background-color:white;*/
+/*}*/
+
+/*.table {*/
+    /*color: white;*/
+/*}*/
 #confirmButton, #cancelButton {
     flex-grow: 1;
 }
@@ -203,28 +204,26 @@ body {
 /*	border: none;*/
 /*}*/
 #menuButton1,#menuButton2,#menuButton3 {
-    flex-grow: 1;
-    max-width: 100%;
-    font-size: 120%;
-    background-color: #63674A;
-    transition: all ease 0.5s;
-    border: none;
+
+    /*background-color: #63674A;*/
+    /*transition: all ease 0.5s;*/
+    /*border: none;*/
 }
-#menuButton1Active,#menuButton2Active,#menuButton3Active {
-    flex-grow: 1;
-    max-width: 100%;
-    font-size: 120%;
-    transition: all ease 0.5s;
-    background-color: #878C6D;
-    border: none;
-}
-#menuButton1Active:focus, #menuButton2Active:focus, #menuButton3Active:focus {
-    box-shadow: none;
-}
-#menuButton1:hover,#menuButton2:hover,#menuButton3:hover {
-    background-color: #878C6D;
-    border: none;
-}
+/*#menuButton1Active,#menuButton2Active,#menuButton3Active {*/
+    /*flex-grow: 1;*/
+    /*max-width: 100%;*/
+    /*font-size: 120%;*/
+    /*!*transition: all ease 0.5s;*!*/
+    /*!*background-color: #878C6D;*!*/
+    /*!*border: none;*!*/
+/*}*/
+/*#menuButton1Active:focus, #menuButton2Active:focus, #menuButton3Active:focus {*/
+    /*box-shadow: none;*/
+/*}*/
+/*#menuButton1:hover,#menuButton2:hover,#menuButton3:hover {*/
+    /*background-color: #878C6D;*/
+    /*border: none;*/
+/*}*/
 /*orderTable*/
 #listOuter {
     display: flex;
@@ -254,39 +253,43 @@ body {
 }
 /*Classes*/
 .main {
-    background-image: url("./images/bg.png");
+    background-image: url("./images/bgmain.jpg");
     /*	background-color: orange;*/
-    background-position: bottom right;
-    background-attachment: fixed;
-    background-size: 50%;
-    background-repeat: no-repeat;
+    /*background-size: cover;*/
 }
+
 .menu-item{
     cursor: pointer;
     text-align: center;
     height: 100%;
 }
 
-.menu-item .card-header {
-    background-color: white;
-    font-weight: bold;
-}
-.card-header {
-    border-bottom: solid #5A2525 5px;
-}
-.menu-item .card-footer {
+.menu-item > .card-header {
     color: white;
+    font-weight: bold;
+    background-color: rgb(52,45,30);
+
+}
+/*.card-header {*/
+    /*border-bottom: solid #5A2525 5px;*/
+/*}*/
+
+.menu-item > .card-footer {
+    color: white;
+    background-color: #BD4009;
 }
 
-.menu-item .card-block {
+.menu-item > .card-block {
     background-color: white;
+    border: 1px solid #342D1E;
 }
+
 .menu-item-container {
     transition: all ease 0.2s;
     transform: scale(1);
 }
 .menu-item-container:hover {
-    transform: scale(1.2);
+    transform: scale(1.1);
     z-index: 1;
 }
 
@@ -424,10 +427,18 @@ body {
 
 /*BANNER*/
 .banner {
-    max-height: 100px;
-    position: relative;
-    margin: 2px 0;
+    font-family: 'Lobster', cursive;
+    color: white;
+    font-size: 6vh;
+
 }
+
+.sub {
+    font-family: 'Dancing Script', cursive;
+    font-size: 1.5vw;
+    color: white;
+}
+
 
 .logo-navbar {
     max-width: 300px;
@@ -461,4 +472,46 @@ h1 {
 .currency-large {
     height: 30px;
     width: 25px;
+}
+
+/*JED my custom buttons*/
+.dag-btn {
+    color: #F2E1DB;
+    background-color: transparent;
+    flex-grow: 1 !important;
+    max-width: 100% !important;
+    font-size: 120%;
+    border: 3px solid transparent;
+    border-radius: 15px;
+    /*flex-grow: 1;*/
+    /*max-width: 100%;*/
+    /*font-size: 120%;*/
+}
+
+.dag-btn:hover {
+    border: 3px solid #F2E1DB;
+}
+
+.active {
+    border: 3px solid #F2E1DB;
+}
+
+/*custom cards*/
+.dag-card {
+    border-color: #342D1E;
+
+}
+
+.dag-card > .card-header {
+    /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#493f2a+0,342d1e+46,342d1e+58,342d1e+100 */
+    background: #493f2a; /* Old browsers */
+    background: -moz-linear-gradient(top, #493f2a 0%, #342d1e 46%, #342d1e 58%, #342d1e 100%); /* FF3.6-15 */
+    background: -webkit-linear-gradient(top, #493f2a 0%,#342d1e 46%,#342d1e 58%,#342d1e 100%); /* Chrome10-25,Safari5.1-6 */
+    background: linear-gradient(to bottom, #493f2a 0%,#342d1e 46%,#342d1e 58%,#342d1e 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#493f2a', endColorstr='#342d1e',GradientType=0 ); /* IE6-9 */
+}
+
+.dag-card > .card-block {
+    background-color: #E4DBCB;
+    border: 3px solid #342D1E;
 }
