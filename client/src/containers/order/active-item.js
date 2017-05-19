@@ -88,13 +88,9 @@ class ActiveItem extends Component {
     showAdd() {
         const buttonMessage = (this.props.isNew) ?  "Add" : "Save";
         return(
-            <div className="row">
-                <div className="col-md-4 offset-md-4 center-align">
                     <button className="btn btn-success btn-block"
                             onClick={()=>this.addToOrder()}>{buttonMessage}</button>
 
-                </div>
-            </div>
         )
     }
 
@@ -175,38 +171,31 @@ class ActiveItem extends Component {
 
         let comp = (
             <div className="card item-popup">
-                <h3 className="card-header">{this.props.item.name}</h3>
-                <div className="card-block">
-                    <div className="container-fluid">
-                        <div className="row">
-                            <div className="col-md-8">
-                                <p>
-                                    {this.props.item.description}
-                                </p>
-                            </div>
-                            <div className="col-md-4">
-                                <img src={'/images/'+this.props.item.image_name} style={{'height':'auto', 'width':'150px'}}alt=""/>
-                            </div>
-                        </div>
-                        <div className="row">
-                            <div className="col-md-8 center-align">
-                                { innerComp }
-                            </div>
-                            <div className="col-md-4 center-align">
-                                <h4>
-                                    <div className="currency currency-black currency-large"></div>
-                                    <NumberFormat value={this.props.item.price}
-                                                  decimalPrecision={2}
-                                                  displayType={'text'} thousandSeparator={true}
-                                /></h4>
-                            </div>
-                        </div>
+                <div className="card mb-3">
+                    <div className="card-img-top menu-item-image" style={{'background-image':'url("/images/'+this.props.item.image_name+'")'}} alt="Card image cap" />
+                    <div className="card-block">
+                        <h4 className="card-title">{this.props.item.name} : <div className="currency currency-black currency-large"></div>
+                            <NumberFormat value={this.props.item.price}
+                                          decimalPrecision={2}
+                                          displayType={'text'} thousandSeparator={true}
+                            /></h4>
+                        <p className="card-text">{this.props.item.description}</p>
                         <hr/>
-                        { buttonComp }
-
-
+                        <div className="container">
+                            <div className="row">
+                                <div className="col-12 center-align">
+                                    { innerComp }
+                                </div>
+                            </div>
+                            <div>
+                                <div className="row mt-2">
+                                    <div className="col-12 center-align">
+                                        { buttonComp }
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-
                 </div>
             </div>
         );

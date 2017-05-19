@@ -48,7 +48,7 @@ class OrderItem extends Component {
                                   decimalPrecision={2}
                                   displayType={'text'} thousandSeparator={true}
                     /></td>
-                <td className="col-1">
+                <td className="col-2">
                     <button className="btn btn-warning btn-sm"
                             onClick={() => this.showDetails()}>View
                     </button>

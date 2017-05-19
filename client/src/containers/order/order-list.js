@@ -177,15 +177,16 @@ class OrderList extends Component {
                                               displayType={'text'} thousandSeparator={true}
                                               /></h2>
                 </div>
-                <div className="card-block" id="cardOuter">
+                <div className="card-block">
                         <table className="table">
                             <thead className="container-fluid thead-inverse">
-                                <tr className="row" id="listOuter">
-                                    <th id="tablePad">&nbsp;</th>
-                                    <th id="tableItem">Item</th>
-                                    <th id="tableQty">Qty</th>
-                                    <th id="tablePrice">Price</th>
-                                    <th id="tablePad">Subtotal</th>
+                                <tr className="row">
+                                    <th className="col-md-1 no-padding">&nbsp;</th>
+                                    <th className="col-md-4 no-padding">Item</th>
+                                    <th className="col-md-1 no-padding">Qty</th>
+                                    <th className="col-md-2 no-padding">Price</th>
+                                    <th className="col-md-2 no-padding">Sub</th>
+                                    <th className="col-md-2 no-padding">&nbsp;</th>
                                 </tr>
                             </thead>
 

@@ -31,8 +31,8 @@ class OrderBoard extends Component {
     render() {
         return (
             <div className="row" id="board">
-                <div className="col-lg-8 col-md-12 col-sm-12"><CategoryMenu/></div>
-                <div className="col-lg-4 col-md-12 col-sm-12"><OrderList /></div>
+                <div className="col-12 col-xl-8"><CategoryMenu/></div>
+                <div className="col-12 col-xl-4 "><OrderList /></div>
 
             </div>
         );
