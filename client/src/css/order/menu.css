@@ -240,6 +240,13 @@ body {
     z-index: 1;
 }
 
+.menu-item-image {
+    width: 100%;
+    height: 350px;
+    background-position: center bottom;
+    background-size: contain;
+    background-repeat: no-repeat;
+}
 .menu {
     min-height: 70vh;
     overflow: hidden;
@@ -537,4 +544,8 @@ h1 {
 
 .btn-danger {
     background-color: firebrick;
+}
+
+.btn-warning {
+    background-color: orange;
 }
