@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Dashboard - Administrator</title>
+
+    <!--Bootstrap 4 CDN-->
+    <link rel="stylesheet" href="/bootstrap/css/bootstrap.css">
+    <!--DataTable.js -->
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.15/css/dataTables.bootstrap4.min.css">
+    <!--Font-Awesome Icons-->
+    <script src="https://use.fontawesome.com/b973fe404b.js"></script>
+
+    <link rel="stylesheet" href="/admin-css/admin.css">
+
+</head>
+<body>
+<!--NavBar-->
+<nav id="mainNav" class="navbar static-top navbar-toggleable-md navbar-inverse bg-inverse">
+    <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarEx" aria-controls="navbarEx" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <a class="navbar-brand" href="admin/admin-dashboard">Dagobah Administrator</a>
+    <div class="collapse navbar-collapse" id="navbarEx">
+        <ul class="navbar-nav sidebar-nav">
+            <li class="nav-item active">
+                <a class="nav-link" href="" id="admin-link" onclick="return false;"><i class="fa fa-fw fa-dashboard"></i> Dashboard</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="" id="admin-menu-link" onclick="return false;"><i class="fa fa-fw fa-glass"></i> Menu</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="" id="admin-stat-link" onclick="return false;"><i class="fa fa-fw fa-line-chart"></i> Statistics</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link nav-link-collapse collapsed" data-toggle="collapse" href="#collapseComponents"><i class="fa fa-fw fa-wrench"></i> Toolbox</a>
+                <ul class="sidebar-second-level collapse" id="collapseComponents">
+                    <li>
+                        <a href="" id="admin-create-link" onclick="return false;">Add Menu Items</a>
+                    </li>
+                    <li>
+                        <a href="" id="admin-settings-link" onclick="return false;">Setting 1</a>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+        <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+                <a id="logoutButton" class="nav-link" href="/admin/logout"><i class="fa fa-fw fa-sign-out"></i> Logout</a>
+            </li>
+        </ul>
+    </div>
+</nav>
+<!-- Ends Navbar-->
+
+<!--Bootstrap Core & jQuery-->
+<script src="/jquery/jquery.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
+<script src="/bootstrap/js/bootstrap.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.13.0/moment.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.1.0/Chart.bundle.min.js"></script>
+<script type="text/javascript" charset="utf8" src="//cdn.datatables.net/1.10.15/js/jquery.dataTables.js"></script>
+<script src="https://cdn.datatables.net/1.10.15/js/dataTables.bootstrap4.min.js"></script>
+
+
+<!-- Display -->
+<div class="content-wrapper py-3">
+    <div class="container-fluid">
+
+        <!--Breadcrumbs section-->
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="" onclick="return false">Dashboard</a></li>
+            <li class="breadcrumb-item active"><a href="" onclick="return false">Menu</a></li>
+        </ol>
+
+        <!--DataTable-->
+        <div id="display"></div>
+    </div>
+</div>
+
+<script src="/scripts/index.js"></script>
+
+</body>
+</html>

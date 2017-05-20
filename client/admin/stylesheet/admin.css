@@ -2,7 +2,15 @@ html {
     min-height: 100%;
 }
 
-
+#restaurantOpenClose {
+    width: 100%;
+    text-align: -webkit-center;
+    font-size: 150%;
+    transition: all ease 0.5s;
+    
+/*    Green: #5cb85c */
+/*    Red: #d9534f */
+}
 .active {
     color: white;
 }
