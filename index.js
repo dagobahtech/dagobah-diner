@@ -37,7 +37,7 @@ var loginForm = path.resolve(__dirname, "client/admin/login.html");
 
 
 // redirect to image, css and js folders
-app.use("/scripts", express.static("client/buildjs"));
+app.use("/scripts", express.static("client/js"));
 app.use("/styles", express.static("client/src/css"));
 app.use("/images", express.static("MenuPics"));
 
@@ -106,6 +106,7 @@ app.get("/orderview", function(req,resp) {
 app.post("/isOpen", function(req, resp) {
    resp.send(restIsOpen);
 });
+
 app.post("/restStatChange", function(req, resp) {
    console.log("working");
    console.log(req.body.status);

@@ -11,19 +11,14 @@ var loginForm = path.resolve(__dirname, "../client/admin/login.html");
 
 router.get("/", function (req, resp) {
     if (req.session.user_id === 1) {
-        resp.sendFile(adminFolder + "/dashboard.html");
+        resp.sendFile(adminFolder + "/index.html");
     } else {
         resp.redirect("/login");
     }
 });
 
-router.get("/menu-datatable", function(req, resp){
-    resp.sendFile(adminFolder + "/menu-datatable.html");
-});
-
-//temporary route to createitems
-router.get("/create", function(req, resp) {
-   resp.sendFile(adminFolder + "/createItems.html");
+router.post("/page/:page", function (req, resp) {
+    resp.sendFile(adminFolder+"/"+req.params.page+".html");
 });
 
 router.get("/logout", function(req, resp) {
