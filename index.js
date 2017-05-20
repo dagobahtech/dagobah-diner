@@ -38,6 +38,7 @@ var loginForm = path.resolve(__dirname, "client/admin/login.html");
 
 // redirect to image, css and js folders
 app.use("/scripts", express.static("client/js"));
+app.use("/jsBuild", express.static("client/buildjs"));
 app.use("/styles", express.static("client/src/css"));
 app.use("/images", express.static("MenuPics"));
 
@@ -106,15 +107,6 @@ app.get("/orderview", function(req,resp) {
 app.post("/isOpen", function(req, resp) {
    resp.send(restIsOpen);
 });
-
-app.post("/restStatChange", function(req, resp) {
-   console.log("working");
-   console.log(req.body.status);
-   console.log(restIsOpen);
-   restIsOpen = req.body.status; 
-   console.log(restIsOpen);
-   resp.send(restIsOpen);
-});
 //setup the routes
 app.use("/admin", admin);
 //@jed: commented this, i'll be using sockets for kitchen
@@ -141,9 +133,7 @@ function getMenuItems() {
 exports.getMenuItems = getMenuItems(); // DL - export the function to be used in "/routes/admin.js"
 
 app.post("/menu-items", function(req, resp){
-
     resp.send(dagobah.menuItems);
-
 });
 
 //add app.get before this call
@@ -415,6 +405,24 @@ io.on("connection", function(socket){
     //client order page requests for item constraints
     socket.on("get constraints", function () {
         socket.emit("send constraints", kitchen.maxItemPerOrder, kitchen.maxQuantityPerItem);
+    });
+    
+    app.post("/restStatChange", function(req, resp) {
+       console.log("recieved currentStatus: " + req.body.status);
+       if(req.body.status == "true") {
+           restIsOpen = false;
+           socket.emit("restaurantStatus", restIsOpen);
+           resp.send(false);
+       }
+       else if (req.body.status == "false") {
+           restIsOpen = true;
+           socket.emit("restaurantStatus", restIsOpen);
+           resp.send(true);
+       }
+       else {
+           resp.send(null);
+           console.log("sending: error");
+       }
     });
 });
 

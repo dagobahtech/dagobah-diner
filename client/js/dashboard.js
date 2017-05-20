@@ -36,20 +36,21 @@ $.ajax({
 
 
 $(document).ready(function() {
-    //Is the restaurant open functionality
+    //Is the restaurant open functional
+    //it is now.
+      $.ajax({
+           url: "/isOpen",
+            type: "POST",
+            success: function(response) {
+                restStatus = response;
+                checkRestStatus("Restaurant is Open", "Restaurant is Closed",  "#5cb85c", "#d9534f");
+            }
+        });
+    
     restBut = document.getElementById("restaurantOpenClose");
 
     restBut.addEventListener("mouseover", function() {
         checkRestStatus("Close Restaurant", "Open Restaurant", "#5cb85c", "d9534f");
-        if(restStatus) {
-            menuChange("Close Restaurant");
-        }
-        else if (!restStatus) {
-            menuChange("Open Restaurant");
-        }
-        else {
-            menuChange("Error", "white");
-        }
     });
     restBut.addEventListener("mouseout", function() {
         checkRestStatus("Restaurant is Open", "Restaurant is Closed",  "#5cb85c", "#d9534f");
@@ -64,9 +65,7 @@ $(document).ready(function() {
                 status: restStatus
             },
             success: function(response) {
-                console.log(response)
                 restStatus = response;
-                console.log(restStatus)
                 checkRestStatus("Restaurant is Open", "Restaurant is Closed",  "#5cb85c", "#d9534f");
             }
         });
@@ -82,6 +81,7 @@ $(document).ready(function() {
     });
 
     function checkRestStatus(textA, textB, colorA, colorB) {
+        restStatus = Boolean(restStatus);
         if(restStatus) {
             menuChange(textA, colorA);
         }
