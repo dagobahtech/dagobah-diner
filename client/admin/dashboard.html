@@ -114,19 +114,22 @@
                     </div>
                 </div>
             </div>
-
+			
+			<!--Open/Close Restaurant-->
+			<button class="card mb-3" id="restaurantOpenClose">Error</button>
+			
             <!--Area Chart-->
-                <div class="card mb-3">
-                    <div class="card-header">
-                        <i class="fa fa-area-chart"></i> Daily Orders
-                    </div>
-                    <div class="card-block">
-                        <canvas id="dailyOrdersChart" width="100" height="35"></canvas>
-                    </div>
-                    <div id="tableUpdateTime" class="card-footer small text-muted">
-                        ...
-                    </div>
+            <div class="card mb-3">
+                <div class="card-header">
+                    <i class="fa fa-area-chart"></i> Daily Orders
                 </div>
+                <div class="card-block">
+                    <canvas id="dailyOrdersChart" width="100" height="35"></canvas>
+                </div>
+                <div id="tableUpdateTime" class="card-footer small text-muted">
+                    ...
+                </div>
+            </div>
             <!-- ./ Area Chart-->
 
 
@@ -147,6 +150,7 @@
 <script>
 
     var time = new Date();
+    var restStatus = null;
     var options = {
         weekday: "long", year: "numeric", month: "short",
         day: "numeric", hour: "2-digit", minute: "2-digit"
@@ -181,7 +185,71 @@
         }
     });
 
-    $(document).ready(function() {
+    
+    $(document).ready(function() {     
+        //Is the restaurant open functionality
+        restBut = document.getElementById("restaurantOpenClose");
+        
+        restBut.addEventListener("mouseover", function() {
+            checkRestStatus("Close Restaurant", "Open Restaurant", "#5cb85c", "d9534f");
+            if(restStatus) {
+                menuChange("Close Restaurant");
+            }
+            else if (!restStatus) {
+                menuChange("Open Restaurant");
+            }
+            else {
+                menuChange("Error", "white");
+            }
+        });
+        restBut.addEventListener("mouseout", function() {
+            checkRestStatus("Restaurant is Open", "Restaurant is Closed",  "#5cb85c", "#d9534f");
+        });
+        
+        restBut.addEventListener("click", function() {
+           console.log("working");
+           $.ajax({
+              url: "/restStatChange",
+               type: "POST",
+               data: {
+                   status: restStatus
+               },
+               success: function(response) {
+                  console.log(response)
+                  restStatus = response;
+                  console.log(restStatus)
+                  checkRestStatus("Restaurant is Open", "Restaurant is Closed",  "#5cb85c", "#d9534f");
+               }
+           });
+        });
+        
+        $.ajax({
+           url: "/isOpen",
+            type: "POST",
+            success: function(response) {
+                restStatus = response;
+                checkRestStatus("Restaurant is Open", "Restaurant is Closed",  "#5cb85c", "#d9534f");
+            }
+        });
+        
+        function checkRestStatus(textA, textB, colorA, colorB) {
+            if(restStatus) {
+                menuChange(textA, colorA);
+            }
+            else if (!restStatus) {
+                menuChange(textB, colorB);
+            }
+            else {
+                menuChange("Error", "white");
+            }
+        }
+        
+        function menuChange(text, color) {
+            restBut.innerHTML = text;
+            restBut.style.borderColor = color;
+            restBut.style.backgroundColor = color;
+        }
+        
         var dataAreaChart = {
             labels: dateArray,
             datasets: [{

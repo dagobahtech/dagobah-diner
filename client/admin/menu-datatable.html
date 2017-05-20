@@ -99,6 +99,7 @@
 <script>
 
     var time = new Date();
+	var categoryName = ["Main", "Side", "Drink"];
     var options = {
         weekday: "long", year: "numeric", month: "short",
         day: "numeric", hour: "2-digit", minute: "2-digit"
@@ -117,7 +118,8 @@
             for (let i = 0; i < response.length; i++){
                 let item = [];
                 item.push(response[i].name);
-                item.push(response[i].category);
+				console.log(categoryName[parseInt(response[i].category) - 1]);
+                item.push(categoryName[parseInt(response[i].category) - 1]);
                 item.push(response[i].description);
                 item.push(response[i].kitchen_station_id);
                 item.push(response[i].price);
