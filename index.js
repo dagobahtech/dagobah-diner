@@ -24,6 +24,8 @@ const admin = require('./routes/admin');
 // DanLi - Cloud Database Hosted on ElephantSQL.com credentials posted on GitHub
 const dbURL = process.env.DATABASE_URL || "postgres://lpufbryv:FGc7GtCWBe6dyop0yJ2bu0pTXDoBJnEv@stampy.db.elephantsql.com:5432/lpufbryv";
 
+//DChew - Whether or not the restaurant is open
+var restIsOpen = false;
 
 var pFolder = path.resolve(__dirname, "client/public");
 var adminFolder = path.resolve(__dirname, "client/admin");
@@ -100,7 +102,18 @@ app.get("/orderview", function(req,resp) {
     resp.sendFile(pFolder+"/orderview.html");
 });
 
-
+// is restaurant open ajax call
+app.post("/isOpen", function(req, resp) {
+   resp.send(restIsOpen);
+});
+app.post("/restStatChange", function(req, resp) {
+   console.log("working");
+   console.log(req.body.status);
+   console.log(restIsOpen);
+   restIsOpen = req.body.status; 
+   console.log(restIsOpen);
+   resp.send(restIsOpen);
+});
 //setup the routes
 app.use("/admin", admin);
 //@jed: commented this, i'll be using sockets for kitchen
