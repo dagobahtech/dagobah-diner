@@ -4,14 +4,14 @@ $(document).ready(function () {
     //pointer to the active link so we can disable it activate the new one
     let activeItem;
 
-    const DASHBOARD = 0,
-        MENU_DATATABLE = 1,
-        CREATE_ITEMS = 2,
-        SETTINGS = 3,
-        STATISTICS = 4;
+    const PAGE = {
+        DASHBOARD: 'dashboard',
+        MENU_DATATABLE: 'menu-datatable',
+        CREATE_ITEMS: 'createItems',
+        SETTINGS: 'settings',
+        STATISTICS: 'statistics'
+    }
 
-    //name mapping to html and js files
-    const NAME_MAP = ['dashboard', 'menu-datatable', 'createItems', 'settings','statistics'];
 
     /*5 link
      * dashboard: admin-link
@@ -29,24 +29,24 @@ $(document).ready(function () {
     let display = document.getElementById("display");
 
     //load page function
-    function loadPage(pageIndex, elemThatFired) {
-        //check if pageIndex is valid
-        if(pageIndex < 0 || pageIndex >= NAME_MAP.length) {
+    function loadPage(page, elemThatFired) {
+        //check if page is valid
+        if(!PAGE.hasOwnProperty(page)){
             return false;
         }
 
         //don't do an ajax call if we're on the same page
-        if(currentPage === pageIndex) {
+        if(currentPage === PAGE[page]) {
             return false;
         }
 
         $.ajax({
-            url: "/admin/page/"+NAME_MAP[pageIndex],
+            url: "/admin/page/"+PAGE[page],
             type: "post",
             success: function (resp) {
                 display.innerHTML = resp;
                 let script = document.createElement("script");
-                script.setAttribute("src", "/scripts/"+NAME_MAP[pageIndex]+".js");
+                script.setAttribute("src", "/scripts/"+PAGE[page]+".js");
                 display.appendChild(script);
             }
 
@@ -56,20 +56,20 @@ $(document).ready(function () {
         elemThatFired.parentNode.classList.add("active");
 
         activeItem = elemThatFired;
-        currentPage = pageIndex;
+        currentPage = PAGE[page];
 
         //so the href won't trigger
         return false;
     }
 
     //set up event listeners for each nav link
-    adminLink.addEventListener("click", (event)=> {return loadPage(DASHBOARD, event.target)});
-    adminMenuLink.addEventListener("click", (event)=> {return loadPage(MENU_DATATABLE, event.target)});
-    adminStatLink.addEventListener("click", (event)=> {return loadPage(STATISTICS, event.target)});
-    adminCreateLink.addEventListener("click", (event)=> {return loadPage(CREATE_ITEMS, event.target)});
-    adminSettingsLink.addEventListener("click", (event)=> {return loadPage(SETTINGS, event.target)});
+    adminLink.addEventListener("click", (event)=> {return loadPage('DASHBOARD', event.target)});
+    adminMenuLink.addEventListener("click", (event)=> {return loadPage('MENU_DATATABLE', event.target)});
+    adminStatLink.addEventListener("click", (event)=> {return loadPage('STATISTICS', event.target)});
+    adminCreateLink.addEventListener("click", (event)=> {return loadPage('CREATE_ITEMS', event.target)});
+    adminSettingsLink.addEventListener("click", (event)=> {return loadPage('SETTINGS', event.target)});
 
     //load dashboard as default page
-    loadPage(DASHBOARD, adminLink);
+    loadPage('DASHBOARD', adminLink);
 
 });
