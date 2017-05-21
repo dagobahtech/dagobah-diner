@@ -24,13 +24,13 @@ const admin = require('./routes/admin');
 // DanLi - Cloud Database Hosted on ElephantSQL.com credentials posted on GitHub
 const dbURL = process.env.DATABASE_URL || "postgres://lpufbryv:FGc7GtCWBe6dyop0yJ2bu0pTXDoBJnEv@stampy.db.elephantsql.com:5432/lpufbryv";
 
-//DChew - Whether or not the restaurant is open
-var restIsOpen = false;
-
 var pFolder = path.resolve(__dirname, "client/public");
 var adminFolder = path.resolve(__dirname, "client/admin");
 var loginForm = path.resolve(__dirname, "client/admin/login.html");
 
+//***NOTE*** 
+//remember to uncomment the line below... or modify the class somewhere
+//dagobah.isOpen = false;
 
 // redirect to css and js folders
 //app.use("/buildScripts", express.static("client/buildjs"));
@@ -105,7 +105,7 @@ app.get("/orderview", function(req,resp) {
 
 // is restaurant open ajax call
 app.post("/isOpen", function(req, resp) {
-   resp.send(restIsOpen);
+   resp.send(dagobah.isOpen);
 });
 //setup the routes
 app.use("/admin", admin);
@@ -410,13 +410,15 @@ io.on("connection", function(socket){
     app.post("/restStatChange", function(req, resp) {
        console.log("recieved currentStatus: " + req.body.status);
        if(req.body.status == "true") {
-           restIsOpen = false;
-           socket.emit("restaurantStatus", restIsOpen);
+           dagobah.isOpen = false;
+           console.log("sending: " + dagobah.isOpen);
+           socket.emit("restaurantStatus", dagobah.isOpen);
            resp.send(false);
        }
        else if (req.body.status == "false") {
-           restIsOpen = true;
-           socket.emit("restaurantStatus", restIsOpen);
+           dagobah.isOpen = true;
+           console.log("sending: " + dagobah.isopen);
+           socket.emit("restaurantStatus", dagobah.isOpen);
            resp.send(true);
        }
        else {
