@@ -277,7 +277,48 @@ function dataSetWeekly(property, data) {
         property.data[data[x].category - 1] = data[x].value;
     }
 }
+
 executeScript();
 
+/* DIV SWITCHING HERE*/
+var statNavigation = document.getElementById("statNavigation");
+var salesDiv = document.getElementById("sales");
+var orderDiv = document.getElementById("order");
+var itemDiv = document.getElementById("item");
+
+var salesLink = document.getElementById("salesLink");
+var orderLink = document.getElementById("orderLink");
+var itemLink = document.getElementById("itemLink");
+
+//default selected are sales link and sales div
+var currentLink = salesLink;
+var currentDisplay = salesDiv;
+
+salesLink.addEventListener("click", _handleStatLinkClicked);
+orderLink.addEventListener("click", _handleStatLinkClicked);
+itemLink.addEventListener("click", _handleStatLinkClicked);
+
+function _handleStatLinkClicked(event) {
+
+    if(currentLink === event.target) {
+        return;
+    }
+
+    currentLink.parentNode.classList.remove("active");
+    currentDisplay.style.display = "none";
+
+    currentLink = event.target;
+
+    if(currentLink === salesLink) {
+        currentDisplay = salesDiv;
+    } else if(currentLink === orderLink) {
+        currentDisplay = orderDiv;
+    } else if(currentLink === itemLink) {
+        currentDisplay = itemDiv;
+    }
+
+    currentLink.parentNode.classList.add("active");
+    currentDisplay.style.display = "block";
+}
 
 

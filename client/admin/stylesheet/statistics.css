@@ -5,3 +5,7 @@
 .custom-height {
     height: 30px;
 }
+
+#order, #item {
+    display: none;
+}

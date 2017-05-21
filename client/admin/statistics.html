@@ -1,43 +1,74 @@
-<h1 class="display-4">Sales statistics</h1>
-<hr />
-<!-- YEARLY RADIO BUTTON -->
-<div class="form-check custom-height">
-    <label class="form-check-label">
-        <input class="form-check-input" type="radio" name="salesView" id="rbnYearly" value="yearly" checked>
-        Yearly
-    </label>
-</div>
-<!-- MONTHLY RADIO BUTTON -->
-<div class="form-check custom-height">
-    <label class="form-check-label">
-        <input class="form-check-input" type="radio" name="salesView" id="rbnMonthly" value="monthly">
-        Monthly
-        <div class="options">
-            for the year
-            <select name="yearSelect" id="year-chooser-monthly">
-                <option value="2017">2017</option>
-            </select>
-        </div>
-    </label>
-</div>
-<!-- WEEKLY RADIO BUTTON -->
-<div class="form-check ">
-    <label class="form-check-label custom-height">
-        <input class="form-check-input" type="radio" name="salesView" id="rbnWeekly" value="weekly">
-        Weekly
-        <div class="options">
-            for the year
-            <select name="yearSelect" id="year-chooser-weekly">
-                <option value="2017">2017</option>
-            </select>
-        </div>
+<!-- navigation -->
+<nav class="navbar navbar-inverse bg-inverse navbar-toggleable-sm">
+    <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="navbar-brand">Dagobah <span style="color:orange">Diner</span></div>
+    <div class="collapse navbar-collapse" id="navbarNavDropdown">
+        <ul class="navbar-nav" id="statNavigation">
+            <li class="nav-item active">
+                <a class="nav-link" id="salesLink" href="" onclick="return false;">Sales Statistics</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="orderLink" href="" onclick="return false;">Order Statistics</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="itemLink" href="" onclick="return false;">Item Statistics</a>
+            </li>
+        </ul>
+    </div>
+</nav>
+<!-- displays. Put this stuffs inside a div with initially the sales div only visible-->
+<div id="sales">
+    <h3 class="display-4">Sales Statistics</h3>
+    <hr />
+    <!-- YEARLY RADIO BUTTON -->
+    <div class="form-check custom-height">
+        <label class="form-check-label">
+            <input class="form-check-input" type="radio" name="salesView" id="rbnYearly" value="yearly" checked>
+            Yearly
+        </label>
+    </div>
+    <!-- MONTHLY RADIO BUTTON -->
+    <div class="form-check custom-height">
+        <label class="form-check-label">
+            <input class="form-check-input" type="radio" name="salesView" id="rbnMonthly" value="monthly">
+            Monthly
+            <div class="options">
+                for the year
+                <select name="yearSelect" id="year-chooser-monthly">
+                    <option value="2017">2017</option>
+                </select>
+            </div>
+        </label>
+    </div>
+    <!-- WEEKLY RADIO BUTTON -->
+    <div class="form-check ">
+        <label class="form-check-label custom-height">
+            <input class="form-check-input" type="radio" name="salesView" id="rbnWeekly" value="weekly">
+            Weekly
+            <div class="options">
+                for the year
+                <select name="yearSelect" id="year-chooser-weekly">
+                    <option value="2017">2017</option>
+                </select>
+            </div>
 
-    </label>
+        </label>
+    </div>
+    <button class="btn btn-success" id="show-button">Show</button>
+    <hr />
+    <!-- SHOW THE CHART HERE -->
+    <canvas id="salesChart" height="70"></canvas>
 </div>
-<button class="btn btn-success" id="show-button">Show</button>
 
-<!-- SHOW THE CHART HERE -->
-<canvas id="salesChart" height="70"></canvas>
+<div id="order">
+    <h3 class="display-4">Order Statistics</h3>
+    <hr />
+</div>
 
-<h1 class="display-4">Orders statistics</h1>
-<hr />
+<div id="item">
+    <h3 class="display-4">Item Statistics</h3>
+    <hr />
+</div>
+
