@@ -57,6 +57,10 @@ function executeScript() {
         rbnButtonsSalesView[x].addEventListener("change", handleRadioButtonEventChange);
     }
 
+    //create dyanmic options for year choosers
+    populateYearOptions(yearChooserMonthly);
+    populateYearOptions(yearChooserWeekly);
+
     //initialize the data sets
     salesLineChartData = {};
     salesLineChart = initLineChartData(salesLineChartData, salesCanvasChart, "Total");
@@ -77,6 +81,21 @@ function executeScript() {
     itemBeverageBarChart = initBarChartData(itemBeverageBarChartData, itemBeverageCanvasChart, "Quantity");
 }
 
+function populateYearOptions(selectObject) {
+
+    let currentYear = parseInt(CURRENT_YEAR);
+    let offset = 5; //from 5 years before
+
+    for(let x = currentYear - offset ; x <= currentYear ; x++) {
+        let selectItem = document.createElement("option");
+        selectItem.value = x;
+        selectItem.innerHTML = x;
+        selectObject.appendChild(selectItem);
+        if(x === currentYear) {
+            selectObject.selectedIndex = offset;
+        }
+    }
+}
 function initLineChartData(chartData, canvas, yAxesLabel) {
     chartData.labels = [];
     chartData.datasets = [];
@@ -453,7 +472,7 @@ var mainItemStat = document.getElementById("mainItemStat");
 var sideItemStat = document.getElementById("sideItemStat");
 var bevItemStat = document.getElementById("bevItemStat");
 
-selectedItemView.value = "All for " + CURRENT_YEAR;
+selectedItemView.value = "None. Select View";
 
 var currentCategory = mainItemStat;
 var currentCategoryLink = categoryNavLinks[0]; //first one default one
