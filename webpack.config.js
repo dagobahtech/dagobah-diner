@@ -7,7 +7,8 @@ var buildFolder = path.resolve(__dirname, "client/buildjs");
 var config = {
     entry: {
         "orderview":jsFolder + "/overview.js",
-        "kitchen":jsFolder + "/kitchen.js"
+        "kitchen":jsFolder + "/kitchen.js",
+        "order":jsFolder + "/order.js"
     },
     output:{
         filename:"[name]bundle.js",
