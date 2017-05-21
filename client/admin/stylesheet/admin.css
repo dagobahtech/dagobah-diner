@@ -1,7 +1,13 @@
 html {
     min-height: 100%;
 }
-
+.deleteBut {
+    background-color: rgb(217, 83, 79);
+    border-color: rgb(217, 83, 79);
+    color: white;
+    border-radius: 5px;
+    transition: all ease 0.5s;
+}
 #restaurantOpenClose {
     width: 100%;
     text-align: -webkit-center;

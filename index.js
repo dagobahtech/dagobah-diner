@@ -38,7 +38,6 @@ var loginForm = path.resolve(__dirname, "client/admin/login.html");
 
 // redirect to image, css and js folders
 app.use("/scripts", express.static("client/js"));
-app.use("/jsBuild", express.static("client/buildjs"));
 app.use("/styles", express.static("client/src/css"));
 app.use("/images", express.static("MenuPics"));
 
@@ -84,6 +83,26 @@ app.post("/login", function (req, resp){
         });
     });
 });
+
+app.post("/deleteItem", function(req, resp) {
+    console.log("name recieved: " + req.body.name);
+    let dbQuery = "DELETE FROM menu WHERE name = $1";
+    pg.connect(dbURL, function(err, client, done) {
+        if(err) {
+            console.log(err);
+        }
+        client.query(dbQuery, [req.body.name], function(err, result) {
+           if(err) {
+               console.log(err);
+               resp.send("error");
+           } 
+           else {
+               console.log(result);
+               resp.send(result); 
+           }
+        });
+    })
+})
 
 //Jed - kitchen testing client
 //@JED testing kitchen
@@ -408,17 +427,14 @@ io.on("connection", function(socket){
     });
     
     app.post("/restStatChange", function(req, resp) {
-       console.log("recieved currentStatus: " + req.body.status);
        if(req.body.status == "true") {
            dagobah.isOpen = false;
-           console.log("sending: " + dagobah.isOpen);
-           socket.emit("restaurantStatus", dagobah.isOpen);
+           io.emit("restStatus", dagobah.isOpen);
            resp.send(false);
        }
        else if (req.body.status == "false") {
            dagobah.isOpen = true;
-           console.log("sending: " + dagobah.isopen);
-           socket.emit("restaurantStatus", dagobah.isOpen);
+           io.emit("restStatus", dagobah.isOpen);
            resp.send(true);
        }
        else {

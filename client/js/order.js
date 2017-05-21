@@ -18,7 +18,7 @@ $(document).ready(function() {
         }
     });
     
-    socket.on("restaurantStatus", function(status) {
+    socket.on("restStatus", function(status) {
        console.log("status recieved: " + status);
        checkStatus(status); 
     });
