@@ -4,10 +4,20 @@ var showStatButton = document.getElementById("show-button");
 var rbnButtonsSalesView = document.getElementsByName('salesView');
 var yearChooserMonthly = document.getElementById("year-chooser-monthly");
 var yearChooserWeekly = document.getElementById("year-chooser-weekly");
-var salesCanvasChart = document.getElementById("salesChart");
 var currentRbnSelected;
+
+/*SALES STAT CHART*/
+var salesCanvasChart = document.getElementById("salesChart");
 var salesLineChart;
 var salesLineChartData;
+var requestedSales = false; //when show stat button clicked
+var requestedOrder = false; //when order stat buttons are clicked
+
+/*ORDER STAT CHART*/
+var orderCanvasChart = document.getElementById("orderChart");
+
+var orderLineChart;
+var orderLineChartData;
 
 
 var MONTHS = [
@@ -17,6 +27,7 @@ var MONTHS = [
 ];
 
 var WEEKS_IN_YEAR = 52;
+var CURRENT_YEAR = new Date().getFullYear();
 
 var SALES = "sales";
 var DISCARDS = "discards";
@@ -35,13 +46,21 @@ function executeScript() {
 
     //initialize the data sets
     salesLineChartData = {};
-    salesLineChartData.labels = [];
-    salesLineChartData.datasets = [];
+    salesLineChart = initLineChartData(salesLineChartData, salesCanvasChart, "Total");
 
-    //initializie the line chart
-    salesLineChart = new Chart(salesCanvasChart, {
+     //initialize order chart
+    orderLineChartData = {};
+    orderLineChart = initLineChartData(orderLineChartData, orderCanvasChart, "Count");
+
+}
+
+function initLineChartData(chartData, canvas, yAxesLabel) {
+    chartData.labels = [];
+    chartData.datasets = [];
+
+    var chart = new Chart(canvas, {
         type: "line",
-        data: salesLineChartData,
+        data: chartData,
         options: {
             legend: {
                 display: true
@@ -53,16 +72,17 @@ function executeScript() {
                     },
                     scaleLabel: {
                         display: true,
-                        labelString: 'Total'
+                        labelString: yAxesLabel
                     }
                 }]
             },
             responsive:true,
             maintainAspectRatio: true
         }
-    })
-}
+    });
 
+    return chart;
+}
 function handleRadioButtonEventChange(event) {
     let target = event.target;
     let sibling = target.nextElementSibling;
@@ -90,7 +110,7 @@ showStatButton.addEventListener("click", function (event) {
     //current selected radio button
     switch(currentRbnSelected.value) {
         case 'yearly':
-            clear(salesLineChart, salesLineChartData);
+            requestedSales = true;
             sendRequestForStatData(currentRbnSelected.value, SALES);
             sendRequestForStatData(currentRbnSelected.value, DISCARDS);
             break;
@@ -101,18 +121,18 @@ showStatButton.addEventListener("click", function (event) {
                 showModal("Error", "Please select a valid year");
                 return false;
             }
-            clear(salesLineChart, salesLineChartData);
+            requestedSales = true;
             sendRequestForStatData(currentRbnSelected.value, SALES, yearChooserMonthly.value);
             sendRequestForStatData(currentRbnSelected.value, DISCARDS, yearChooserMonthly.value);
 
             break;
         case 'weekly':
-            console.log(yearChooserWeekly.value);
+
             if(yearChooserWeekly.value === "") {
                 showModal("Error", "Please select a month");
                 return false;
             }
-            clear(salesLineChart, salesLineChartData);
+            requestedSales = true;
             sendRequestForStatData(currentRbnSelected.value, SALES, yearChooserWeekly.value);
             sendRequestForStatData(currentRbnSelected.value, DISCARDS, yearChooserWeekly.value);
 
@@ -136,7 +156,11 @@ function sendRequestForStatData(category, type, year) {
 
             if(resp.status === "success") {
 
-                setData(salesLineChart, salesLineChartData, resp.category, resp.data, resp.type);
+                if(requestedSales) {
+                    clear(salesLineChart,salesLineChartData);
+                    requestedSales = false;
+                }
+                setData(salesLineChart, salesLineChartData, resp.category, resp.data, resp.type, resp.type);
             } else {
                 //do error handling here
                 console.log("something went wrong");
@@ -150,7 +174,7 @@ function sendRequestForStatData(category, type, year) {
 function clear(chart, chartData) {
     chartData.labels = [];
     chartData.datasets = [];
-    chart.update();
+    //chart.update();
 }
 
 function setLabels(chartData, labels){
@@ -166,13 +190,13 @@ function addDataSet(chart, chartData, dataset) {
     chart.update();
 }
 
-function setData(chart, chartData, category, data, type) {
+function setData(chart, chartData, category, data, type, name) {
 
     //destroy the chart if it exists
 
     //create data set object that can be used for the chart
     //let newData = new SalesBarDataSet(category, data, "Sales");
-    let newDataSet = createLineDataSet(category, type, data, type);
+    let newDataSet = createLineDataSet(category, type, data, name);
     if(chartData.labels.length === 0) {
         console.log("set new labels", newDataSet.labels);
         setLabels(chartData, newDataSet.labels)
@@ -223,6 +247,7 @@ function createLineDataSet(category, type, data, setName) {
      }
 }
 
+/*SALES STATISTICS*/
 //function that creates an object that can be used
 //by the chart
 function SalesBarDataSet(type, data, setName) {
@@ -278,10 +303,92 @@ function dataSetWeekly(property, data) {
     }
 }
 
+/*ORDER STATISTICS*/
+var totalOrderBtn = document.getElementById("totalOrder");
+var avgOrderBtn = document.getElementById("avgOrder");
+var totalDiscardsBtn = document.getElementById("totalDiscards");
+
+totalOrderBtn.addEventListener("click", function (event) {
+    requestedOrder = true;
+    requestOrderStatForYear(CURRENT_YEAR);
+});
+
+avgOrderBtn.addEventListener("click", function (event) {
+    requestedOrder = true;
+    requestOrderAvgStatForYear(CURRENT_YEAR);
+});
+
+totalDiscardsBtn.addEventListener("click", function (event) {
+
+    requestedOrder = true;
+    requestDiscardStatForYear(CURRENT_YEAR);
+});
+
+function requestOrderStatForYear(year) {
+    $.ajax({
+        url: "/admin/getOrderStat",
+        type: "post",
+        data: {
+            year: year
+        },
+        success: function (resp) {
+
+            if(resp.status === "success") {
+                if(requestedOrder) {
+                    clear(orderLineChart, orderLineChartData);
+                    requestedOrder = false;
+                }
+                setData(orderLineChart, orderLineChartData, "monthly", resp.data, SALES, "Number of Orders");
+            } else {
+                //do some error handling here
+            }
+        }
+    })
+}
+
+function requestOrderAvgStatForYear(year) {
+    $.ajax({
+        url: "/admin/getOrderAvgStat",
+        type: "post",
+        data: {
+            year: year
+        },
+        success: function (resp) {
+            if(resp.status === "success") {
+
+                if(requestedOrder) {
+                    clear(orderLineChart, orderLineChartData);
+                    requestedOrder = false;
+                }
+                setData(orderLineChart, orderLineChartData, "monthly", resp.data, SALES, "Avg Item Per Order");
+            }
+        }
+    });
+}
+
+function requestDiscardStatForYear(year) {
+    $.ajax({
+        url: "/admin/getDiscardStat",
+        type: "post",
+        data: {
+            year: year
+        },
+        success: function (resp) {
+            if(resp.status === "success") {
+
+                if(requestedOrder) {
+                    clear(orderLineChart, orderLineChartData);
+                    requestedOrder = false;
+                }
+                setData(orderLineChart, orderLineChartData, "weekly", resp.data, DISCARDS, "Total Discards");
+            }
+        }
+    });
+}
+
 executeScript();
 
 /* DIV SWITCHING HERE*/
-var statNavigation = document.getElementById("statNavigation");
 var salesDiv = document.getElementById("sales");
 var orderDiv = document.getElementById("order");
 var itemDiv = document.getElementById("item");

@@ -126,4 +126,98 @@ router.post("/getStatData", function (req, resp) {
         });
     });
 });
+
+router.post("/getOrderStat", function (req, resp) {
+
+    let year = req.body.year;
+    
+    pg.connect(dbURL, function (err, client, done) {
+        if(err) {
+            console.log(err);
+            return false;
+        }
+
+        client.query("SELECT EXTRACT (MONTH FROM date) AS category, COUNT(*) AS value from order_submitted WHERE EXTRACT (YEAR FROM date) = $1 GROUP BY EXTRACT (MONTH FROM date)",
+        [year], function (err, result) {
+                done();
+                if(err) {
+                    console.log(err);
+                    resp.send({
+                        status: "fail"
+                    });
+                    return false;
+                }
+
+                resp.send({
+                    status: "success",
+                    data: result.rows
+                });
+
+            });
+    })
+});
+
+router.post("/getDiscardStat", function (req, resp) {
+
+    let year = req.body.year;
+
+    pg.connect(dbURL, function (err, client, done) {
+        if(err) {
+            console.log(err);
+            return false;
+        }
+
+        client.query("SELECT EXTRACT (WEEK FROM date) AS category, COUNT(*) AS value from item_discarded WHERE EXTRACT (YEAR FROM date) = $1 GROUP BY EXTRACT (WEEK FROM date)",
+            [year], function (err, result) {
+                done();
+                if(err) {
+                    console.log(err);
+                    resp.send({
+                        status: "fail"
+                    });
+                    return false;
+                }
+
+                resp.send({
+                    status: "success",
+                    data: result.rows
+                });
+
+            });
+    })
+});
+
+router.post("/getOrderAvgStat", function (req, resp) {
+
+    let year = req.body.year;
+
+    pg.connect(dbURL, function (err, client, done) {
+        if(err) {
+            console.log(err);
+            return false;
+        }
+        client.query("SELECT EXTRACT (MONTH FROM date) AS category, ROUND(AVG(count),2) AS value from " +
+            "(SELECT order_submitted.id AS id, count(*) AS count, order_submitted.date AS date " +
+            "from order_submitted, item_in_order WHERE order_submitted.id = item_in_order.order_id " +
+            "AND EXTRACT (YEAR FROM order_submitted.date) = $1 GROUP BY order_submitted.id) " +
+            "AS order_table GROUP BY EXTRACT (MONTH FROM date);",
+            [year], function (err, result) {
+            done();
+            if(err) {
+                console.log(err);
+                return false;
+            }
+
+            resp.send({
+                status: "success",
+                data: result.rows
+            });
+
+
+        })
+    });
+});
+
+
+
 module.exports = router;

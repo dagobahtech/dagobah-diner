@@ -1,5 +1,5 @@
 <!-- navigation -->
-<nav class="navbar navbar-inverse bg-inverse navbar-toggleable-sm">
+<nav class="navbar navbar-inverse bg-inverse navbar-toggleable-sm mb-5">
     <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
@@ -56,7 +56,7 @@
 
         </label>
     </div>
-    <button class="btn btn-success" id="show-button">Show</button>
+    <button class="btn btn-primary" id="show-button">Show</button>
     <hr />
     <!-- SHOW THE CHART HERE -->
     <canvas id="salesChart" height="70"></canvas>
@@ -65,6 +65,12 @@
 <div id="order">
     <h3 class="display-4">Order Statistics</h3>
     <hr />
+    <button class="btn btn-primary" id="totalOrder">Show Total Order Per Month</button>
+    <button class="btn btn-primary" id="totalDiscards">Show Total Discards Per Week</button>
+    <button class="btn btn-primary" id="avgOrder">Show Avg Items Per Order</button>
+    <hr/>
+    <canvas id="orderChart" height="70"></canvas>
+
 </div>
 
 <div id="item">
