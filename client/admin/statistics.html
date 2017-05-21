@@ -1,1 +1,43 @@
-<h1>This is the statistics page</h1>
+<h1 class="display-4">Sales statistics</h1>
+<hr />
+<!-- YEARLY RADIO BUTTON -->
+<div class="form-check custom-height">
+    <label class="form-check-label">
+        <input class="form-check-input" type="radio" name="salesView" id="rbnYearly" value="yearly" checked>
+        Yearly
+    </label>
+</div>
+<!-- MONTHLY RADIO BUTTON -->
+<div class="form-check custom-height">
+    <label class="form-check-label">
+        <input class="form-check-input" type="radio" name="salesView" id="rbnMonthly" value="monthly">
+        Monthly
+        <div class="options">
+            for the year
+            <select name="yearSelect" id="year-chooser-monthly">
+                <option value="2017">2017</option>
+            </select>
+        </div>
+    </label>
+</div>
+<!-- WEEKLY RADIO BUTTON -->
+<div class="form-check ">
+    <label class="form-check-label custom-height">
+        <input class="form-check-input" type="radio" name="salesView" id="rbnWeekly" value="weekly">
+        Weekly
+        <div class="options">
+            for the year
+            <select name="yearSelect" id="year-chooser-weekly">
+                <option value="2017">2017</option>
+            </select>
+        </div>
+
+    </label>
+</div>
+<button class="btn btn-success" id="show-button">Show</button>
+
+<!-- SHOW THE CHART HERE -->
+<canvas id="salesChart" height="70"></canvas>
+
+<h1 class="display-4">Orders statistics</h1>
+<hr />

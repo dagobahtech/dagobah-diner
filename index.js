@@ -44,7 +44,7 @@ app.use("/images", express.static("MenuPics"));
 app.use("/admin-css", express.static("client/admin/stylesheet"));
 app.use("/jquery", express.static("node_modules/jquery/dist"));
 app.use("/bootstrap", express.static("node_modules/bootstrap/dist"));
-
+app.use("/chart.js", express.static("node_modules/chart.js/dist"));
 
 app.use(bodyParser.urlencoded({
     extended: true
@@ -428,3 +428,4 @@ server.listen(port, function(err){
     console.log("Server is running on port " + port);
     console.log("MR. Repo is watching you.");
 });
+
