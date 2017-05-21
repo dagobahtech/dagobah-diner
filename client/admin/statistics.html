@@ -64,10 +64,11 @@
 
 <div id="order">
     <h3 class="display-4">Order Statistics</h3>
+    <p>Statistics shown are for the current year</p>
     <hr />
-    <button class="btn btn-primary" id="totalOrder">Show Total Order Per Month</button>
-    <button class="btn btn-primary" id="totalDiscards">Show Total Discards Per Week</button>
-    <button class="btn btn-primary" id="avgOrder">Show Avg Items Per Order</button>
+    <button class="btn btn-primary" id="totalOrder">Total Order Per Month</button>
+    <button class="btn btn-primary" id="totalDiscards">Total Discards Per Week</button>
+    <button class="btn btn-primary" id="avgOrder">Avg Items Per Order</button>
     <hr/>
     <canvas id="orderChart" height="70"></canvas>
 
@@ -75,6 +76,62 @@
 
 <div id="item">
     <h3 class="display-4">Item Statistics</h3>
+    <p>Statistics shown are for the current year</p>
     <hr />
+    <div class="btn-toolbar mb-3" role="toolbar" aria-label="Toolbar">
+        <div class="btn-group" role="group" aria-label="Button group for item stat">
+            <button type="button" class="btn btn-primary" id="item-view-all">All</button>
+
+            <div class="btn-group" role="group">
+                <button id="btnGroupDrop1" type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Month
+                </button>
+                <div class="dropdown-menu" aria-labelledby="btnGroupDrop1" id="item-stat-month">
+                    <a class="dropdown-item" href="" onclick="return false;">January</a>
+                    <a class="dropdown-item" href="" onclick="return false;">February</a>
+                    <a class="dropdown-item" href="" onclick="return false;">March</a>
+                    <a class="dropdown-item" href="" onclick="return false;">April</a>
+                    <a class="dropdown-item" href="" onclick="return false;">May</a>
+                    <a class="dropdown-item" href="" onclick="return false;">June</a>
+                    <a class="dropdown-item" href="" onclick="return false;">July</a>
+                    <a class="dropdown-item" href="" onclick="return false;">August</a>
+                    <a class="dropdown-item" href="" onclick="return false;">September</a>
+                    <a class="dropdown-item" href="" onclick="return false;">October</a>
+                    <a class="dropdown-item" href="" onclick="return false;">November</a>
+                    <a class="dropdown-item" href="" onclick="return false;">December</a>
+                </div>
+            </div>
+
+        </div>
+        <div class="input-group">
+            <span class="input-group-addon" id="btnGroupAddon">Current View</span>
+            <input type="text" class="form-control" aria-describedby="btnGroupAddon" id="selected-item-view"disabled>
+        </div>
+    </div>
+
+
+    <div class="input-group">
+        <ol class="breadcrumb" id="categoryNav">
+            <li class="breadcrumb-item"><a href="" onclick="return false;">Main</a></li>
+            <li class="breadcrumb-item"><a href="" onclick="return false;">Sides</a></li>
+            <li class="breadcrumb-item"><a href="" onclick="return false;">Beverages</a></li>
+        </ol>
+    </div>
+    <hr />
+    <div id="mainItemStat">
+        <h1 class="display-4">Main</h1>
+        <canvas id="itemMainChart" height="70"></canvas>
+    </div>
+
+    <div id="sideItemStat">
+        <h1 class="display-4">Sides</h1>
+        <canvas id="itemSideChart" height="70"></canvas>
+    </div>
+
+    <div id="bevItemStat">
+        <h1 class="display-4">Beverages</h1>
+        <canvas id="itemBeverageChart" height="70"></canvas>
+    </div>
+
 </div>
 

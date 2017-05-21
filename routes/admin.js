@@ -75,12 +75,18 @@ router.post("/getStatData", function (req, resp) {
     let year = req.body.year;
     let type = req.body.type;
 
+    if(category === undefined) {
+        resp.send({
+            status: "fail"
+        })
+    }
     pg.connect(dbURL, function(err, client, done) {
         if(err){console.log(err)}
 
         let dbQuery;
         let params;
         if(category === 'yearly') {
+
             if(type === 'sales') {
                 dbQuery = "SELECT EXTRACT (YEAR FROM date) as category, SUM(total) as value from order_submitted GROUP BY EXTRACT (YEAR FROM date)";
             } else {
@@ -88,6 +94,13 @@ router.post("/getStatData", function (req, resp) {
         }
         params = [];
         } else if(category === 'monthly') {
+            if(year === undefined) {
+                resp.send({
+                    status: "fail"
+                });
+                done();
+                return;
+            }
             if(type === 'sales') {
                 dbQuery = "SELECT EXTRACT (MONTH FROM date) as category, SUM(total) as value FROM order_submitted WHERE EXTRACT (YEAR FROM date) = $1 GROUP BY EXTRACT (MONTH FROM date)";
             } else {
@@ -95,6 +108,13 @@ router.post("/getStatData", function (req, resp) {
             }
             params = [year];
         } else if(category === 'weekly') {
+            if(year === undefined) {
+                resp.send({
+                    status: "fail"
+                });
+                done();
+                return;
+            }
             if(type === 'sales') {
                 dbQuery = "SELECT EXTRACT (WEEK FROM date) as category, SUM(total) as value from order_submitted WHERE EXTRACT (YEAR FROM date) = $1 GROUP BY EXTRACT (WEEK FROM date)";
             } else {
@@ -130,7 +150,13 @@ router.post("/getStatData", function (req, resp) {
 router.post("/getOrderStat", function (req, resp) {
 
     let year = req.body.year;
-    
+
+    if(year === undefined) {
+        resp.send({
+            status: "fail"
+        })
+    }
+
     pg.connect(dbURL, function (err, client, done) {
         if(err) {
             console.log(err);
@@ -161,6 +187,11 @@ router.post("/getDiscardStat", function (req, resp) {
 
     let year = req.body.year;
 
+    if(year === undefined) {
+        resp.send({
+            status: "fail"
+        })
+    }
     pg.connect(dbURL, function (err, client, done) {
         if(err) {
             console.log(err);
@@ -191,6 +222,12 @@ router.post("/getOrderAvgStat", function (req, resp) {
 
     let year = req.body.year;
 
+    if(year === undefined) {
+        resp.send({
+            status: "fail"
+        })
+    }
+
     pg.connect(dbURL, function (err, client, done) {
         if(err) {
             console.log(err);
@@ -218,6 +255,86 @@ router.post("/getOrderAvgStat", function (req, resp) {
     });
 });
 
+router.post("/getItemStatAll", function (req, resp) {
+    let year = req.body.year;
+    let category = req.body.category;
 
+    if(year === undefined || category === undefined) {
+        resp.send({
+            status: "fail"
+        });
+
+        return;
+    }
+
+    pg.connect(dbURL, function (err, client, done) {
+        if(err) {
+            console.log(err);
+            return false;
+        }
+        let dbQuery = "SELECT menu_category.name AS category, COALESCE(items_in_orders.count, 0) AS value " +
+            "FROM (SELECT menu.name as name, menu.id as id FROM menu " +
+            "WHERE menu.category=$2) as menu_category " +
+            "LEFT OUTER JOIN (SELECT item_in_order.item_id as item_id, count(*) AS count " +
+            "FROM item_in_order, order_submitted " +
+            "WHERE item_in_order.order_id = order_submitted.id AND EXTRACT(YEAR FROM order_submitted.date) = $1 " +
+            "GROUP BY item_in_order.item_id) AS items_in_orders ON menu_category.id = items_in_orders.item_id";
+
+        client.query(dbQuery,[year, category], function (err, result) {
+            done();
+            if(err) {
+                console.log(err);
+                return false;
+            }
+
+            resp.send({
+                status: "success",
+                data: result.rows
+            });
+        });
+    });
+});
+
+
+router.post("/getItemStatForMonth", function (req, resp) {
+    let year = req.body.year;
+    let category = req.body.category;
+    let month = req.body.month;
+
+    if(year === undefined || category === undefined || month === undefined) {
+        resp.send({
+            status: "fail"
+        });
+
+        return;
+    }
+
+    pg.connect(dbURL, function (err, client, done) {
+        if(err) {
+            console.log(err);
+            return false;
+        }
+        let dbQuery = "SELECT menu_category.name AS category, COALESCE(items_in_orders.count, 0) AS value " +
+            "FROM (SELECT menu.name as name, menu.id as id FROM menu " +
+            "WHERE menu.category=$3) as menu_category " +
+            "LEFT OUTER JOIN (SELECT item_in_order.item_id as item_id, count(*) AS count " +
+            "FROM item_in_order, order_submitted " +
+            "WHERE item_in_order.order_id = order_submitted.id AND EXTRACT(YEAR FROM order_submitted.date) = $1 AND EXTRACT (MONTH FROM order_submitted.date) = $2 " +
+            "GROUP BY item_in_order.item_id) AS items_in_orders ON menu_category.id = items_in_orders.item_id";
+
+        client.query(dbQuery,[year, month, category], function (err, result) {
+            done();
+            if(err) {
+                console.log(err);
+                return false;
+            }
+
+            resp.send({
+                status: "success",
+                data: result.rows
+            });
+        });
+    });
+});
 
 module.exports = router;

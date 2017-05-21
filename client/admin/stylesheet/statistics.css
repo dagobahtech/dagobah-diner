@@ -9,3 +9,7 @@
 #order, #item {
     display: none;
 }
+
+#sideItemStat, #bevItemStat {
+    display: none;
+}

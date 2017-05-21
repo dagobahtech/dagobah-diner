@@ -19,6 +19,19 @@ var orderCanvasChart = document.getElementById("orderChart");
 var orderLineChart;
 var orderLineChartData;
 
+/*ITEM STAT CHART*/
+var itemMainCanvasChart = document.getElementById("itemMainChart");
+var itemSideCanvasChart = document.getElementById("itemSideChart");
+var itemBeverageCanvasChart = document.getElementById("itemBeverageChart");
+
+var itemMainBarChart;
+var itemMainBarChartData;
+
+var itemSideBarChart;
+var itemSideBarChartData;
+
+var itemBeverageBarChart;
+var itemBeverageBarChartData;
 
 var MONTHS = [
     'January', 'February', 'March', 'April', 'May',
@@ -52,6 +65,16 @@ function executeScript() {
     orderLineChartData = {};
     orderLineChart = initLineChartData(orderLineChartData, orderCanvasChart, "Count");
 
+    //initialize item chart
+    //main items
+    itemMainBarChartData = {};
+    itemMainBarChart = initBarChartData(itemMainBarChartData, itemMainCanvasChart, "Quantity");
+
+    itemSideBarChartData = {};
+    itemSideBarChart = initBarChartData(itemSideBarChartData, itemSideCanvasChart, "Quantity");
+
+    itemBeverageBarChartData = {};
+    itemBeverageBarChart = initBarChartData(itemBeverageBarChartData, itemBeverageCanvasChart, "Quantity");
 }
 
 function initLineChartData(chartData, canvas, yAxesLabel) {
@@ -78,6 +101,37 @@ function initLineChartData(chartData, canvas, yAxesLabel) {
             },
             responsive:true,
             maintainAspectRatio: true
+        }
+    });
+
+    return chart;
+}
+
+function initBarChartData(chartData, canvas, yAxesLabel) {
+
+    chartData.labels = [];
+    chartData.datasets = [];
+
+    var chart = new Chart(canvas, {
+        type: 'bar',
+        data: chartData,
+        options: {
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        beginAtZero:true
+                    },
+                    scaleLabel: {
+                        display: true,
+                        labelString: yAxesLabel
+                    }
+                }],
+                xAxes: [{
+                    ticks: {
+                        autoSkip: false
+                    }
+                }]
+            }
         }
     });
 
@@ -196,7 +250,7 @@ function setData(chart, chartData, category, data, type, name) {
 
     //create data set object that can be used for the chart
     //let newData = new SalesBarDataSet(category, data, "Sales");
-    let newDataSet = createLineDataSet(category, type, data, name);
+    let newDataSet = createDataSet(category, type, data, name);
     if(chartData.labels.length === 0) {
         console.log("set new labels", newDataSet.labels);
         setLabels(chartData, newDataSet.labels)
@@ -209,7 +263,7 @@ function setData(chart, chartData, category, data, type, name) {
 //type is either discard or sale
 //discard is red, sale is blue
 //data is coming from the server
-function createLineDataSet(category, type, data, setName) {
+function createDataSet(category, type, data, setName) {
 
     let dataSetInfo = new SalesBarDataSet(category, data, setName);
 
@@ -384,6 +438,117 @@ function requestDiscardStatForYear(year) {
             }
         }
     });
+}
+
+/* ITEM STATISTICS */
+var itemStatDropDown = document.getElementById("item-stat-month");
+var itemStatLinks = itemStatDropDown.children;
+var selectedItemView = document.getElementById("selected-item-view");
+var viewAllButton = document.getElementById("item-view-all");
+var categoryNavigation = document.getElementById("categoryNav");
+var categoryNavLinks = categoryNavigation.children;
+
+//category displays
+var mainItemStat = document.getElementById("mainItemStat");
+var sideItemStat = document.getElementById("sideItemStat");
+var bevItemStat = document.getElementById("bevItemStat");
+
+selectedItemView.value = "All for " + CURRENT_YEAR;
+
+var currentCategory = mainItemStat;
+var currentCategoryLink = categoryNavLinks[0]; //first one default one
+
+//set each stat link value/ numeric month equiv
+for (let x = 0 ; x < itemStatLinks.length; x++) {
+    itemStatLinks[x].month = x+1;
+
+    itemStatLinks[x].addEventListener("click", function (event) {
+        selectedItemView.value = MONTHS[this.month-1];
+        getItemStatMonth(CURRENT_YEAR, this.month, 1, itemMainBarChart, itemMainBarChartData);
+        getItemStatMonth(CURRENT_YEAR, this.month, 2, itemSideBarChart, itemSideBarChartData);
+        getItemStatMonth(CURRENT_YEAR, this.month, 3, itemBeverageBarChart, itemBeverageBarChartData);
+    });
+}
+
+//set event listeners for category navigations
+for (let x = 0 ; x < categoryNavLinks.length ; x++) {
+    categoryNavLinks[x].children[0].addEventListener("click", _handleCategoryNavigation);
+}
+
+viewAllButton.addEventListener("click", function (event) {
+    getItemStatAll(CURRENT_YEAR, 1, itemMainBarChart, itemMainBarChartData);
+    getItemStatAll(CURRENT_YEAR, 2, itemSideBarChart, itemSideBarChartData);
+    getItemStatAll(CURRENT_YEAR, 3, itemBeverageBarChart, itemBeverageBarChartData);
+    selectedItemView.value = "All for " + CURRENT_YEAR;
+});
+
+function _handleCategoryNavigation(event) {
+    console.log("hello");
+
+    if(event.target === currentCategoryLink) {
+        return false;
+    }
+
+    currentCategory.style.display = "none";
+
+    if(event.target === categoryNavLinks[0].children[0]) {
+        currentCategory = mainItemStat;
+    } else if(event.target === categoryNavLinks[1].children[0]) {
+        currentCategory = sideItemStat;
+    } else if(event.target === categoryNavLinks[2].children[0]) {
+        currentCategory = bevItemStat;
+    } else {
+        return;
+    }
+
+    currentCategory.style.display = "block";
+}
+
+function getItemStatAll(year, category, chart, chartData) {
+    $.ajax({
+        url: "/admin/getItemStatAll",
+        type: "post",
+        data: {
+            year: year,
+            category: category
+        },
+        success: function (resp) {
+            if(resp.status === "success") {
+
+                clear(chart, chartData);
+                //use yearly category because it uses the default category
+                //values resulted from the query
+                setData(chart, chartData, "yearly", resp.data, SALES, "Quantity sold")
+            } else {
+                //handle error handling here
+                //use modals if we can
+            }
+        }
+    })
+}
+
+function getItemStatMonth(year, month, category, chart, chartData) {
+    $.ajax({
+        url: "/admin/getItemStatForMonth",
+        type: "post",
+        data: {
+            year: year,
+            month: month,
+            category: category
+        },
+        success: function (resp) {
+            if(resp.status === "success") {
+
+                clear(chart, chartData);
+                //use yearly category because it uses the default category
+                //values resulted from the query
+                setData(chart, chartData, "yearly", resp.data, SALES, "Quantity sold")
+            } else {
+                //handle error handling here
+                //use modals if we can
+            }
+        }
+    })
 }
 
 executeScript();
