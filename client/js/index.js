@@ -72,4 +72,11 @@ $(document).ready(function () {
     //load dashboard as default page
     loadPage('DASHBOARD', adminLink);
 
+
 });
+
+function showModal (title, message){
+    document.getElementById("modalTitle").innerHTML = title;
+    document.getElementById("modalMessage").innerHTML = message;
+    $('#dagobahModal').modal();
+};
