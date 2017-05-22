@@ -13,7 +13,7 @@ const stationErrMessage = "Bad Station - Station can only be 1 to 5.";
 var menuTester = new MenuItemValidator();
 
 var goodMenuItem = {
-    itemName: "John's Fried Slugs",
+    name: "John's Fried Slugs",
     desc: "6 Pieces of (deep) fried slugs",
     category: 1,
     price: 3,
@@ -22,7 +22,7 @@ var goodMenuItem = {
 };
 
 var badName = {
-    itemName: "J;ohn's Fried Slugs;",
+    name: "J;ohn's Fried Slugs;",
     desc: "6 Pieces of deep fried slugs",
     category: 1,
     price: 3.50,
@@ -31,7 +31,7 @@ var badName = {
 };
 
 var badDesc = {
-    itemName: "John's Fried Slugs;",
+    name: "John's Fried Slugs;",
     desc: "6 Pieces of d;eep fried slugs",
     category: 1,
     price: 3.50,
@@ -40,7 +40,7 @@ var badDesc = {
 };
 
 var badCat = {
-    itemName: "John's Fried Slugs;",
+    name: "John's Fried Slugs;",
     desc: "6 Pieces of d;eep fried slugs",
     category: "Main",
     price: 3.50,
@@ -49,7 +49,7 @@ var badCat = {
 };
 
 var badPrice = {
-    itemName: "John's Fried Slugs;",
+    name: "John's Fried Slugs;",
     desc: "6 Pieces of d;eep fried slugs",
     category: "Main",
     price: "Five",
@@ -58,7 +58,7 @@ var badPrice = {
 };
 
 var badImage = {
-    itemName: "John's Fried Slugs;",
+    name: "John's Fried Slugs;",
     desc: "6 Pieces of d;eep fried slugs",
     category: "Main",
     price: "Five",
@@ -67,7 +67,7 @@ var badImage = {
 };
 
 var badStation = {
-    itemName: "John's Fried Slugs;",
+    name: "John's Fried Slugs;",
     desc: "6 Pieces of d;eep fried slugs",
     category: "Main",
     price: "Five",

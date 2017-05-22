@@ -75,7 +75,7 @@ class MenuItemValidator {
 
     testItem(menuItem) {  //see menuItemValidator.test.js for the structure of menuItem object.
         this._resetValid();
-        this._testName(menuItem.itemName);
+        this._testName(menuItem.name);
         this._testDesc(menuItem.desc);
         this._testCat(menuItem.category);
         this._testPrice(menuItem.price);
