@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const pg = require("pg");
 const path = require("path");
+const MenuItemValidator = require("./menuItemValidator");
 var rootFile = require("../index.js");
 
 const dbURL = process.env.DATABASE_URL || "postgres://lpufbryv:FGc7GtCWBe6dyop0yJ2bu0pTXDoBJnEv@stampy.db.elephantsql.com:5432/lpufbryv";
@@ -28,25 +29,33 @@ router.get("/logout", function(req, resp) {
 
 });
 
+var menuTester = new MenuItemValidator();
+
 router.post("/createItem", function (req, resp) {
     console.log(req.body);
+    var testedItem = menuTester.testItem(req.body);
+    if (testedItem.passing) {
+        pg.connect(dbURL, function(err, client, done) {
+            if (err) {console.log(err)}
 
-    pg.connect(dbURL, function(err, client, done) {
-        if (err) {console.log(err)}
+            let dbQuery = "INSERT INTO menu (name, category, description, price, image_name, kitchen_station_id) VALUES ($1, $2, $3, $4, $5, $6)";
+            client.query(dbQuery, [req.body.name, req.body.category, req.body.desc, req.body.price, req.body.image, req.body.station], function(err, result) {
+                done();
+                if (err) {
+                    console.log(err);
+                    resp.end("ERROR");
+                }
 
-        let dbQuery = "INSERT INTO menu (name, category, description, price, cook_time, kitchen_station_id) VALUES ($1, $2, $3, $4, $5, $6)";
-        client.query(dbQuery, [req.body.name, req.body.category, req.body.desc, req.body.price, req.body.time, req.body.station], function(err, result) {
-            done();
-            if (err) {
-                console.log(err);
-                resp.end("ERROR");
-            }
+                rootFile.getMenuItems;
+                resp.send({status: "success", msg: "item created!"});
 
-            rootFile.getMenuItems();
-            resp.send({status: "success", msg: "item created!"})
-
+            });
         });
-    });
+    } else {
+        var message = testedItem.err.replace("\n\n", "<br>");
+        resp.send({status: "success", msg: message});
+    }
+
 });
 
 router.post("/getSummary", function(req, resp) {
