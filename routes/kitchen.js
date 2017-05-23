@@ -232,6 +232,10 @@ function socketHandler(io, dagobah, kitchen, dbSettings) {
                 return
             }
 
+            if(!dagobah.isOpen) {
+                socket.emit("store status", dagobah.isOpen);
+                return false;
+            }
 
             let order_date = null;
             let processedTotal = calcTrueTotal(order, dagobah);
