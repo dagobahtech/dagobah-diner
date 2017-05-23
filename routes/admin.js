@@ -70,8 +70,8 @@ router.post("/createItem", function (req, resp) {
             });
         });
     } else {
-        var message = testedItem.err.replace("\n\n", "<br>");
-        resp.send({status: "success", msg: message});
+        var message = testedItem.err;
+        resp.send({status: "fail", msg: message});
     }
 
 });
