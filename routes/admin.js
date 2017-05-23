@@ -1,11 +1,11 @@
 const express = require("express");
 const router = express.Router();
-//const pg = require("pg");
+const pg = require("pg");
 const path = require("path");
 const MenuItemValidator = require("./menuItemValidator");
 var rootFile = require("../index.js");
 
-//const dbURL = process.env.DATABASE_URL || "postgres://lpufbryv:FGc7GtCWBe6dyop0yJ2bu0pTXDoBJnEv@stampy.db.elephantsql.com:5432/lpufbryv";
+const dbURL = process.env.DATABASE_URL || "postgres://lpufbryv:FGc7GtCWBe6dyop0yJ2bu0pTXDoBJnEv@stampy.db.elephantsql.com:5432/lpufbryv";
 var adminFolder = path.resolve(__dirname, "../client/admin");
 var loginForm = path.resolve(__dirname, "../client/admin/login.html");
 
