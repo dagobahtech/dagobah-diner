@@ -10,6 +10,15 @@ var newStation = document.getElementById("newMenuStation");
 var select = document.getElementById("select");
 var submit = document.getElementById("submit");
 
+$.ajax({
+	url:"/admin/getMenuTable",
+	type:"POST",
+	success:function(response){
+		//grab table and loop to create cells
+		
+	}
+});
+
 submit.addEventListener("click", updateQuery);
 
 function updateQuery() {
