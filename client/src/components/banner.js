@@ -17,10 +17,10 @@ class Banner extends Component {
                 <div className="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul className="navbar-nav ml-auto">
                         <li className="nav-item">
-                            <a className="nav-link" href="/orderview"><h2>Orderview</h2></a>
+                            <a className="nav-link" href="/orderview"><h3>Orderview</h3></a>
                         </li>
                         <li className="nav-item">
-                            <a className="nav-link" href="/login"><h2>Login</h2></a>
+                            <a className="nav-link" href="/login"><h3>Login</h3></a>
                         </li>
                     </ul>
                 </div>

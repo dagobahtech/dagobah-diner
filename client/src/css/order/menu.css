@@ -62,6 +62,25 @@ body {
     margin-bottom: 1vh;
 }
 
+/* Navbar CSS*/
+.navbar-nav > .nav-item > .nav-link {
+    font-family: "Lobster";
+    color: white;
+}
+
+.navbar-nav > .nav-item > .nav-link:hover {
+    color: orange;
+}
+
+@media (max-width : 512px) {
+    .navbar-brand {
+        font-size: 0.6em;
+    }
+}
+.navbar-toggler {
+    background-color: white;
+}
+
 #cardOuter {
     overflow: hidden;
     overflow-y: scroll;
@@ -242,7 +261,7 @@ body {
 
 .menu-item > .card-footer {
     color: white;
-    background-color: #BD4009;
+    background-color: rgb(163, 55, 8);
 }
 
 .menu-item > .card-block {
