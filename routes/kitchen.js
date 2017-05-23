@@ -296,23 +296,6 @@ function socketHandler(io, dagobah, kitchen, dbSettings) {
         socket.on("get constraints", function () {
             socket.emit("send constraints", kitchen.maxItemPerOrder, kitchen.maxQuantityPerItem);
         });
-
-        // app.post("/restStatChange", function(req, resp) {
-        //     if(req.body.status == "true") {
-        //         dagobah.isOpen = false;
-        //         io.emit("restStatus", dagobah.isOpen);
-        //         resp.send(false);
-        //     }
-        //     else if (req.body.status == "false") {
-        //         dagobah.isOpen = true;
-        //         io.emit("restStatus", dagobah.isOpen);
-        //         resp.send(true);
-        //     }
-        //     else {
-        //         resp.send(null);
-        //         console.log("sending: error");
-        //     }
-        // });
     });
 }
 

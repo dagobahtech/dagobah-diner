@@ -20,12 +20,12 @@ $(document).ready(function() {
    }
     
    document.getElementById("d-showPassword").addEventListener("mousedown", function() {
-       showPassword();
+       showPassword2();
    });
    document.getElementById("d-showPassword").addEventListener("mouseup", function() {
-       showPassword();
+       showPassword2();
    });
-   function showPassword() {
+   function showPassword2() {
        var passInput = document.getElementById("d-pass");
        if(passInput.type == "text") {
            passInput.type = "password";

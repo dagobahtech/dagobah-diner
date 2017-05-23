@@ -86,7 +86,23 @@ app.use("/login", login);
 // exports.getMenuItems = getMenuItems(); // DL - export the function to be used in "/routes/admin.js"
 
 app.post("/menu-items", function(req, resp){
+    console.log(dagobah.menuItems);
     resp.send(dagobah.menuItems);
+});
+
+app.post("/updateMenu-items", function(req, resp) {
+    for(var i = 0; i < dagobah.menuItems.length; i++) {
+        if(dagobah.menuItems[i].name == req.body.item) {
+            var status;
+            if (req.body.status == "true") {
+                status = true;
+            } else if (req.body.status == "false") {
+                status = false;
+            }
+            dagobah.menuItems[i].active = status;
+        }
+    }
+    resp.send("success");
 });
 
 //add app.get before this call
