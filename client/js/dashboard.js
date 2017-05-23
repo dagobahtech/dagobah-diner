@@ -178,6 +178,12 @@ $(document).ready(function() {
         maxOrders.disabled = !isEditable;
         comboDiscount.disabled = !isEditable;
         saveConstraintButton.disabled = !isEditable;
+
+        if(!isEditable) {
+            document.getElementById("constraint-note").innerHTML = "Settings cannot be changed when restaurant is open";
+        } else {
+            document.getElementById("constraint-note").innerHTML = "";
+        }
     }
 
     //set the event listeners
@@ -218,7 +224,7 @@ $(document).ready(function() {
                 setRangeEventHandler(maxOrders, maxOrdersValue);
                 setRangeEventHandler(comboDiscount, comboDiscountValue);
 
-                setConstraintSettingsStatus(resp.kitchenStatus === "true");
+                setConstraintSettingsStatus(resp.kitchenStatus === "false");
             }
         }
     })

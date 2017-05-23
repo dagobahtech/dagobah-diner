@@ -57,38 +57,47 @@
     </div>
 </div>
 
-<!-- SETTINGS -->
-<h3>Settings</h3>
-<div id="constraint-settings">
-    <div class="form-inline">
-        <div class="card col-md-3 settings">
-            <label for="maxItemsPerOrder">Max Items Per Order: <span id="maxItemsPerOrderValue"></span></label>
-            <input type="range" class="form-control mb-2 mr-sm-2 mb-sm-0" id="maxItemsPerOrder">
-        </div>
-
-        <div class="card col-md-3 settings">
-            <label for="maxQtyPerItem">Max Quantity Per Item: <span id="maxQtyPerItemValue"></span></label>
-            <input type="range" class="form-control mb-2 mr-sm-2 mb-sm-0" id="maxQtyPerItem" class="value">
-        </div>
-
-        <div class="card col-md-3 settings">
-            <label for="maxOrders">Max Concurrent Orders: <span id="maxOrdersValue"></span></label>
-            <input type="range" class="form-control mb-2 mr-sm-2 mb-sm-0" id="maxOrders" class="value">
-
-        </div>
-
-        <div class="card col-md-3 settings">
-            <label for="comboDiscount">Combo Discount: <span id="comboDiscountValue"></span></label>
-            <input type="range" class="form-control mb-2 mr-sm-2 mb-sm-0" id="comboDiscount" >
-
-        </div>
-        <button type="submit" class="form-control btn btn-primary" id="saveConstraintButton">Save</button>
-    </div>
-</div>
-<hr />
-
 <!--Open/Close Restaurant-->
 <button class="card mb-3" id="restaurantOpenClose">Loading...</button>
+
+<!-- SETTINGS -->
+<div class="card">
+    <div class="card-header">
+        <i class="fa fa-cog" aria-hidden="true"></i> Settings
+        <div id="constraint-note"></div>
+    </div>
+    <div class="card-block">
+        <div id="constraint-settings">
+            <div class="form-inline">
+                <div class="card col-md-3 settings">
+                    <label for="maxItemsPerOrder">Max Items Per Order: <span id="maxItemsPerOrderValue"></span></label>
+                    <input type="range" class="form-control mb-2 mr-sm-2 mb-sm-0" id="maxItemsPerOrder">
+                </div>
+
+                <div class="card col-md-3 settings">
+                    <label for="maxQtyPerItem">Max Quantity Per Item: <span id="maxQtyPerItemValue"></span></label>
+                    <input type="range" class="form-control mb-2 mr-sm-2 mb-sm-0" id="maxQtyPerItem" class="value">
+                </div>
+
+                <div class="card col-md-3 settings">
+                    <label for="maxOrders">Max Concurrent Orders: <span id="maxOrdersValue"></span></label>
+                    <input type="range" class="form-control mb-2 mr-sm-2 mb-sm-0" id="maxOrders" class="value">
+
+                </div>
+
+                <div class="card col-md-3 settings">
+                    <label for="comboDiscount">Combo Discount: <span id="comboDiscountValue"></span></label>
+                    <input type="range" class="form-control mb-2 mr-sm-2 mb-sm-0" id="comboDiscount" >
+
+                </div>
+            </div>
+            <div class="card-footer">
+                <button type="submit" class="btn btn-primary" id="saveConstraintButton">Save</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 
 <!--Area Chart-->
 <div class="card mb-3">

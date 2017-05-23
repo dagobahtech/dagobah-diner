@@ -259,3 +259,8 @@ input:checked + .slider:before {
 .settings {
     text-align:center;
 }
+
+#constraint-note {
+    font-weight: bold;
+    color: red;
+}
