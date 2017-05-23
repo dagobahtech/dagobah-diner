@@ -61,10 +61,26 @@ body {
 .container-fluid {
     margin-bottom: 1vh;
 }
-.navbar navbar-default navbar-static-top {
-    height: 20vh;
-    margin-bottom: 1vh;
+
+/* Navbar CSS*/
+.navbar-nav > .nav-item > .nav-link {
+    font-family: "Lobster";
+    color: white;
 }
+
+.navbar-nav > .nav-item > .nav-link:hover {
+    color: orange;
+}
+
+@media (max-width : 512px) {
+    .navbar-brand {
+        font-size: 0.6em;
+    }
+}
+.navbar-toggler {
+    background-color: white;
+}
+
 #cardOuter {
     overflow: hidden;
     overflow-y: scroll;
@@ -245,7 +261,7 @@ body {
 
 .menu-item > .card-footer {
     color: white;
-    background-color: #BD4009;
+    background-color: rgb(163, 55, 8);
 }
 
 .menu-item > .card-block {
@@ -417,13 +433,9 @@ body {
 
     font-family: 'Lobster', cursive;
     color: white;
-    padding: 0px;
-    margin: 0px;
     z-index: 1;
-    font-size: 5vw;
-    position: absolute;
-    left: 0;
-    right: 0;
+    font-size: 4em;
+    position: relative;
     text-align: center;
     margin-top: 15vh;
 }
@@ -433,25 +445,22 @@ body {
     display: inline-block;
     font-family: 'Patua One', cursive;
     color: white;
-    font-size: 2vw;
-    background-color: rgba(0,0,0,0.5);
+    font-size: 1.5em;
+    background-color: orange;
     border-radius: 5px;
     margin:auto;
     cursor: pointer;
-    transform: scale(1,1);
-    transition: color 0.2s ease-in, transform 0.2s ease-in;
 }
 
 .welcome-bg-button:hover {
-    transform: scale(1.1,1.1);
-    color: orange
+    background-color: #d18300;
+    color: #e5e5e5;
+    text-decoration: none;
 }
 
 .welcome-bg-button-span {
-    position: absolute;
-    left: 0;
-    right: 0;
-    bottom: 5vh;
+    position: relative;
+    margin-top: 40px;
     text-align: center;
     z-index: 2;
 }
@@ -473,19 +482,14 @@ body {
 .banner {
     font-family: 'Lobster', cursive;
     color: white;
-    font-size: 6vh;
+    font-size: 3em;
 
 }
 
 .sub {
     font-family: 'Dancing Script', cursive;
-    font-size: 1.5vw;
+    font-size: 1.5rem;
     color: white;
-}
-
-
-.logo-navbar {
-    max-width: 300px;
 }
 
 h1 {

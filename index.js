@@ -518,6 +518,6 @@ server.listen(port, function(err){
     }
 
     console.log("Server is running on port " + port);
-    console.log("MR. Repo is watching you.");
+    console.log("Welcome to Dagobah Diner.");
 });
 

@@ -1,17 +1,30 @@
 import React, {Component} from 'react'
-import logo from '../css/order/images/logo.svg'
 import '../css/order/menu.css'
 
 class Banner extends Component {
     
     render() {
         return (
-            <div className="navbar navbar-default navbar-static-top">
-                <div className="navbar-header">
-                    <div className="banner">Dagobah <span style={{'color':'orange'}}>Diner</span></div>
-                    <div className="sub">We bet you won’t find better</div>
+            <nav className="navbar navbar-toggleable-sm navbar-light">
+                <button className="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span className="navbar-toggler-icon"></span>
+                </button>
+                <a className="navbar-brand">
+                    <div className="banner">Dagobah <span style={{'color':'orange'}}>Diner</span>
+                        <div className="sub">We bet you won’t find better</div>
+                    </div>
+                </a>
+                <div className="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul className="navbar-nav ml-auto">
+                        <li className="nav-item">
+                            <a className="nav-link" href="/orderview"><h3>Orderview</h3></a>
+                        </li>
+                        <li className="nav-item">
+                            <a className="nav-link" href="/login"><h3>Login</h3></a>
+                        </li>
+                    </ul>
                 </div>
-            </div>
+            </nav>
         );
     }
 }
