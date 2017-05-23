@@ -114,6 +114,10 @@ function socketHandler(io, dagobah, kitchen, dbSettings) {
             }
         });
 
+        socket.on("check open", function () {
+            socket.emit("store status", dagobah.isOpen);
+        });
+
         //kitchen client requests to do a cook function
         socket.on("cook", function (id, quantity) {
             //make sure its from the kitchen
@@ -228,6 +232,10 @@ function socketHandler(io, dagobah, kitchen, dbSettings) {
                 return
             }
 
+            if(!dagobah.isOpen) {
+                socket.emit("store status", dagobah.isOpen);
+                return false;
+            }
 
             let order_date = null;
             let processedTotal = calcTrueTotal(order, dagobah);
