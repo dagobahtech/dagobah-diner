@@ -16,6 +16,12 @@ const Restaurant = require("./kitchen-server/restaurant");
 const dagobah = new Restaurant();
 //just a reference to the kitchen object of the restaurant for easy access
 const kitchen = dagobah.kitchen;
+
+//import the restuarant constraints class
+const SysConstraints = require('./kitchen-server/system-constraints');
+//initialise the constraints for a file.
+var restConstrains = new SysConstraints();
+
 //declare routes
 const admin = require('./routes/admin');
 //@jed: I commented this out because I'll be using sockets for the kitchen
@@ -194,7 +200,7 @@ app.use("/admin", admin);
 /* Menu Access code section */
 
 //var menuArray = [];     //server array of menu items to be sent to client.
-var comboDiscount = 0.15;  //combo discount.  To be pulled from the database later on.
+var comboDiscount = restConstrains.comboDiscount;  //combo discount.
 
 function getMenuItems() {
     pg.connect(dbURL, function(err, client, done){
@@ -512,6 +518,6 @@ server.listen(port, function(err){
     }
 
     console.log("Server is running on port " + port);
-    console.log("MR. Repo is watching you.");
+    console.log("Welcome to Dagobah Diner.");
 });
 
