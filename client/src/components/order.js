@@ -28,8 +28,9 @@ class Order extends Component {
         ((myThis)=>
         {
             myThis.socket.on("store status", function (isOpen) {
+                myThis.setState({isOpen:isOpen});
+
                 if (!isOpen) {
-                    myThis.setState({isOpen:isOpen});
                     browserHistory.push("/")
                 }
             });
@@ -40,21 +41,19 @@ class Order extends Component {
 
     render() {
 
-        if(!this.state.isOpen) {
-            return (<div></div>)
-        } else {
-            return (
 
-                <div className="container-fluid transition-item enter-up-exit-down main">
-                    <ConfirmationBox/>
-                    <Banner/>
-                    <div className="container-fluid">
-                        <OrderBoard/>
-                    </div>
+        return (
+
+            <div className="container-fluid transition-item enter-up-exit-down main">
+                <ConfirmationBox/>
+                <Banner/>
+                <div className="container-fluid">
+                    <OrderBoard/>
                 </div>
+            </div>
 
-            )
-        }
+        )
+
 
     }
 }
