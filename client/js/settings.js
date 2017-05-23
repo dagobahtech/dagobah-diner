@@ -20,12 +20,12 @@ $(document).ready(function() {
    }
     
    document.getElementById("d-showPassword").addEventListener("mousedown", function() {
-       showPassword();
+       showPassword2();
    });
    document.getElementById("d-showPassword").addEventListener("mouseup", function() {
-       showPassword();
+       showPassword2();
    });
-   function showPassword() {
+   function showPassword2() {
        var passInput = document.getElementById("d-pass");
        if(passInput.type == "text") {
            passInput.type = "password";
@@ -38,6 +38,7 @@ $(document).ready(function() {
        console.log("working");
        var user = document.getElementById("user").value;
        var pass = document.getElementById("pass").value;
+       var type = document.getElementById("type_id").account_type.value;
        
        if(user.length > 0 && pass.length > 0) {
        console.log("working2");
@@ -46,7 +47,8 @@ $(document).ready(function() {
                type: "post",
                data: {
                    user: user,
-                   pass: pass
+                   pass: pass,
+                   type: type
                },
                success: function(response) {
                    var errBox = document.getElementById("c-error");

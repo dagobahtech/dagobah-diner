@@ -108,7 +108,7 @@ router.post("/createAdmin", function(req, resp) {
     bcrypt.hash(req.body.pass, 5, function(err, bpass){
         pg.connect(dbURL, function(err, client, done) {
             if(err){console.log(err)}
-            client.query(dbQuery, [req.body.user, bpass, 1], function(err, result) {
+            client.query(dbQuery, [req.body.user, bpass, req.body.type], function(err, result) {
                 if(err) {
                     console.log(err);
                     resp.send("error");
