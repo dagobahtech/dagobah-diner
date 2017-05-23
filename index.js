@@ -24,13 +24,13 @@ const admin = require('./routes/admin');
 // DanLi - Cloud Database Hosted on ElephantSQL.com credentials posted on GitHub
 const dbURL = process.env.DATABASE_URL || "postgres://lpufbryv:FGc7GtCWBe6dyop0yJ2bu0pTXDoBJnEv@stampy.db.elephantsql.com:5432/lpufbryv";
 
-//DChew - Whether or not the restaurant is open
-var restIsOpen = false;
-
 var pFolder = path.resolve(__dirname, "client/public");
 var adminFolder = path.resolve(__dirname, "client/admin");
 var loginForm = path.resolve(__dirname, "client/admin/login.html");
 
+//***NOTE*** 
+//remember to uncomment the line below... or modify the class somewhere
+//dagobah.isOpen = false;
 
 // redirect to css and js folders
 //app.use("/buildScripts", express.static("client/buildjs"));
@@ -38,14 +38,13 @@ var loginForm = path.resolve(__dirname, "client/admin/login.html");
 
 // redirect to image, css and js folders
 app.use("/scripts", express.static("client/js"));
-app.use("/jsBuild", express.static("client/buildjs"));
 app.use("/styles", express.static("client/src/css"));
 app.use("/images", express.static("MenuPics"));
 
 app.use("/admin-css", express.static("client/admin/stylesheet"));
 app.use("/jquery", express.static("node_modules/jquery/dist"));
 app.use("/bootstrap", express.static("node_modules/bootstrap/dist"));
-
+app.use("/chart.js", express.static("node_modules/chart.js/dist"));
 
 app.use(bodyParser.urlencoded({
     extended: true
@@ -69,7 +68,7 @@ app.post("/login", function (req, resp){
 
     pg.connect(dbURL, function (err, client, done) {
         if(err){console.log(err)}
-        let dbQuery = "SELECT type_id FROM user_login WHERE username = $1 AND password = $2";
+        let dbQuery = "SELECT * FROM user_login WHERE username = $1 AND password = $2";
         client.query(dbQuery, [req.body.username, req.body.password], function(err, result){
             done();
             if(err){console.log(err)}
@@ -77,7 +76,13 @@ app.post("/login", function (req, resp){
             console.log(result.rows[0]);
             if(result.rows[0] !== undefined) {
                 req.session.user_id = result.rows[0].type_id;
-                resp.send({status: "success", message: "login successfully", type: req.session.user_id});
+                req.session.SPK_user = result.rows[0].id;
+                resp.send({
+                    status: "success", 
+                    message: "login successfully", 
+                    type: req.session.user_id,
+                    user: req.session.id
+                });
             } else {
                 resp.send({status: "failed", message: "incorrect login"});
             }
@@ -85,6 +90,80 @@ app.post("/login", function (req, resp){
     });
 });
 
+app.post("/deleteItem", function(req, resp) {
+//    console.log("name recieved: " + req.body.name);
+    let dbQuery = "DELETE FROM menu WHERE name = $1";
+    pg.connect(dbURL, function(err, client, done) {
+        if(err) {
+            console.log(err);
+        }
+        client.query(dbQuery, [req.body.name], function(err, result) {
+            done();
+           if(err) {
+               console.log("error");
+               console.log(err);
+               resp.send(err);
+           } 
+           else {
+               console.log("success");
+               console.log(result);
+               resp.send("success"); 
+           }
+        });
+    })
+})
+
+app.post("/createAdmin", function(req, resp) {
+    console.log(req.body);
+    let dbQuery = "INSERT INTO user_login (username, password, type_id) VALUES ($1, $2, $3)";
+    pg.connect(dbURL, function(err, client, done) {
+        if(err){console.log(err)}
+        client.query(dbQuery, [req.body.user, req.body.pass, 1], function(err, result) {
+           if(err) {
+               console.log(err);
+               resp.send("error");
+           } 
+            else {
+                console.log(result);
+                resp.send(result);
+            }
+        });
+    });
+});
+
+app.post("/deleteUser", function(req, resp) {
+    console.log(req.session.user);
+    console.log(req.body);
+    let dbQuery = "SELECT * FROM user_login WHERE id = ($1)";
+    pg.connect(dbURL, function(err, client, done) {
+        if(err){console.log(err)}
+        client.query(dbQuery, [req.session.SPK_user], function(err, result) {
+           var del = req.session.SPK_user;
+           if(err) {
+               console.log(err);
+           } 
+           else {
+                console.log(result);
+                if(result.rows[0].password == req.body.pass) {
+                    req.session.destroy();
+                    let dbQuery = "DELETE FROM user_login WHERE id = ($1)";
+                    client.query(dbQuery, [del], function(err, result) {
+                        done();
+                        if(err) {
+                            console.log(err);
+                        }
+                        else {
+                            resp.send("success");
+                        }
+                    });
+                }
+               else {
+                    resp.send("error");
+               }
+           }
+        });
+    });
+});
 //Jed - kitchen testing client
 //@JED testing kitchen
 var kitchenFolder = path.resolve(__dirname, "client/kitchen-alt");
@@ -105,7 +184,7 @@ app.get("/orderview", function(req,resp) {
 
 // is restaurant open ajax call
 app.post("/isOpen", function(req, resp) {
-   resp.send(restIsOpen);
+   resp.send(dagobah.isOpen);
 });
 //setup the routes
 app.use("/admin", admin);
@@ -408,15 +487,14 @@ io.on("connection", function(socket){
     });
     
     app.post("/restStatChange", function(req, resp) {
-       console.log("recieved currentStatus: " + req.body.status);
        if(req.body.status == "true") {
-           restIsOpen = false;
-           socket.emit("restaurantStatus", restIsOpen);
+           dagobah.isOpen = false;
+           io.emit("restStatus", dagobah.isOpen);
            resp.send(false);
        }
        else if (req.body.status == "false") {
-           restIsOpen = true;
-           socket.emit("restaurantStatus", restIsOpen);
+           dagobah.isOpen = true;
+           io.emit("restStatus", dagobah.isOpen);
            resp.send(true);
        }
        else {
@@ -436,3 +514,4 @@ server.listen(port, function(err){
     console.log("Server is running on port " + port);
     console.log("MR. Repo is watching you.");
 });
+

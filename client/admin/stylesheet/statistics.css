@@ -1,0 +1,15 @@
+.options {
+    display: none;
+}
+
+.custom-height {
+    height: 30px;
+}
+
+#order, #item {
+    display: none;
+}
+
+#sideItemStat, #bevItemStat {
+    display: none;
+}

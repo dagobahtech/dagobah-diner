@@ -1,1 +1,135 @@
-<h1>This is the statistics page</h1>
+<!-- navigation -->
+<nav class="navbar navbar-inverse bg-inverse navbar-toggleable-sm mb-5">
+    <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="navbar-brand">Dagobah <span style="color:orange">Diner</span></div>
+    <div class="collapse navbar-collapse" id="navbarNavDropdown">
+        <ul class="navbar-nav" id="statNavigation">
+            <li class="nav-item active">
+                <a class="nav-link" id="salesLink" href="" onclick="return false;">Sales Statistics</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="orderLink" href="" onclick="return false;">Order Statistics</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="itemLink" href="" onclick="return false;">Item Statistics</a>
+            </li>
+        </ul>
+    </div>
+</nav>
+<!-- displays. Put this stuffs inside a div with initially the sales div only visible-->
+<div id="sales">
+    <h3 class="display-4">Sales Statistics</h3>
+    <hr />
+    <!-- YEARLY RADIO BUTTON -->
+    <div class="form-check custom-height">
+        <label class="form-check-label">
+            <input class="form-check-input" type="radio" name="salesView" id="rbnYearly" value="yearly" checked>
+            Yearly
+        </label>
+    </div>
+    <!-- MONTHLY RADIO BUTTON -->
+    <div class="form-check custom-height">
+        <label class="form-check-label">
+            <input class="form-check-input" type="radio" name="salesView" id="rbnMonthly" value="monthly">
+            Monthly
+            <div class="options">
+                for the year
+                <select name="yearSelect" id="year-chooser-monthly">
+                </select>
+            </div>
+        </label>
+    </div>
+    <!-- WEEKLY RADIO BUTTON -->
+    <div class="form-check ">
+        <label class="form-check-label custom-height">
+            <input class="form-check-input" type="radio" name="salesView" id="rbnWeekly" value="weekly">
+            Weekly
+            <div class="options">
+                for the year
+                <select name="yearSelect" id="year-chooser-weekly">
+                </select>
+            </div>
+
+        </label>
+    </div>
+    <button class="btn btn-primary" id="show-button">Show</button>
+    <hr />
+    <!-- SHOW THE CHART HERE -->
+    <canvas id="salesChart" height="70"></canvas>
+</div>
+
+<div id="order">
+    <h3 class="display-4">Order Statistics</h3>
+    <p>Statistics shown are for the current year</p>
+    <hr />
+    <button class="btn btn-primary" id="totalOrder">Total Order Per Month</button>
+    <button class="btn btn-primary" id="totalDiscards">Total Discards Per Week</button>
+    <button class="btn btn-primary" id="avgOrder">Avg Items Per Order</button>
+    <hr/>
+    <canvas id="orderChart" height="70"></canvas>
+
+</div>
+
+<div id="item">
+    <h3 class="display-4">Item Statistics</h3>
+    <p>Statistics shown are for the current year</p>
+    <hr />
+    <div class="btn-toolbar mb-3" role="toolbar" aria-label="Toolbar">
+        <div class="btn-group" role="group" aria-label="Button group for item stat">
+            <button type="button" class="btn btn-primary" id="item-view-all">All</button>
+
+            <div class="btn-group" role="group">
+                <button id="btnGroupDrop1" type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Month
+                </button>
+                <div class="dropdown-menu" aria-labelledby="btnGroupDrop1" id="item-stat-month">
+                    <a class="dropdown-item" href="" onclick="return false;">January</a>
+                    <a class="dropdown-item" href="" onclick="return false;">February</a>
+                    <a class="dropdown-item" href="" onclick="return false;">March</a>
+                    <a class="dropdown-item" href="" onclick="return false;">April</a>
+                    <a class="dropdown-item" href="" onclick="return false;">May</a>
+                    <a class="dropdown-item" href="" onclick="return false;">June</a>
+                    <a class="dropdown-item" href="" onclick="return false;">July</a>
+                    <a class="dropdown-item" href="" onclick="return false;">August</a>
+                    <a class="dropdown-item" href="" onclick="return false;">September</a>
+                    <a class="dropdown-item" href="" onclick="return false;">October</a>
+                    <a class="dropdown-item" href="" onclick="return false;">November</a>
+                    <a class="dropdown-item" href="" onclick="return false;">December</a>
+                </div>
+            </div>
+
+        </div>
+        <div class="input-group">
+            <span class="input-group-addon" id="btnGroupAddon">Current View</span>
+            <input type="text" class="form-control" aria-describedby="btnGroupAddon" id="selected-item-view"disabled>
+        </div>
+    </div>
+
+
+    <div class="input-group">
+        <ol class="breadcrumb" id="categoryNav">
+            <li class="breadcrumb-item"><a href="" onclick="return false;">Main</a></li>
+            <li class="breadcrumb-item"><a href="" onclick="return false;">Sides</a></li>
+            <li class="breadcrumb-item"><a href="" onclick="return false;">Beverages</a></li>
+        </ol>
+    </div>
+    <hr />
+    <div id="mainItemStat">
+        <h1 class="display-4">Main</h1>
+        <canvas id="itemMainChart" height="70"></canvas>
+    </div>
+
+    <div id="sideItemStat">
+        <h1 class="display-4">Sides</h1>
+        <canvas id="itemSideChart" height="70"></canvas>
+    </div>
+
+    <div id="bevItemStat">
+        <h1 class="display-4">Beverages</h1>
+        <canvas id="itemBeverageChart" height="70"></canvas>
+    </div>
+
+</div>
+

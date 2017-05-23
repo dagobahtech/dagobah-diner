@@ -1,7 +1,13 @@
 html {
     min-height: 100%;
 }
-
+.deleteBut {
+    background-color: rgb(217, 83, 79);
+    border-color: rgb(217, 83, 79);
+    color: white;
+    border-radius: 5px;
+    transition: all ease 0.5s;
+}
 #restaurantOpenClose {
     width: 100%;
     text-align: -webkit-center;
@@ -10,6 +16,84 @@ html {
     
 /*    Green: #5cb85c */
 /*    Red: #d9534f */
+}
+#settingsHeader {
+    border: none;
+}
+#d-hide {
+    width: 100%;
+    display: flex;
+    flex-flow: row;
+    transition: all ease 0.5s;
+/*  hides*/
+    margin-top: -5%;
+    display: none;
+    opacity: 0;
+}
+#deleteBut {
+    width: 100%;
+}
+#d-pass {
+    width: 80%;
+}
+#d-final {
+    width: 20%;
+    background-color: rgb(217, 83, 79);
+    border-color: rgb(217, 83, 79);
+    transition: all ease 0.5s;
+    text-align: -webkit-center;
+    color: white;
+}
+#deleteBut {
+    background-color: rgb(217, 83, 79);
+    border-color: rgb(217, 83, 79);
+    color: white;
+    text-align: -webkit-center;
+    font-size: 2rem;
+    transition: all ease 0.5s;
+}
+#deleteBut:hover, #d-final:hover {
+    background-color: rgb(255, 83, 79);
+    border-color: rgb(255, 83, 79);
+}
+#showPassword, #d-showPassword {
+    background-image: url("https://d30y9cdsu7xlg0.cloudfront.net/png/7467-200.png");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    border-left: none;
+    margin-left: -5%;
+    width: 5%;
+}
+#c-body {
+    display: flex;
+    flex-flow: row;
+}
+#c-error, #d-error {
+    background-color: rgb(217, 83, 79);
+    border-color: rgb(217, 83, 79, 0);
+    opacity: 0;
+    color: white;
+}
+#createAdmin, #deleteAdmin {
+    padding: 1rem;
+    padding-top: 0;
+    background-color: #f7f7f9;
+}
+#user, #pass, #createBut {
+    padding: 0.1rem;
+}
+#user, #pass {
+    width: 40%;
+}
+#createBut {
+    width: 20%;
+    text-align: -webkit-center;
+    background-color: rgba(0,0,0,0.05);
+    transition: all ease 0.5s;
+}
+#createBut:hover {
+    background-color: rgba(0,0,0,0.2);
 }
 .active {
     color: white;
