@@ -74,6 +74,7 @@ app.post("/isOpen", function(req, resp) {
 //app set the pg and io so they could be used inside post and gets
 app.set("dbSettings",{pg, dbURL});
 app.set("socketio", io);
+app.set("dagobah", dagobah);
 
 //setup the routes
 app.use("/admin", adminServer.router);

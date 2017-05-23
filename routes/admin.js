@@ -3,11 +3,9 @@ const router = express.Router();
 const pg = require("pg");
 const path = require("path");
 const MenuItemValidator = require("./menuItemValidator");
-var rootFile = require("../index.js");
 
 const dbURL = process.env.DATABASE_URL || "postgres://lpufbryv:FGc7GtCWBe6dyop0yJ2bu0pTXDoBJnEv@stampy.db.elephantsql.com:5432/lpufbryv";
 var adminFolder = path.resolve(__dirname, "../client/admin");
-var loginForm = path.resolve(__dirname, "../client/admin/login.html");
 
 /* Menu Access code section */
 
@@ -66,7 +64,7 @@ router.post("/createItem", function (req, resp) {
                     resp.end("ERROR");
                 }
 
-                rootFile.getMenuItems(pg, dbURL);
+                getMenuItems(pg, dbURL, req.app.get("dagobah").menuItems);
                 resp.send({status: "success", msg: "item created!"});
 
             });
