@@ -316,4 +316,41 @@ function socketHandler(io, dagobah, kitchen, dbSettings) {
     });
 }
 
+/*************** CONSTRAINTS SETTINGS **********************/
+router.post("/getConstraints", function (req, resp) {
+
+    let orders = {
+        min: 5,
+        max: 20,
+        current: 10
+    };
+
+    let itemsPerOrder = {
+        min: 1,
+        max: 15,
+        current: 10
+    }
+
+    let qtyPerItem = {
+        min: 1,
+        max: 10,
+        current: 6
+    }
+
+    let comboDiscount = {
+        min: 0,
+        max: 30,
+        current: 15
+    }
+
+    resp.send({
+        status: "success",
+        kitchenStatus: req.app.get("dagobah").isOpen,
+        orders,
+        itemsPerOrder,
+        qtyPerItem,
+        comboDiscount
+    });
+});
+
 module.exports = { router, socketHandler }
