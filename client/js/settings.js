@@ -42,7 +42,7 @@ $(document).ready(function() {
        if(user.length > 0 && pass.length > 0) {
        console.log("working2");
            $.ajax({
-               url: "/createAdmin",
+               url: "/admin/createAdmin",
                type: "post",
                data: {
                    user: user,
@@ -83,7 +83,7 @@ $(document).ready(function() {
    });
    finalBut.addEventListener("click", function() {
        $.ajax({
-           url: "/deleteUser",
+           url: "/admin/deleteUser",
            type: "post",
            data: {
               pass: document.getElementById("d-pass").value
