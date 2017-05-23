@@ -1,0 +1,55 @@
+.transition-wrapper {
+    position: relative;
+    z-index: 1;
+}
+.transition-wrapper .transition-item {
+    position: fixed;
+    top: 0;
+    right: 0;
+    left: 0;
+}
+.enter-up-exit-down {
+    overflow: auto;
+    box-sizing: border-box;
+    height: 100vh;
+    transition: transform 0.5s, opacity 0.5s;
+}
+.enter-up-exit-down.transition-appear {
+    opacity: 0;
+    transform: translate3d(0, 100%, 0);
+}
+.enter-up-exit-down.transition-appear.transition-appear-active {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+}
+.enter-up-exit-down.transition-leave {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+}
+.enter-up-exit-down.transition-leave.transition-leave-active {
+    opacity: 0;
+    transform: translate3d(0, 100%, 0);
+}
+.enter-down-exit-up {
+    overflow: auto;
+    box-sizing: border-box;
+    height: 100vh;
+    transition: transform 0.5s, opacity 0.5s;
+    transform: translate3d(0, 0, 0);
+}
+.enter-down-exit-up.transition-appear {
+    opacity: 0;
+    transform: translate3d(0, -100%, 0);
+}
+.enter-down-exit-up.transition-appear.transition-appear-active {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+}
+.enter-down-exit-up.transition-leave {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+}
+.enter-down-exit-up.transition-leave.transition-leave-active {
+    opacity: 0;
+    transform: translate3d(0, -100%, 0);
+}

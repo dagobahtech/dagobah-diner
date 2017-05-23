@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <title>Kitchen</title>
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="/bootstrap/css/bootstrap.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/styles/kitchen/kitchen.css">
+</head>
+<body>
+
+<!-- Modal -->
+<div class="modal fade" id="confirmAction" tabindex="-1" role="dialog" aria-labelledby="confirmActionBox" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="confirmActionBox">Confirm your Action</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>Are you sure?</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+                <a href="/admin/logout"><button type="button" class="btn btn-primary">Yes</button></a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--NavBar-->
+<nav id="mainNav" class="navbar static-top navbar-toggleable-md navbar-inverse bg-inverse">
+    <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarEx" aria-controls="navbarEx" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <a class="navbar-brand" href="admin/admin-dashboard">Dagobah Kitchen</a>
+    <div class="collapse navbar-collapse" id="navbarEx">
+        <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+                <a class="nav-link mr-2" href="#" data-toggle="tooltip" data-placement="bottom" data-html="true" title="<p style='background: green;'>Green: Ready to Serve</p> <p style='background: red;'>Red: Item Expired</p>">
+                    Color Legend
+                </a>
+            </li>
+            <li class="nav-item">
+                <a id="logoutButton" class="nav-link" data-toggle="modal" href="#confirmAction"><i class="fa fa-fw fa-sign-out"></i> Logout</a>
+            </li>
+        </ul>
+    </div>
+</nav>
+
+<div class="container-fluid main py-3">
+    <div class="row h-100">
+        <div class="col-md-8 col-lg-8">
+            <div class="container-fluid h-100 nopadding">
+                <div class="row h-75 nopadding">
+                    <div class="col-12 nopadding">
+                        <div class="card view">
+                            <div class="card-header">ORDERS</div>
+                            <div class="card-block">
+                                <div class="container-fluid">
+                                    <div class="row" id="order-list"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row h-25 nopadding">
+                    <div class="col-12 nopadding">
+                        <div class="card view">
+                            <div class="card-header">READY TO SERVE</div>
+                            <div class="card-block">
+                                <div class="container-fluid">
+                                    <div class="row" id="ready-list"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 col-lg-4">
+            <div class="container-fluid h-100 nopadding">
+                <div class="row h-75">
+                    <div class="col-md-12">
+                        <div class="card view">
+                            <div class="card-header">PREPARATIONS</div>
+                            <div class="card-block auto-y-overflow">
+                                <table class="table container">
+                                    <thead>
+                                    <tr class="row">
+                                        <th class="col-md-6">Item</th>
+                                        <th class="col-md-1">Qty</th>
+                                        <th class="col-md-5">Orders</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody id="prep-item-list"></tbody>
+                                </table>
+                            </div>
+                            <div class="card-footer cook-buttons">
+                                <div class="container-fluid">
+                                    <div class="row" id="buttons">
+                                        <div class="col-md-4">
+                                            <button type="button" class="btn btn-success btn-block" id="cook1">PREP 1</button>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <button type="button" class="btn btn-success btn-block" id="cook2">PREP 2</button>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <button type="button" class="btn btn-success btn-block" id="cook6">PREP 6</button>
+                                        </div>
+                                    </div>
+                                    <div class="row" id="status">
+                                        <div class="col-12">
+                                            PREPARATION IN PROGRESS <i class="fa fa-spinner fa-spin" style="font-size:24px"></i>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="row h-25 ">
+                    <div class="col-md-12">
+                        <div class="card view food-tray">
+                            <div class="card-header">FOOD TRAY</div>
+                            <div class="card-block auto-y-overlow">
+                                <div class="container-fluid">
+                                    <div class="row" id="food-tray-list">
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- jQuery first, then Tether, then Bootstrap JS. -->
+<script src="/jquery/jquery.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
+<script src="/bootstrap/js/bootstrap.js"></script>
+
+<script src="/socket.io/socket.io.js"></script>
+<script src="scripts/kitchen.js"></script>
+</body>
+</html>

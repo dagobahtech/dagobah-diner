@@ -1,0 +1,25 @@
+<h1 class="card mb-4" id="settingsHeader">Settings</h1>
+<div id="adminDB">
+    <div class="card mb-3" id="createAdmin">
+        <h4 id="c-Header">Create an Administrative Account</h4>
+        <div id="c-body">
+            <input type="text" class="card mb-1" placeholder="username" id="user"/>
+            <input type="password" class="card mb-1" placeholder="password" id="pass"/>
+            <button class="card mb-1" id="showPassword"></button>
+            <button class="card mb-1" id="createBut">Create</button>
+        </div>
+        <div class="card mb-1" id="c-error"></div>
+    </div>
+    <div class="card mb-3" id="deleteAdmin">
+        <h4 id="d-header">Delete this Account</h4>
+        <div id="d-body">
+            <button class="card mb-1" id="deleteBut">Delete this user</button>
+            <div id="d-hide">
+                <input type="password" class="card mb-1" placeholder="verify your password" id="d-pass" disabled="true"/>
+                <button class="card mb-1" id="d-showPassword" disabled="true"></button>
+                <button class="card mb-1" id="d-final" disabled="true">Delete</button>
+            </div>
+            <div class="card mb-1" id="d-error"></div>
+        </div>
+    </div>
+</div>

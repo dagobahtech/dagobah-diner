@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<title>Orders in process - Dagobah Diner</title>
+
+	<!--Bootstrap 4 CDN-->
+	<link rel="stylesheet" href="/bootstrap/css/bootstrap.css">
+
+	<link type="text/css" href="/styles/order/order-view.css" rel="stylesheet"/>
+
+</head>
+<body>
+	<div class="container text-center">
+		<h1 class="display-2">Order View</h1>
+		<div class="row">
+			<div class="col-md-6 my-4">
+				<div class="card">
+					<h3 class="card-header">In Process:</h3>
+					<div class="card-block">
+						<ul class="list-group">
+							<li class="list-group-item">Cras justo odio</li>
+							<li class="list-group-item">Dapibus ac facilisis in</li>
+							<li class="list-group-item">Morbi leo risus</li>
+							<li class="list-group-item">Porta ac consectetur ac</li>
+							<li class="list-group-item">Vestibulum at eros</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+
+			<div class="col-md-6 my-4">
+				<div class="card">
+					<h3 class="card-header">Now Serving:</h3>
+					<div class="card-block">
+						<h4 class="card-title">Special title treatment</h4>
+						<p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+						<a href="#" class="btn btn-primary">Go somewhere</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!--Bootstrap Core & jQuery-->
+	<script src="/jquery/jquery.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
+	<script src="/bootstrap/js/bootstrap.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.13.0/moment.min.js"></script>
+	<script src="/chart.js/Chart.bundle.js"></script>
+	<script type="text/javascript" charset="utf8" src="//cdn.datatables.net/1.10.15/js/jquery.dataTables.js"></script>
+	<script src="https://cdn.datatables.net/1.10.15/js/dataTables.bootstrap4.min.js"></script>
+	<script src="/socket.io/socket.io.js"></script>
+	<script src="/scripts/overview.js" type="text/javascript" charset="utf-8" async defer></script>
+</body>
+</html>

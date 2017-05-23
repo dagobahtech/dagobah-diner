@@ -1,0 +1,14 @@
+
+.idea/
+node_modules/
+client/build
+dbconfig.js
+MenuPics/Thumbs.db
+client/buildjs
+reports
+bin/chromedriver.exe
+bin/chromedriver
+selenium-debug.log
+.DS_Store
+
+/bin/geckodriver

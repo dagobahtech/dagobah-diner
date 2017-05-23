@@ -1,0 +1,74 @@
+<!-- BreadCrumbs -->
+
+<ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="/admin">Dashboard</a></li>
+    <li class="breadcrumb-item active"><a href="/admin">Summary</a></li>
+</ol>
+
+<!-- Cards -->
+<div class="row">
+    <div class="col-12 col-sm-4 mb-3">
+        <div class="card card-inverse card-success h-100">
+            <div class="card-block">
+                <div class="card-block-icon">
+                    <i class="fa fa-fw fa-check-square-o"></i>
+                </div>
+                <div id="totalOrdersCard" class="mr-5">
+                    Loading..
+                </div>
+            </div>
+            <a href="#" class="card-footer clearfix small z-1">
+                <span class="float-left">View Details</span>
+                <span class="float-right"><i class="fa fa-angle-right"></i></span>
+            </a>
+        </div>
+    </div>
+    <div class="col-12 col-sm-4 mb-3">
+        <div class="card card-inverse card-primary h-100">
+            <div class="card-block">
+                <div class="card-block-icon">
+                    <i class="fa fa-fw fa-shopping-cart"></i>
+                </div>
+                <div id="orderInProcessCard" class="mr-5">
+                    5 Orders in process!
+                </div>
+            </div>
+            <a href="#" class="card-footer clearfix small z-1">
+                <span class="float-left">View Details</span>
+                <span class="float-right"><i class="fa fa-angle-right"></i></span>
+            </a>
+        </div>
+    </div>
+    <div class="col-12 col-sm-4 mb-3">
+        <div class="card card-inverse card-danger h-100">
+            <div class="card-block">
+                <div class="card-block-icon">
+                    <i class="fa fa-fw fa-trash"></i>
+                </div>
+                <div id="itemDiscardedCard" class="mr-5">
+                    10 Total Orders!
+                </div>
+            </div>
+            <a href="#" class="card-footer clearfix small z-1">
+                <span class="float-left">View Details</span>
+                <span class="float-right"><i class="fa fa-angle-right"></i></span>
+            </a>
+        </div>
+    </div>
+</div>
+
+<!--Open/Close Restaurant-->
+<button class="card mb-3" id="restaurantOpenClose">Loading...</button>
+
+<!--Area Chart-->
+<div class="card mb-3">
+    <div class="card-header">
+        <i class="fa fa-area-chart"></i> Daily Orders
+    </div>
+    <div class="card-block">
+        <canvas id="dailyOrdersChart" width="100" height="35"></canvas>
+    </div>
+    <div id="tableUpdateTime" class="card-footer small text-muted">
+        ...
+    </div>
+</div>

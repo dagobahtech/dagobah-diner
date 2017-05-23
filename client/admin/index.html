@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Dashboard - Administrator</title>
+
+    <!--Bootstrap 4 CDN-->
+    <link rel="stylesheet" href="/bootstrap/css/bootstrap.css">
+    <!--DataTable.js -->
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.15/css/dataTables.bootstrap4.min.css">
+    <!--Font-Awesome Icons-->
+    <script src="https://use.fontawesome.com/b973fe404b.js"></script>
+
+    <link rel="stylesheet" href="/admin-css/admin.css">
+    <link rel="stylesheet" href="/admin-css/statistics.css">
+
+</head>
+<body>
+<!-- Modal for different stuffs like showing error-->
+
+<!-- Modal -->
+<div class="modal fade" id="confirmAction" tabindex="-1" role="dialog" aria-labelledby="confirmActionBox" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="confirmActionBox">Confirm your Action</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>Are you sure?</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+                <a href="/admin/logout"><button type="button" class="btn btn-primary">Yes</button></a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="adminhModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalTitle">Error</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p id="modalMessage"></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<!--NavBar-->
+<nav id="mainNav" class="navbar static-top navbar-toggleable-md navbar-inverse bg-inverse">
+    <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarEx" aria-controls="navbarEx" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <a class="navbar-brand" href="/admin">Dagobah Administrator</a>
+    <div class="collapse navbar-collapse" id="navbarEx">
+        <ul class="navbar-nav sidebar-nav">
+            <li class="nav-item active">
+                <a class="nav-link" href="" id="admin-link" onclick="return false;"><i class="fa fa-fw fa-dashboard"></i> Dashboard</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="" id="admin-menu-link" onclick="return false;"><i class="fa fa-fw fa-glass"></i> Menu</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="" id="admin-stat-link" onclick="return false;"><i class="fa fa-fw fa-line-chart"></i> Statistics</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link nav-link-collapse collapsed" data-toggle="collapse" href="#collapseComponents"><i class="fa fa-fw fa-wrench"></i> Toolbox</a>
+                <ul class="sidebar-second-level collapse" id="collapseComponents">
+                    <li>
+                        <a href="" id="admin-create-link" onclick="return false;">Add Menu Items</a>
+                    </li>
+                    <li>
+                        <a href="" id="admin-settings-link" onclick="return false;">Setting 1</a>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+        <ul class="navbar-nav ml-auto">
+            <li class="navbar-text mr-2">
+                <span> Restaurant Status: </span>
+            </li>
+            <li class="nav-item mr-4">
+                <label class="switch">
+                    <input type="checkbox" checked>
+                    <div class="slider round"></div>
+                </label>
+            </li>
+            <li class="nav-item">
+                <a id="logoutButton" class="nav-link" data-toggle="modal" href="#confirmAction"><i class="fa fa-fw fa-sign-out"></i> Logout</a>
+            </li>
+        </ul>
+    </div>
+</nav>
+<!-- Ends Navbar-->
+
+<!--Bootstrap Core & jQuery-->
+<script src="/jquery/jquery.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
+<script src="/bootstrap/js/bootstrap.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.13.0/moment.min.js"></script>
+<script src="/chart.js/Chart.bundle.js"></script>
+<script type="text/javascript" charset="utf8" src="//cdn.datatables.net/1.10.15/js/jquery.dataTables.js"></script>
+<script src="https://cdn.datatables.net/1.10.15/js/dataTables.bootstrap4.min.js"></script>
+
+
+<!-- Display -->
+<div class="content-wrapper py-3">
+    <div class="container-fluid">
+
+
+        <!--DataTable-->
+        <div id="display"></div>
+    </div>
+</div>
+
+<script src="/scripts/index.js"></script>
+
+</body>
+</html>
