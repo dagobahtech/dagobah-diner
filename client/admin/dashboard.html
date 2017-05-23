@@ -57,6 +57,37 @@
     </div>
 </div>
 
+<!-- SETTINGS -->
+<h3>Settings</h3>
+<div id="constraint-settings">
+    <div class="form-inline">
+        <div class="card col-md-3 settings">
+            <label for="maxItemsPerOrder">Max Items: <span id="maxQtyPerOrderValue"></span></label>
+            <input type="range" class="form-control mb-2 mr-sm-2 mb-sm-0" id="maxItemsPerOrder">
+        </div>
+
+        <div class="card col-md-3 settings">
+            <label for="maxQtyPerItem">Max Quantity Per Item: <span id="maxQtyPerItemValue"></span></label>
+            <input type="range" class="form-control mb-2 mr-sm-2 mb-sm-0" id="maxQtyPerItem" class="value">
+        </div>
+
+        <div class="card col-md-3 settings">
+            <label for="maxOrders">Max Concurrent Orders: <span id="maxOrdersValue"></span></label>
+            <input type="range" class="form-control mb-2 mr-sm-2 mb-sm-0" id="maxOrders" class="value">
+
+        </div>
+
+        <div class="card col-md-3 settings">
+            <label for="comboDiscount">Combo Discount: <span id="comboDiscountValue"></span></label>
+            <input type="range" class="form-control mb-2 mr-sm-2 mb-sm-0" id="comboDiscount" >
+
+        </div>
+
+        <button type="submit" class="btn btn-primary">Save</button>
+    </div>
+</div>
+<hr />
+
 <!--Open/Close Restaurant-->
 <button class="card mb-3" id="restaurantOpenClose">Loading...</button>
 
@@ -66,7 +97,7 @@
         <i class="fa fa-area-chart"></i> Daily Orders
     </div>
     <div class="card-block">
-        <canvas id="dailyOrdersChart" width="100" height="35"></canvas>
+        <canvas id="dailyOrdersChart" height="35"></canvas>
     </div>
     <div id="tableUpdateTime" class="card-footer small text-muted">
         ...

@@ -250,3 +250,12 @@ input:checked + .slider:before {
         color: white;
     }
 }
+
+/*constraint settings*/
+.value {
+    width: 50px;
+}
+
+.settings {
+    text-align:center;
+}
