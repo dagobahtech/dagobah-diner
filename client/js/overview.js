@@ -1,6 +1,9 @@
 $(document).ready(function() {
 	console.log("This is ready");
 
+    var listInProcess = document.getElementById("ordersProcess");
+    var listNowServing = document.getElementById("ordersServing");
+
 
 	const socket = io();
 
@@ -8,28 +11,24 @@ $(document).ready(function() {
 
 	socket.emit("load orders");
 
-	socket.on("test1", function(test1){
-		socket.emit("test2");
-	});
+	socket.on("orders", function(inProcess, nowServing ) {
+        listInProcess.innerHTML = "";
+        listNowServing.innerHTML = "";
 
-	socket.on("orders", function(orders, ready){
-		console.log(orders);
-		console.log(ready);
-		document.getElementById("in-Progress").innerHTML = "";
-		document.getElementById("serving-Now").innerHTML = "";
-		for (var i = 0; i < orders.length; i++) {
-			var newOrder = document.createElement("div");
-			newOrder.innerHTML = orders[i]._orderNumber;
-			console.log(orders[i]._orderNumber);
-			newOrder.className = "order-Number col-11 offset-1 notServed";
-			document.getElementById("in-Progress").appendChild(newOrder);
-		}
-		for (var x = 0; x < ready.length; x++){
-			var nowServe = document.createElement("div");
-			nowServe.innerHTML = ready[x]._orderNumber;
-			nowServe.className = "order-Number col-11 offset-1 justServed";
-			document.getElementById("serving-Now").appendChild(nowServe);
-		}
+
+        for (let i = 0; i < inProcess.length; i++) {
+            let orderInProcess = document.createElement("li");
+            orderInProcess.className = "list-group-item";
+            orderInProcess.innerHTML = "Order #" + inProcess[i]._orderNumber;
+            listInProcess.appendChild(orderInProcess);
+        }
+
+        for (let j = 0; j < nowServing.length; j++) {
+            let orderNowServing = document.createElement("li");
+            orderNowServing.className = "list-group-item";
+            orderNowServing.innerHTML = "Order #" + nowServing[j]._orderNumber;
+            listNowServing.appendChild(orderNowServing);
+        }
 	});
 		
 });

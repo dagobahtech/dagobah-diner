@@ -1,30 +1,51 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-	<title>Order View</title>
-	
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<title>Orders in process - Dagobah Diner</title>
+
+	<!--Bootstrap 4 CDN-->
+	<link rel="stylesheet" href="/bootstrap/css/bootstrap.css">
+
 	<link type="text/css" href="/styles/order/order-view.css" rel="stylesheet"/>
 
 </head>
 <body>
-	<div class="container-fluid">
+	<div class="container text-center">
+		<h1 class="display-2">Order View</h1>
 		<div class="row">
-			<div id="progressDiv" class="col-lg-6 col-md-6 col-sm-6">
-				In progress:
-				<div id="in-Progress" class="row">
-					
+			<div class="col-md-6 my-4">
+				<div class="card">
+					<h3 class="card-header">In Process:</h3>
+					<div class="card-block">
+						<ul id="ordersProcess" class="list-group">
+						</ul>
+					</div>
 				</div>
 			</div>
-			<div id="servingDiv" class="col-lg-6 col-md-6 col-sm-6">
-				Now serving:
-				<div id="serving-Now" class="row">
-					
+
+			<div class="col-md-6 my-4">
+				<div class="card">
+					<h3 class="card-header">Now Serving:</h3>
+					<div class="card-block">
+						<ul id="ordersServing" class="list-group">
+						</ul>
+					</div>
 				</div>
 			</div>
 		</div>
 	</div>
 
+	<!--Bootstrap Core & jQuery-->
+	<script src="/jquery/jquery.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
+	<script src="/bootstrap/js/bootstrap.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.13.0/moment.min.js"></script>
+	<script src="/chart.js/Chart.bundle.js"></script>
+	<script type="text/javascript" charset="utf8" src="//cdn.datatables.net/1.10.15/js/jquery.dataTables.js"></script>
+	<script src="https://cdn.datatables.net/1.10.15/js/dataTables.bootstrap4.min.js"></script>
 	<script src="/socket.io/socket.io.js"></script>
 	<script src="/scripts/overview.js" type="text/javascript" charset="utf-8" async defer></script>
 </body>

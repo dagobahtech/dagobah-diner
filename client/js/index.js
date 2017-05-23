@@ -9,7 +9,8 @@ $(document).ready(function () {
         MENU_DATATABLE: 'menu-datatable',
         CREATE_ITEMS: 'createItems',
         SETTINGS: 'settings',
-        STATISTICS: 'statistics'
+        STATISTICS: 'statistics',
+        UPDATE: 'modify'
     }
 
 
@@ -24,6 +25,7 @@ $(document).ready(function () {
     let adminStatLink = document.getElementById("admin-stat-link");
     let adminCreateLink = document.getElementById("admin-create-link");
     let adminSettingsLink = document.getElementById("admin-settings-link");
+    let adminUpdateLink = document.getElementById("admin-update-link");
 
     //where components are going to be displayed
     let display = document.getElementById("display");
@@ -68,6 +70,7 @@ $(document).ready(function () {
     adminStatLink.addEventListener("click", (event)=> {return loadPage('STATISTICS', event.target)});
     adminCreateLink.addEventListener("click", (event)=> {return loadPage('CREATE_ITEMS', event.target)});
     adminSettingsLink.addEventListener("click", (event)=> {return loadPage('SETTINGS', event.target)});
+    adminUpdateLink.addEventListener("click", (event)=> {return loadPage('UPDATE', event.target)});
 
     //load dashboard as default page
     loadPage('DASHBOARD', adminLink);
@@ -75,8 +78,8 @@ $(document).ready(function () {
 
 });
 
-function showModal (title, message){
+function showModal (title, message, type){
     document.getElementById("modalTitle").innerHTML = title;
     document.getElementById("modalMessage").innerHTML = message;
-    $('#dagobahModal').modal();
+    $('#adminModal').modal();
 };

@@ -17,16 +17,6 @@
 	background-color: rgb(48, 68, 83);
 }
 
-#in-Progress {
-
-
-}
-
-#serving-Now {
-
-
-}
-
 #progressDiv {
 	width: 50%;
 	height: auto;
@@ -41,25 +31,4 @@
 	float: right;
 	text-align: center;
 
-}
-
-@media all and (min-width: 1001px) { 
-    body {
-        font-size: 3em; 
-    }
-}
-@media all and (max-width: 1000px) { 
-    body {
-        font-size: 2.3em; 
-        }
-    }
-@media all and (max-width: 500px) { 
-    body {
-        font-size: 1.7em; 
-        }
-    }
-
-body{
-	margin: 0;
-	background-color: #fbddb0;
 }

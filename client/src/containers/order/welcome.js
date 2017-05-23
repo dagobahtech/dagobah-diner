@@ -3,9 +3,35 @@ import {Link} from 'react-router';
 import '../../css/order/menu.css';
 import '../../css/order/transition.css';
 
+const io = require("socket.io-client");
+
 class Welcome extends Component {
 
+    socket = io();
+
+    constructor() {
+        super();
+        this.state = {
+            isOpen: false
+        };
+
+        ((myThis) => {myThis.socket.on("store status", function (isOpen) {
+            myThis.setState({
+                isOpen: isOpen
+            });
+        });})(this);
+
+        this.socket.emit("check open");
+    }
     render() {
+
+        let comp;
+
+        if(this.state.isOpen) {
+            comp = (<Link to="order" id="welcomeBut" className="welcome-bg-button">Click Here to Start Ordering</Link>);
+        } else {
+            comp =   (<div id="closedStuff">Hey! Sorry, we are currently closed right now. Come back again later.</div>);
+        }
         return (
 
                 <div className="flx-embed welcome-bg-outer transition-item enter-down-exit-up">
@@ -16,8 +42,7 @@ class Welcome extends Component {
                         <div className="sub">We bet you won’t find better</div>
                     </div>
                     <div className="welcome-bg-button-span">
-                        <Link to="order" id="welcomeBut" className="welcome-bg-button">Click Here to Start Ordering</Link>
-                        <div id="closedStuff">We are sorry, but we are closed. Please try again later!</div>
+                        {comp}
                     </div>
                 </div>
 
