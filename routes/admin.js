@@ -353,8 +353,8 @@ router.post("/updateName", function(req, resp) {
         pg.connect(dbURL, function(err, client, done) {
             if (err) {console.log(err)}
 
-            let dbQuery = "";
-            client.query(dbQuery, [], function(err, result) {
+            let dbQuery = "UPDATE menu SET name = $1 WHERE id = $2";
+            client.query(dbQuery, [req.body.newName, parseInt(req.body.serialID)], function(err, result) {
                 done();
                 if (err) {
                     console.log(err);
@@ -379,8 +379,8 @@ router.post("/updateDescription", function(req, resp) {
         pg.connect(dbURL, function(err, client, done) {
             if (err) {console.log(err)}
 
-            let dbQuery = "";
-            client.query(dbQuery, [], function(err, result) {
+            let dbQuery = "UPDATE menu SET description = $1 WHERE id = $2 AND name = $3";
+            client.query(dbQuery, [req.body.newDescription, req.body.serialID, req.body.oldName], function(err, result) {
                 done();
                 if (err) {
                     console.log(err);
@@ -405,8 +405,8 @@ router.post("/updatePrice", function(req, resp) {
         pg.connect(dbURL, function(err, client, done) {
             if (err) {console.log(err)}
 
-            let dbQuery = "";
-            client.query(dbQuery, [], function(err, result) {
+            let dbQuery = "UPDATE menu SET price = $1 WHERE id = $2 AND name = $3";
+            client.query(dbQuery, [req.body.newPrice, req.body.serialID, req.body.oldName], function(err, result) {
                 done();
                 if (err) {
                     console.log(err);
@@ -431,8 +431,8 @@ router.post("/updateCategory", function(req, resp) {
         pg.connect(dbURL, function(err, client, done) {
             if (err) {console.log(err)}
 
-            let dbQuery = "";
-            client.query(dbQuery, [], function(err, result) {
+            let dbQuery = "UPDATE menu SET category = $1 WHERE id = $2 AND name = $3";
+            client.query(dbQuery, [req.body.newCategory, req.body.serialID, req.body.oldName], function(err, result) {
                 done();
                 if (err) {
                     console.log(err);
@@ -457,8 +457,8 @@ router.post("/updateCookTime", function(req, resp) {
         pg.connect(dbURL, function(err, client, done) {
             if (err) {console.log(err)}
 
-            let dbQuery = "";
-            client.query(dbQuery, [], function(err, result) {
+            let dbQuery = "UPDATE menu SET cook_time = $1 WHERE id = $2 AND name = $3";
+            client.query(dbQuery, [req.body.newCookTime, req.body.serialID, req.body.oldName], function(err, result) {
                 done();
                 if (err) {
                     console.log(err);
@@ -483,8 +483,8 @@ router.post("/updateStation", function(req, resp) {
         pg.connect(dbURL, function(err, client, done) {
             if (err) {console.log(err)}
 
-            let dbQuery = "";
-            client.query(dbQuery, [], function(err, result) {
+            let dbQuery = "UPDATE menu SET kitchen_station_id = $1 WHERE id = $2 AND name = $3";
+            client.query(dbQuery, [req.body.newStation, req.body.serialID, req.body.oldName], function(err, result) {
                 done();
                 if (err) {
                     console.log(err);
@@ -509,8 +509,8 @@ router.post("/updateAll", function(req, resp) {
         pg.connect(dbURL, function(err, client, done) {
             if (err) {console.log(err)}
 
-            let dbQuery = "";
-            client.query(dbQuery, [], function(err, result) {
+            let dbQuery = "UPDATE menu SET name = $1, price = $2, category = $3, description = $4, cook_time = $5, kitchen_station_id = $6  WHERE id = $7 AND name = $8";
+            client.query(dbQuery, [req.body.newName, req.body.newPrice, req.body.newCategory, req.body.newDescription, req.body.newCookTime, req.body.newStaion, req.body.serialID, req.body.oldName], function(err, result) {
                 done();
                 if (err) {
                     console.log(err);

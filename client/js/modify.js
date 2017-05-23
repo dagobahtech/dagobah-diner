@@ -10,11 +10,12 @@ var newStation = document.getElementById("newMenuStation");
 var select = document.getElementById("select");
 var submit = document.getElementById("submit");
 
-submit.addEventListener("click", updateQuery());
+submit.addEventListener("click", updateQuery);
 
 function updateQuery() {
 
 	if(select.value == "name"){
+		console.log("yello");
 		$.ajax({
 			url:"/admin/updateName",
 			type:"POST",
