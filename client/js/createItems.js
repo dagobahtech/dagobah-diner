@@ -22,15 +22,11 @@ document.getElementById("submit").addEventListener("click", function() {
         success: function (response) {
 
             if (response.status === "success") {
-                statusDiv.innerHTML = response.msg;
-                // setTimeout(function () {
-                //     location.reload()
-                // }, 2000);
+                showModal("Success", response.msg, 1);
             }
 
             else {
-                console.log(response);
-                statusDiv.innerHTML = "Bad input:\n\n" + response.msg;
+                showModal("Bad Input", response.msg, 1);
             }
         }
     });
