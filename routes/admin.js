@@ -346,4 +346,23 @@ router.post("/getItemStatForMonth", function (req, resp) {
     });
 });
 
+router.post("/updateName", function(req, resp) {
+    pg.connect(dbURL, function(err, client, done){
+        if(err){
+            console.log(err);
+            return false;
+        }
+        client.query("",[],function(err, result){
+            done();
+            if(err){
+                console.log(err);
+                return false;
+            }
+            resp.send({
+                status: "success"
+            });
+        });
+    });
+});
+
 module.exports = router;
