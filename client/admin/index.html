@@ -21,7 +21,28 @@
 <!-- Modal for different stuffs like showing error-->
 
 <!-- Modal -->
-<div class="modal fade" id="dagobahModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="confirmAction" tabindex="-1" role="dialog" aria-labelledby="confirmActionBox" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="confirmActionBox">Confirm your Action</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>Are you sure?</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+                <a href="/admin/logout"><button type="button" class="btn btn-primary">Yes</button></a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="adminhModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -30,8 +51,8 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <div class="modal-body" id="modalMessage">
-                ...
+            <div class="modal-body">
+                <p id="modalMessage"></p>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -40,12 +61,14 @@
     </div>
 </div>
 
+
+
 <!--NavBar-->
 <nav id="mainNav" class="navbar static-top navbar-toggleable-md navbar-inverse bg-inverse">
     <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarEx" aria-controls="navbarEx" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
-    <a class="navbar-brand" href="admin/admin-dashboard">Dagobah Administrator</a>
+    <a class="navbar-brand" href="/admin">Dagobah Administrator</a>
     <div class="collapse navbar-collapse" id="navbarEx">
         <ul class="navbar-nav sidebar-nav">
             <li class="nav-item active">
@@ -70,8 +93,17 @@
             </li>
         </ul>
         <ul class="navbar-nav ml-auto">
+            <li class="navbar-text mr-2">
+                <span> Restaurant Status: </span>
+            </li>
+            <li class="nav-item mr-4">
+                <label class="switch">
+                    <input type="checkbox" checked>
+                    <div class="slider round"></div>
+                </label>
+            </li>
             <li class="nav-item">
-                <a id="logoutButton" class="nav-link" href="/admin/logout"><i class="fa fa-fw fa-sign-out"></i> Logout</a>
+                <a id="logoutButton" class="nav-link" data-toggle="modal" href="#confirmAction"><i class="fa fa-fw fa-sign-out"></i> Logout</a>
             </li>
         </ul>
     </div>
