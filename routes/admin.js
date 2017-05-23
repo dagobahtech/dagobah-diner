@@ -347,22 +347,185 @@ router.post("/getItemStatForMonth", function (req, resp) {
 });
 
 router.post("/updateName", function(req, resp) {
-    pg.connect(dbURL, function(err, client, done){
-        if(err){
-            console.log(err);
-            return false;
-        }
-        client.query("",[],function(err, result){
-            done();
-            if(err){
-                console.log(err);
-                return false;
-            }
-            resp.send({
-                status: "success"
+
+    var testedItem = menuTester.testItem(req.body);
+    if (testedItem.passing) {
+        pg.connect(dbURL, function(err, client, done) {
+            if (err) {console.log(err)}
+
+            let dbQuery = "";
+            client.query(dbQuery, [], function(err, result) {
+                done();
+                if (err) {
+                    console.log(err);
+                    resp.end("ERROR");
+                }
+
+                rootFile.getMenuItems;
+                resp.send({status: "success", msg: "item updated!"});
+
             });
         });
-    });
+    } else {
+        var message = testedItem.err.replace("\n\n", "<br>");
+        resp.send({status: "success", msg: message});
+    }
+});
+
+router.post("/updateDescription", function(req, resp) {
+
+    var testedItem = menuTester.testItem(req.body);
+    if (testedItem.passing) {
+        pg.connect(dbURL, function(err, client, done) {
+            if (err) {console.log(err)}
+
+            let dbQuery = "";
+            client.query(dbQuery, [], function(err, result) {
+                done();
+                if (err) {
+                    console.log(err);
+                    resp.end("ERROR");
+                }
+
+                rootFile.getMenuItems;
+                resp.send({status: "success", msg: "item updated!"});
+
+            });
+        });
+    } else {
+        var message = testedItem.err.replace("\n\n", "<br>");
+        resp.send({status: "success", msg: message});
+    }
+});
+
+router.post("/updatePrice", function(req, resp) {
+
+    var testedItem = menuTester.testItem(req.body);
+    if (testedItem.passing) {
+        pg.connect(dbURL, function(err, client, done) {
+            if (err) {console.log(err)}
+
+            let dbQuery = "";
+            client.query(dbQuery, [], function(err, result) {
+                done();
+                if (err) {
+                    console.log(err);
+                    resp.end("ERROR");
+                }
+
+                rootFile.getMenuItems;
+                resp.send({status: "success", msg: "item updated!"});
+
+            });
+        });
+    } else {
+        var message = testedItem.err.replace("\n\n", "<br>");
+        resp.send({status: "success", msg: message});
+    }
+});
+
+router.post("/updateCategory", function(req, resp) {
+
+    var testedItem = menuTester.testItem(req.body);
+    if (testedItem.passing) {
+        pg.connect(dbURL, function(err, client, done) {
+            if (err) {console.log(err)}
+
+            let dbQuery = "";
+            client.query(dbQuery, [], function(err, result) {
+                done();
+                if (err) {
+                    console.log(err);
+                    resp.end("ERROR");
+                }
+
+                rootFile.getMenuItems;
+                resp.send({status: "success", msg: "item updated!"});
+
+            });
+        });
+    } else {
+        var message = testedItem.err.replace("\n\n", "<br>");
+        resp.send({status: "success", msg: message});
+    }
+});
+
+router.post("/updateCookTime", function(req, resp) {
+
+    var testedItem = menuTester.testItem(req.body);
+    if (testedItem.passing) {
+        pg.connect(dbURL, function(err, client, done) {
+            if (err) {console.log(err)}
+
+            let dbQuery = "";
+            client.query(dbQuery, [], function(err, result) {
+                done();
+                if (err) {
+                    console.log(err);
+                    resp.end("ERROR");
+                }
+
+                rootFile.getMenuItems;
+                resp.send({status: "success", msg: "item updated!"});
+
+            });
+        });
+    } else {
+        var message = testedItem.err.replace("\n\n", "<br>");
+        resp.send({status: "success", msg: message});
+    }
+});
+
+router.post("/updateStation", function(req, resp) {
+
+    var testedItem = menuTester.testItem(req.body);
+    if (testedItem.passing) {
+        pg.connect(dbURL, function(err, client, done) {
+            if (err) {console.log(err)}
+
+            let dbQuery = "";
+            client.query(dbQuery, [], function(err, result) {
+                done();
+                if (err) {
+                    console.log(err);
+                    resp.end("ERROR");
+                }
+
+                rootFile.getMenuItems;
+                resp.send({status: "success", msg: "item updated!"});
+
+            });
+        });
+    } else {
+        var message = testedItem.err.replace("\n\n", "<br>");
+        resp.send({status: "success", msg: message});
+    }
+});
+
+router.post("/updateAll", function(req, resp) {
+
+    var testedItem = menuTester.testItem(req.body);
+    if (testedItem.passing) {
+        pg.connect(dbURL, function(err, client, done) {
+            if (err) {console.log(err)}
+
+            let dbQuery = "";
+            client.query(dbQuery, [], function(err, result) {
+                done();
+                if (err) {
+                    console.log(err);
+                    resp.end("ERROR");
+                }
+
+                rootFile.getMenuItems;
+                resp.send({status: "success", msg: "item updated!"});
+
+            });
+        });
+    } else {
+        var message = testedItem.err.replace("\n\n", "<br>");
+        resp.send({status: "success", msg: message});
+    }
 });
 
 module.exports = router;
