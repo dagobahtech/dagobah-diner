@@ -1,6 +1,9 @@
 /**
  * Created by Jed on 2017-05-17.
  */
+$(function () {
+    $('[data-toggle="tooltip"]').tooltip()
+});
 const socket = io();
 const UPDATE_FREQUENCY = 2000; //initially set to 10s. check discard every update frequency
 let EXPIRE_TIME = 2; //in mins
