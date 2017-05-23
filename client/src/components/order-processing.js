@@ -20,11 +20,12 @@ class OrderProcessing extends Component {
 
 		((myThis)=> {
             myThis.socket.on("store status", function (isOpen) {
-                if (!isOpen) {
+                myThis.setState({
+                    isOpen:isOpen
+                });
+            	if (!isOpen) {
                     browserHistory.push("/")
-                    myThis.setState({
-						isOpen:isOpen
-					})
+
                 }
             });
         })(this);
