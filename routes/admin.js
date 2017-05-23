@@ -49,8 +49,8 @@ var menuTester = new MenuItemValidator();
 /****************** ITEM CRUD *************************/
 router.post("/createItem", function (req, resp) {
 
-    const pg = req.app.get("dbInfo").pg;
-    const dbURL = req.app.get("dbInfo").dbURL;
+    // const pg = req.app.get("dbInfo").pg;
+    // const dbURL = req.app.get("dbInfo").dbURL;
 
     console.log(req.body);
     var testedItem = menuTester.testItem(req.body);
