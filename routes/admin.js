@@ -3,11 +3,24 @@ const router = express.Router();
 const pg = require("pg");
 const path = require("path");
 const MenuItemValidator = require("./menuItemValidator");
-var rootFile = require("../index.js");
 
 const dbURL = process.env.DATABASE_URL || "postgres://lpufbryv:FGc7GtCWBe6dyop0yJ2bu0pTXDoBJnEv@stampy.db.elephantsql.com:5432/lpufbryv";
 var adminFolder = path.resolve(__dirname, "../client/admin");
-var loginForm = path.resolve(__dirname, "../client/admin/login.html");
+
+/* Menu Access code section */
+
+function getMenuItems(pg, dbURL, dagobah) {
+    pg.connect(dbURL, function(err, client, done){
+        if(err){
+            console.log(err);
+        }
+        client.query("SELECT * FROM menu", function(err, results){
+            done();
+            dagobah.menuItems = results.rows;
+            console.log("Menu array in the server updated!");
+        });
+    });
+}
 
 
 router.get("/", function (req, resp) {
@@ -31,7 +44,12 @@ router.get("/logout", function(req, resp) {
 
 var menuTester = new MenuItemValidator();
 
+/****************** ITEM CRUD *************************/
 router.post("/createItem", function (req, resp) {
+
+    // const pg = req.app.get("dbInfo").pg;
+    // const dbURL = req.app.get("dbInfo").dbURL;
+
     console.log(req.body);
     var testedItem = menuTester.testItem(req.body);
     if (testedItem.passing) {
@@ -46,7 +64,7 @@ router.post("/createItem", function (req, resp) {
                     resp.end("ERROR");
                 }
 
-                rootFile.getMenuItems;
+                getMenuItems(pg, dbURL, req.app.get("dagobah").menuItems);
                 resp.send({status: "success", msg: "item created!"});
 
             });
@@ -58,6 +76,84 @@ router.post("/createItem", function (req, resp) {
 
 });
 
+router.post("/deleteItem", function(req, resp) {
+//    console.log("name recieved: " + req.body.name);
+    let dbQuery = "DELETE FROM menu WHERE name = $1";
+    pg.connect(dbURL, function(err, client, done) {
+        if(err) {
+            console.log(err);
+        }
+        client.query(dbQuery, [req.body.name], function(err, result) {
+            done();
+            if(err) {
+                console.log("error");
+                console.log(err);
+                resp.send(err);
+            }
+            else {
+                console.log("success");
+                console.log(result);
+                resp.send("success");
+            }
+        });
+    })
+});
+
+/**************** ACCOUNT CRUD ***********************/
+
+router.post("/createAdmin", function(req, resp) {
+    console.log(req.body);
+    let dbQuery = "INSERT INTO user_login (username, password, type_id) VALUES ($1, $2, $3)";
+    pg.connect(dbURL, function(err, client, done) {
+        if(err){console.log(err)}
+        client.query(dbQuery, [req.body.user, req.body.pass, 1], function(err, result) {
+            if(err) {
+                console.log(err);
+                resp.send("error");
+            }
+            else {
+                console.log(result);
+                resp.send(result);
+            }
+        });
+    });
+});
+
+router.post("/deleteUser", function(req, resp) {
+    console.log(req.session.user);
+    console.log(req.body);
+    let dbQuery = "SELECT * FROM user_login WHERE id = ($1)";
+    pg.connect(dbURL, function(err, client, done) {
+        if(err){console.log(err)}
+        client.query(dbQuery, [req.session.SPK_user], function(err, result) {
+            var del = req.session.SPK_user;
+            if(err) {
+                console.log(err);
+            }
+            else {
+                console.log(result);
+                if(result.rows[0].password == req.body.pass) {
+                    req.session.destroy();
+                    let dbQuery = "DELETE FROM user_login WHERE id = ($1)";
+                    client.query(dbQuery, [del], function(err, result) {
+                        done();
+                        if(err) {
+                            console.log(err);
+                        }
+                        else {
+                            resp.send("success");
+                        }
+                    });
+                }
+                else {
+                    resp.send("error");
+                }
+            }
+        });
+    });
+});
+
+/*************** STATISTICS *************************/
 router.post("/getSummary", function(req, resp) {
 
     let summary = {};
@@ -346,6 +442,7 @@ router.post("/getItemStatForMonth", function (req, resp) {
     });
 });
 
+
 router.post("/updateName", function(req, resp) {
 
     var testedItem = menuTester.testItem(req.body);
@@ -528,4 +625,7 @@ router.post("/updateAll", function(req, resp) {
     }
 });
 
-module.exports = router;
+
+
+module.exports = {router, getMenuItems};
+
