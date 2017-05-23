@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const pg = require("pg");
 const path = require("path");
+const bcrypt = require("bcrypt");
 const MenuItemValidator = require("./menuItemValidator");
 
 const dbURL = process.env.DATABASE_URL || "postgres://lpufbryv:FGc7GtCWBe6dyop0yJ2bu0pTXDoBJnEv@stampy.db.elephantsql.com:5432/lpufbryv";
@@ -104,17 +105,19 @@ router.post("/deleteItem", function(req, resp) {
 router.post("/createAdmin", function(req, resp) {
     console.log(req.body);
     let dbQuery = "INSERT INTO user_login (username, password, type_id) VALUES ($1, $2, $3)";
-    pg.connect(dbURL, function(err, client, done) {
-        if(err){console.log(err)}
-        client.query(dbQuery, [req.body.user, req.body.pass, 1], function(err, result) {
-            if(err) {
-                console.log(err);
-                resp.send("error");
-            }
-            else {
-                console.log(result);
-                resp.send(result);
-            }
+    bcrypt.hash(req.body.pass, 5, function(err, bpass){
+        pg.connect(dbURL, function(err, client, done) {
+            if(err){console.log(err)}
+            client.query(dbQuery, [req.body.user, bpass, req.body.type], function(err, result) {
+                if(err) {
+                    console.log(err);
+                    resp.send("error");
+                }
+                else {
+                    console.log(result);
+                    resp.send(result);
+                }
+            });
         });
     });
 });
@@ -627,5 +630,5 @@ router.post("/updateAll", function(req, resp) {
 
 
 
-module.exports = {router, getMenuItems};
+module.exports = {router, getMenuItems, bcrypt};
 
