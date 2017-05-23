@@ -68,7 +68,7 @@ app.post("/login", function (req, resp){
 
     pg.connect(dbURL, function (err, client, done) {
         if(err){console.log(err)}
-        let dbQuery = "SELECT type_id FROM user_login WHERE username = $1 AND password = $2";
+        let dbQuery = "SELECT * FROM user_login WHERE username = $1 AND password = $2";
         client.query(dbQuery, [req.body.username, req.body.password], function(err, result){
             done();
             if(err){console.log(err)}
@@ -76,7 +76,13 @@ app.post("/login", function (req, resp){
             console.log(result.rows[0]);
             if(result.rows[0] !== undefined) {
                 req.session.user_id = result.rows[0].type_id;
-                resp.send({status: "success", message: "login successfully", type: req.session.user_id});
+                req.session.SPK_user = result.rows[0].id;
+                resp.send({
+                    status: "success", 
+                    message: "login successfully", 
+                    type: req.session.user_id,
+                    user: req.session.id
+                });
             } else {
                 resp.send({status: "failed", message: "incorrect login"});
             }
@@ -85,25 +91,79 @@ app.post("/login", function (req, resp){
 });
 
 app.post("/deleteItem", function(req, resp) {
-    console.log("name recieved: " + req.body.name);
+//    console.log("name recieved: " + req.body.name);
     let dbQuery = "DELETE FROM menu WHERE name = $1";
     pg.connect(dbURL, function(err, client, done) {
         if(err) {
             console.log(err);
         }
         client.query(dbQuery, [req.body.name], function(err, result) {
+            done();
            if(err) {
+               console.log("error");
                console.log(err);
-               resp.send("error");
+               resp.send(err);
            } 
            else {
+               console.log("success");
                console.log(result);
-               resp.send(result); 
+               resp.send("success"); 
            }
         });
     })
 })
 
+app.post("/createAdmin", function(req, resp) {
+    console.log(req.body);
+    let dbQuery = "INSERT INTO user_login (username, password, type_id) VALUES ($1, $2, $3)";
+    pg.connect(dbURL, function(err, client, done) {
+        if(err){console.log(err)}
+        client.query(dbQuery, [req.body.user, req.body.pass, 1], function(err, result) {
+           if(err) {
+               console.log(err);
+               resp.send("error");
+           } 
+            else {
+                console.log(result);
+                resp.send(result);
+            }
+        });
+    });
+});
+
+app.post("/deleteUser", function(req, resp) {
+    console.log(req.session.user);
+    console.log(req.body);
+    let dbQuery = "SELECT * FROM user_login WHERE id = ($1)";
+    pg.connect(dbURL, function(err, client, done) {
+        if(err){console.log(err)}
+        client.query(dbQuery, [req.session.SPK_user], function(err, result) {
+           var del = req.session.SPK_user;
+           if(err) {
+               console.log(err);
+           } 
+           else {
+                console.log(result);
+                if(result.rows[0].password == req.body.pass) {
+                    req.session.destroy();
+                    let dbQuery = "DELETE FROM user_login WHERE id = ($1)";
+                    client.query(dbQuery, [del], function(err, result) {
+                        done();
+                        if(err) {
+                            console.log(err);
+                        }
+                        else {
+                            resp.send("success");
+                        }
+                    });
+                }
+               else {
+                    resp.send("error");
+               }
+           }
+        });
+    });
+});
 //Jed - kitchen testing client
 //@JED testing kitchen
 var kitchenFolder = path.resolve(__dirname, "client/kitchen-alt");
