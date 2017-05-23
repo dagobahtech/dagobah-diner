@@ -65,7 +65,7 @@ $(document).ready(function(){
                     console.log(this.parentNode.parentNode.childNodes[0].innerHTML);
                     var temp = this.parentNode.parentNode;
                     $.ajax({
-                        url: "/deleteItem",
+                        url: "/admin/deleteItem",
                         type: "post",
                         data: {
                             name: this.parentNode.parentNode.childNodes[0].innerHTML
