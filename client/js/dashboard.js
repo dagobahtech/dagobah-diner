@@ -38,15 +38,7 @@ $.ajax({
 $(document).ready(function() {
     //Is the restaurant open functional
     //it is now.
-      $.ajax({
-           url: "/isOpen",
-            type: "POST",
-            success: function(response) {
-                restStatus = response;
-                checkRestStatus("Restaurant is Open", "Restaurant is Closed",  "#5cb85c", "#d9534f");
-            }
-        });
-    
+
     restBut = document.getElementById("restaurantOpenClose");
 
     restBut.addEventListener("mouseover", function() {

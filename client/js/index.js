@@ -78,8 +78,8 @@ $(document).ready(function () {
 
 });
 
-function showModal (title, message){
+function showModal (title, message, type){
     document.getElementById("modalTitle").innerHTML = title;
     document.getElementById("modalMessage").innerHTML = message;
-    $('#dagobahModal').modal();
+    $('#adminModal').modal();
 };

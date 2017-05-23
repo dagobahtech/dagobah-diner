@@ -36,6 +36,27 @@
                 color: orange;
             }
 
+        .hr {
+            position: relative;
+            font-size: 1.5em;
+            z-index: 1;
+            margin: 3px 0;
+        }
+            .hr:after {
+                content: " ";
+                position: absolute;
+                top: 52%;
+                left: 0;
+                right: 0;
+                border-top: 2px solid #ddd;
+                z-index: -1;
+            }
+            .hr .hr-text {
+                display: inline-block;
+                padding: 0.4em;
+                background: #fff;
+                color: #999;
+            }
 
         .icon {
             display: inline;
@@ -57,14 +78,17 @@
                     <h3 class="panel-title">Sign In</h3>
                 </div>
                 <div class="panel-body">
-
-                        <div class="form-group">
-                            <input id="usernameInput" class="form-control" type="text" placeholder="Username" name="username" autofocus>
-                        </div>
-                        <div class="form-group">
-                            <input id="passwordInput" class="form-control" type="password" placeholder="Password" name="password">
-                        </div>
-                        <button type="submit" id="loginButton" class="btn btn-lg btn-success btn-block">Login</button>
+                    <div class="form-group">
+                        <input id="usernameInput" class="form-control" type="text" placeholder="Username" name="username" autofocus>
+                    </div>
+                    <div class="form-group">
+                        <input id="passwordInput" class="form-control" type="password" placeholder="Password" name="password">
+                    </div>
+                    <button type="submit" id="loginButton" class="btn btn-lg btn-success btn-block">Login</button>
+                    <div class="hr">
+                        <span class="hr-text">or</span>
+                    </div>
+                    <a id="backButton" class="btn btn-lg btn-default btn-block" href="/order">Go back to Your Order</a>
                 </div>
             </div>
         </div>
