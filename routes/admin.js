@@ -46,6 +46,24 @@ router.get("/logout", function(req, resp) {
 var menuTester = new MenuItemValidator();
 
 /****************** ITEM CRUD *************************/
+
+router.post("/getItems", function (req, resp) {
+    pg.connect(dbURL, function (err, client, done) {
+        if(err){
+            return false;
+        }
+
+        client.query("SELECT * FROM menu",[], function (err, result) {
+            done();
+            if(err) {
+                return false;
+            }
+
+            resp.send(result.rows);
+        })
+    })
+});
+
 router.post("/createItem", function (req, resp) {
 
     // const pg = req.app.get("dbInfo").pg;
@@ -456,7 +474,7 @@ router.post("/updateAll", function(req, resp) {
         pg.connect(dbURL, function(err, client, done) {
             if (err) {console.log(err)}
 
-            let dbQuery = "UPDATE menu SET name = $1, price = $2, category = $3, description = $4, kitchen_station_id = $5  WHERE id = $6";
+            let dbQuery = "UPDATE menu SET name = $1, price = $2, category = $3, description = $4, kitchen_station_id = $5  WHERE id = $6 returning *";
             client.query(dbQuery, [req.body.name, parseFloat(req.body.price), parseInt(req.body.category), req.body.desc, parseInt(req.body.station), parseInt(req.body.itemID)], function(err, result) {
                 done();
                 if (err) {
@@ -465,7 +483,7 @@ router.post("/updateAll", function(req, resp) {
                 }
 
                 getMenuItems(pg, dbURL, req.app.get("dagobah").menuItems);
-                resp.send({status: "success", msg: "item updated!"});
+                resp.send({status: "success", msg: "Item updated!", data: result.rows[0]});
 
             });
         });
