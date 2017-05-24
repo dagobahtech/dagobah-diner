@@ -443,161 +443,6 @@ router.post("/getItemStatForMonth", function (req, resp) {
 });
 
 
-router.post("/updateName", function(req, resp) {
-
-    var testedItem = menuTester.testItem(req.body);
-    if (testedItem.passing) {
-        pg.connect(dbURL, function(err, client, done) {
-            if (err) {console.log(err)}
-
-            let dbQuery = "UPDATE menu SET name = $1 WHERE id = $2";
-            client.query(dbQuery, [req.body.newName, parseInt(req.body.serialID)], function(err, result) {
-                done();
-                if (err) {
-                    console.log(err);
-                    resp.end("ERROR");
-                }
-
-                rootFile.getMenuItems;
-                resp.send({status: "success", msg: "item updated!"});
-
-            });
-        });
-    } else {
-        var message = testedItem.err.replace("\n\n", "<br>");
-        resp.send({status: "success", msg: message});
-    }
-});
-
-router.post("/updateDescription", function(req, resp) {
-
-    var testedItem = menuTester.testItem(req.body);
-    if (testedItem.passing) {
-        pg.connect(dbURL, function(err, client, done) {
-            if (err) {console.log(err)}
-
-            let dbQuery = "UPDATE menu SET description = $1 WHERE id = $2 AND name = $3";
-            client.query(dbQuery, [req.body.newDescription, req.body.serialID, req.body.oldName], function(err, result) {
-                done();
-                if (err) {
-                    console.log(err);
-                    resp.end("ERROR");
-                }
-
-                rootFile.getMenuItems;
-                resp.send({status: "success", msg: "item updated!"});
-
-            });
-        });
-    } else {
-        var message = testedItem.err.replace("\n\n", "<br>");
-        resp.send({status: "success", msg: message});
-    }
-});
-
-router.post("/updatePrice", function(req, resp) {
-
-    var testedItem = menuTester.testItem(req.body);
-    if (testedItem.passing) {
-        pg.connect(dbURL, function(err, client, done) {
-            if (err) {console.log(err)}
-
-            let dbQuery = "UPDATE menu SET price = $1 WHERE id = $2 AND name = $3";
-            client.query(dbQuery, [req.body.newPrice, req.body.serialID, req.body.oldName], function(err, result) {
-                done();
-                if (err) {
-                    console.log(err);
-                    resp.end("ERROR");
-                }
-
-                rootFile.getMenuItems;
-                resp.send({status: "success", msg: "item updated!"});
-
-            });
-        });
-    } else {
-        var message = testedItem.err.replace("\n\n", "<br>");
-        resp.send({status: "success", msg: message});
-    }
-});
-
-router.post("/updateCategory", function(req, resp) {
-
-    var testedItem = menuTester.testItem(req.body);
-    if (testedItem.passing) {
-        pg.connect(dbURL, function(err, client, done) {
-            if (err) {console.log(err)}
-
-            let dbQuery = "UPDATE menu SET category = $1 WHERE id = $2 AND name = $3";
-            client.query(dbQuery, [req.body.newCategory, req.body.serialID, req.body.oldName], function(err, result) {
-                done();
-                if (err) {
-                    console.log(err);
-                    resp.end("ERROR");
-                }
-
-                rootFile.getMenuItems;
-                resp.send({status: "success", msg: "item updated!"});
-
-            });
-        });
-    } else {
-        var message = testedItem.err.replace("\n\n", "<br>");
-        resp.send({status: "success", msg: message});
-    }
-});
-
-router.post("/updateCookTime", function(req, resp) {
-
-    var testedItem = menuTester.testItem(req.body);
-    if (testedItem.passing) {
-        pg.connect(dbURL, function(err, client, done) {
-            if (err) {console.log(err)}
-
-            let dbQuery = "UPDATE menu SET cook_time = $1 WHERE id = $2 AND name = $3";
-            client.query(dbQuery, [req.body.newCookTime, req.body.serialID, req.body.oldName], function(err, result) {
-                done();
-                if (err) {
-                    console.log(err);
-                    resp.end("ERROR");
-                }
-
-                rootFile.getMenuItems;
-                resp.send({status: "success", msg: "item updated!"});
-
-            });
-        });
-    } else {
-        var message = testedItem.err.replace("\n\n", "<br>");
-        resp.send({status: "success", msg: message});
-    }
-});
-
-router.post("/updateStation", function(req, resp) {
-
-    var testedItem = menuTester.testItem(req.body);
-    if (testedItem.passing) {
-        pg.connect(dbURL, function(err, client, done) {
-            if (err) {console.log(err)}
-
-            let dbQuery = "UPDATE menu SET kitchen_station_id = $1 WHERE id = $2 AND name = $3";
-            client.query(dbQuery, [req.body.newStation, req.body.serialID, req.body.oldName], function(err, result) {
-                done();
-                if (err) {
-                    console.log(err);
-                    resp.end("ERROR");
-                }
-
-                rootFile.getMenuItems;
-                resp.send({status: "success", msg: "item updated!"});
-
-            });
-        });
-    } else {
-        var message = testedItem.err.replace("\n\n", "<br>");
-        resp.send({status: "success", msg: message});
-    }
-});
 
 router.post("/updateAll", function(req, resp) {
 
@@ -606,15 +451,15 @@ router.post("/updateAll", function(req, resp) {
         pg.connect(dbURL, function(err, client, done) {
             if (err) {console.log(err)}
 
-            let dbQuery = "UPDATE menu SET name = $1, price = $2, category = $3, description = $4, cook_time = $5, kitchen_station_id = $6  WHERE id = $7 AND name = $8";
-            client.query(dbQuery, [req.body.newName, req.body.newPrice, req.body.newCategory, req.body.newDescription, req.body.newCookTime, req.body.newStaion, req.body.serialID, req.body.oldName], function(err, result) {
+            let dbQuery = "UPDATE menu SET name = $1, price = $2, category = $3, description = $4, kitchen_station_id = $5  WHERE id = $6";
+            client.query(dbQuery, [req.body.name, parseFloat(req.body.price), parseInt(req.body.category), req.body.desc, parseInt(req.body.station), parseInt(req.body.itemID)], function(err, result) {
                 done();
                 if (err) {
                     console.log(err);
                     resp.end("ERROR");
                 }
 
-                rootFile.getMenuItems;
+                getMenuItems(pg, dbURL, req.app.get("dagobah").menuItems);
                 resp.send({status: "success", msg: "item updated!"});
 
             });
@@ -624,6 +469,19 @@ router.post("/updateAll", function(req, resp) {
         resp.send({status: "success", msg: message});
     }
 });
+var updateObject = {};
+router.post("/sendUpdate", function(req, resp){
+    
+    if(req.body.type == "request"){
+
+        resp.send({status:"sent", item:updateObject})
+    }else{
+        updateObject = req.body;
+        console.log(updateObject);
+        resp.send({status:"recieved"})
+    }
+});
+
 
 
 

@@ -17,12 +17,14 @@ function init() {
             var menuItems = [];
             for (let i = 0; i < response.length; i++){
                 let item = [];
+                item.push(response[i].id);
                 item.push(response[i].name);
                 item.push(categoryName[parseInt(response[i].category) - 1]);
                 item.push(response[i].description);
                 item.push(response[i].kitchen_station_id);
                 item.push(response[i].price);
                 item.push("<button class='deleteBut'>Delete Item</button>");
+                item.push("<button class='updateBut' id='updateButton'>Update Item</button>");
                 menuItems.push(item);
             }
             dataSet = menuItems;
@@ -35,14 +37,16 @@ function init() {
         $('#menuTable').DataTable({
             data: dataSet,
             columns: [
+                {title: 'ID'},
                 {title: 'Name'},
                 {title: 'Category'},
                 {title: 'Description'},
                 {title: 'Cook Station'},
                 {title: 'Price'},
+                {button: ''},
                 {button: ''}
             ],
-            lengthMenu: [[5, 10, -1], [5, 10, "All"]]
+            lengthMenu: [[-1], ["All"]]
         });
         
     }, 1000);
@@ -52,7 +56,43 @@ $(document).ready(function(){
     
     $('#menuTable').on( 'draw.dt', function () {
         var delButtons = document.getElementsByClassName("deleteBut");
+        var modifyButtons = document.getElementsByClassName("updateBut");
         console.log(delButtons);
+        console.log(modifyButtons);
+
+        for(y = 0; y < modifyButtons.length; y++){
+            modifyButtons[y].addEventListener("click", function(){
+                this.addEventListener("click", function(){
+                    var menuCat = this.parentNode.parentNode.childNodes[2].innerHTML;
+                    if(menuCat == "Main"){
+                        menuCat = 1;
+                    } else if (menuCat == "Side"){
+                        menuCat = 2;
+                    } else {
+                        menuCat = 3;
+                    }
+                    $.ajax({
+                        url:"/admin/sendUpdate",
+                        type:"post",
+                        data:{
+                            type: "recieved",
+                            itemID: this.parentNode.parentNode.childNodes[0].innerHTML,
+                            name: this.parentNode.parentNode.childNodes[1].innerHTML,
+                            category: menuCat,
+                            desc: this.parentNode.parentNode.childNodes[3].innerHTML,
+                            price: this.parentNode.parentNode.childNodes[5].innerHTML,
+                            image: "placeholder.png",
+                            station: this.parentNode.parentNode.childNodes[4].innerHTML
+                        },
+                        success:function(response){
+                            console.log(response);
+
+                        }
+                    });
+                });
+            });
+        }
+
         for(i = 0; i < delButtons.length; i++) {
             delButtons[i].addEventListener("click", function() {
                 console.log("working");
