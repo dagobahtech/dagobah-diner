@@ -62,6 +62,7 @@ $(document).ready(function(){
         var active = document.getElementsByClassName("active");
         for(i = 0; i < active.length; i++) {
             active[i].addEventListener("click", function() {
+                this.disabled = true;
                 console.log("working");
                 var temp = this;
                 var item = this.parentNode.parentNode.childNodes[0].innerHTML;
@@ -93,6 +94,7 @@ $(document).ready(function(){
                             console.log("Error");
                         }
                         console.log(this);
+                        temp.disabled = false;
                         temp.id =  text;
                         temp.innerHTML = text;
                         
@@ -117,7 +119,8 @@ $(document).ready(function(){
                             }
                         }
                     }
-                })
+                });
+                showModal("Success!", "Item updated", 1);
             });
             
             active[i].addEventListener("mouseover", function() {
