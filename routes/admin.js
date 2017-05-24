@@ -504,33 +504,7 @@ router.post("/restStatChange", function(req, resp) {
 });
 
 router.post("/itemStatus", function(req, resp) {
-    // console.log(req.body.status);
-    
 
-    // var conv = null;
-    // if(req.body.status == "true") {
-    //     conv = false;
-    // } else if (req.body.status == "false") {
-    //     conv = true;
-    // } else {console.log("ERROR");}
-    //
-    // pg.connect(dbURL, function(err, client, done) {
-    //     if(err) {console.log(err);}
-    //     let dbQuery = "UPDATE menu SET active = ($1) where name = ($2)";
-    //     client.query(dbQuery, [conv, req.body.item], function(err, result) {
-    //         done();
-    //         if (err) {
-    //             console.log(err);
-    //             resp.send("ERROR");
-    //         }
-    //         else {
-    //             resp.send({
-    //                 item: req.body.item,
-    //                 status: conv
-    //             });
-    //         }
-    //     });
-    // });
     var itemId = parseInt(req.body.id);
 
     pg.connect(dbURL, function (err, client, done) {
@@ -539,18 +513,6 @@ router.post("/itemStatus", function(req, resp) {
         }
 
         client.query("UPDATE menu set active = not active where id=$1 returning active",[req.body.id], function (err, result) {
-
-    // var conv;
-    // if(req.body.status == "true") {
-    //     conv = false;
-    // } else if (req.body.status == "false") {
-    //     conv = true;
-    // } else {console.log("ERROR");}
-    
-    // pg.connect(dbURL, function(err, client, done) {
-    //     if(err) {console.log(err);}
-    //     let dbQuery = "UPDATE menu SET active = ($1) where name = ($2)";
-    //     client.query(dbQuery, [conv, req.body.item], function(err, result) {
 
             done();
             if(err) {
