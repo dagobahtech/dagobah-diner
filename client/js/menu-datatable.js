@@ -14,50 +14,7 @@ var table;
 var disableButtonClick = false; //lock for button click
 
 function init() {
-    // $.ajax({
-    //     url: "/menu-items",
-    //     type: "POST",
-    //     success: function(response) {
-    //         for (let i = 0; i < response.length; i++){
-    //             var text;
-    //             if(response[i].active == true) {
-    //                 text = "Enabled";
-    //             } else if (response[i].active == false) {
-    //                 text = "Disabled";
-    //             } else {
-    //                 console.log("Error");
-    //             }
-    //             let item = [];
-    //             item.push(response[i].name);
-    //             item.push(categoryName[parseInt(response[i].category) - 1]);
-    //             item.push(response[i].description);
-    //             item.push(response[i].kitchen_station_id);
-    //             item.push(response[i].price);
-    //             item.push("<button class='active' id='" + text + "'>" + text + "</button>");
-    //             menuItems.push(item);
-    //         }
-    //         dataSet = menuItems;
-    //     },
-    //     async: true
-    // });
-    //
-    // setTimeout(function() {
-    //     $('#menuTable').html("");
-    //     $('#menuTable').DataTable({
-    //         data: dataSet,
-    //         columns: [
-    //             {title: 'Name'},
-    //             {title: 'Category'},
-    //             {title: 'Description'},
-    //             {title: 'Cook Station'},
-    //             {title: 'Price'},
-    //             {button: ''}
-    //         ],
-    //         lengthMenu: [[5, 10, -1], [5, 10, "All"]]
-    //     });
-    //
-    // }, 1000);
-
+    
     table = $('#menuTable').DataTable( {
         "processing": true,
         "serverSide": false,
