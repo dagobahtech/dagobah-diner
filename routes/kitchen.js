@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const path = require("path");
+const pool = require('../index');
 
 /***************** ROUTE SETTINGS ********************/
 //Jed - kitchen testing client
@@ -20,11 +21,11 @@ router.get("/", function (req, resp) {
 
 
 //Server side order counter.
-var startTime = new Date().getTime();
+let startTime = new Date().getTime();
 const dayInMS = 24 * 60 * 60 * 1000;  //a full day measured in millesconds.
-var orderNumber = 0;
+let orderNumber = 0;
 function orderNumberGenerator() {
-    var currentTime = new Date().getTime();
+    let currentTime = new Date().getTime();
     if (((currentTime - startTime) / dayInMS) >= 1){
         orderNumber = 1;
         startTime = new  Date().getTime();
@@ -38,14 +39,14 @@ function orderNumberGenerator() {
 
 //Discount Checker
 function isDiscount (order){
-    var discount = false;
-    var category1 = false;
-    var category2 = false;
-    var category3 = false;
-    for (var i = 0; i < order.items.length; i++){
-        if (order.items[i].category == 1) {category1 = true;}
-        if (order.items[i].category == 2) {category2 = true;}
-        if (order.items[i].category == 3) {category3 = true;}
+    let discount = false;
+    let category1 = false;
+    let category2 = false;
+    let category3 = false;
+    for (let i = 0; i < order.items.length; i++){
+        if (order.items[i].category === 1) {category1 = true;}
+        if (order.items[i].category === 2) {category2 = true;}
+        if (order.items[i].category === 3) {category3 = true;}
     }
     if (category1 && category2 && category3) {discount = true;}
     return discount;
@@ -56,10 +57,10 @@ function calcTrueTotal(order, dagobah) {
 
     let comboDiscount = dagobah.kitchen.comboDiscount;
     var discountAmount = 0;
-    var subTotal = 0;
-    var total = 0;
-    for (var i=0; i<order.items.length; i++){
-        for(var j=0; j<dagobah.menuItems.length; j++){
+    let subTotal = 0;
+    let total = 0;
+    for (let i=0; i<order.items.length; i++){
+        for(let j=0; j<dagobah.menuItems.length; j++){
             if (dagobah.menuItems[j].id === order.items[i].id){
                 subTotal += order.items[i].quantity * dagobah.menuItems[j].price;
             }
@@ -86,9 +87,6 @@ let cookQuantity;
 
 /***************** SOCKETS SETTINGS ********************/
 function socketHandler(io, dagobah, kitchen, dbSettings) {
-
-    const pg = dbSettings.pg;
-    const dbURL = dbSettings.dbURL;
 
     io.on("connection", function(socket){
 
@@ -153,30 +151,22 @@ function socketHandler(io, dagobah, kitchen, dbSettings) {
                 kitchen.discard(fromOrder, itemIndex, orderIndex);
                 if(fromOrder) {
                     io.to(socket.channel).emit("orders", kitchen._orderQueue.orders,kitchen._readyQueue.orders, kitchen._foodTray.items);
-                } else
-                {
+                } else {
                     io.to(socket.channel).emit("update","foodtray", kitchen._foodTray.items);
                 }
             }
 
-            pg.connect(dbURL, function(err, client, done) {
+            let dbQuery = "INSERT INTO item_discarded (item_id) VALUES ($1)";
+            pool.query(dbQuery, [item_id], function(err, result) {
                 if(err){
                     console.log(err);
                 }
 
-                let dbQuery = "INSERT INTO item_discarded (item_id) VALUES ($1)";
-                client.query(dbQuery, [item_id], function(err, result) {
-                    done();
-                    if(err){
-                        console.log(err);
-                    }
+                console.log("Db Discard Connection Ended");
+                console.log(result);
 
-                    console.log("Db Discard Connection Ended");
-                    console.log(result);
-
-                });
             });
-        } );
+        });
 
         //Kitchen client requests a serve function
         socket.on("serve", function (index) {
@@ -235,10 +225,9 @@ function socketHandler(io, dagobah, kitchen, dbSettings) {
             let processedTotal = calcTrueTotal(order, dagobah);
             processedTotal.id = userOrderNumber;
             function dbInsertOrder() {
-                pg.connect(dbURL, function (err, client, done) {
-                    if (err) {
-                        console.log
-                    }
+
+                pool.connect(function (err, client, done) {
+                    if (err) {console.log(err)}
                     let dbQuery = "INSERT INTO order_submitted (total) VALUES ($1) RETURNING id, date";
                     client.query(dbQuery, [processedTotal.total], function (err, result) {
                         if (err) {
@@ -253,9 +242,10 @@ function socketHandler(io, dagobah, kitchen, dbSettings) {
                         for (let i = 0; i < order.items.length; i++) {
                             let dbQuery2 = "INSERT INTO item_in_order (order_id, item_id) VALUES ($1, $2)";
                             client.query(dbQuery2, [order_id, order.items[i].id], function (err, result) {
+                                if(err){console.log(err)}
                             });
                         }
-                        done();
+                        done(err);
                         processedTotal.date = order_date;
                         socket.emit("orderinfo", processedTotal);
                         io.to("board").emit("orders", kitchen._orderQueue.orders, kitchen._readyQueue.orders);
