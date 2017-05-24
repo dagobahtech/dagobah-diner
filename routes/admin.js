@@ -353,7 +353,7 @@ router.post("/updateAll", function(req, resp) {
     if (testedItem.passing) {
 
 
-        let dbQuery = "UPDATE menu SET name = $1, price = $2, category = $3, description = $4, kitchen_station_id = $5  WHERE id = $6";
+        let dbQuery = "UPDATE menu SET name = $1, price = $2, category = $3, description = $4, kitchen_station_id = $5  WHERE id = $6 RETURNING *";
         pool.query(dbQuery, [req.body.name, parseFloat(req.body.price), parseInt(req.body.category), req.body.desc, parseInt(req.body.station), parseInt(req.body.itemID)], function(err, result) {
             if (err) {
                 console.log(err);
@@ -361,7 +361,7 @@ router.post("/updateAll", function(req, resp) {
             }
 
             getMenuItems(req.app.get("dagobah").menuItems);
-            resp.send({status: "success", msg: "item updated!"});
+            resp.send({status: "success", msg: "Item updated!", data: result.rows[0]});
 
 
         });
@@ -374,7 +374,7 @@ router.post("/updateAll", function(req, resp) {
 var updateObject = {};
 
 router.post("/sendUpdate", function(req, resp){
-    
+
     if(req.body.type === "request"){
 
         resp.send({status:"sent", item:updateObject});
@@ -385,33 +385,33 @@ router.post("/sendUpdate", function(req, resp){
     }
 });
 router.post("/restStatChange", function(req, resp) {
-     if(req.body.status == "true") {
-         req.app.get("dagobah").isOpen = false;
-         req.app.get("socketio").emit("store status", (req.app.get("dagobah").isOpen));
-         resp.send(false);
-     }
-     else if (req.body.status == "false") {
-         req.app.get("dagobah").isOpen = true;
-         req.app.get("socketio").emit("store status", (req.app.get("dagobah").isOpen));
-         resp.send(true);
-     }
-     else {
-         resp.send(null);
-         console.log("sending: error");
-     }
+    if(req.body.status == "true") {
+        req.app.get("dagobah").isOpen = false;
+        req.app.get("socketio").emit("store status", (req.app.get("dagobah").isOpen));
+        resp.send(false);
+    }
+    else if (req.body.status == "false") {
+        req.app.get("dagobah").isOpen = true;
+        req.app.get("socketio").emit("store status", (req.app.get("dagobah").isOpen));
+        resp.send(true);
+    }
+    else {
+        resp.send(null);
+        console.log("sending: error");
+    }
 });
 
 router.post("/itemStatus", function(req, resp) {
 
     var itemId = parseInt(req.body.id);
 
-        pool.query("UPDATE menu set active = not active where id=$1 returning active",[req.body.id], function (err, result) {
-            if(err) {return false;}
+    pool.query("UPDATE menu set active = not active where id=$1 returning active",[req.body.id], function (err, result) {
+        if(err) {return false;}
 
-            //update the menu items
-            updateMenuItems(req.app.get('dagobah').menuItems, itemId, ['active'], [result.rows[0].active]);
-            resp.send(result.rows[0].active);
-        })
+        //update the menu items
+        updateMenuItems(req.app.get('dagobah').menuItems, itemId, ['active'], [result.rows[0].active]);
+        resp.send(result.rows[0].active);
+    })
 });
 
 
