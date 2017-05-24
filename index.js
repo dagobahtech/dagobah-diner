@@ -86,7 +86,6 @@ app.use("/login", login);
 // exports.getMenuItems = getMenuItems(); // DL - export the function to be used in "/routes/admin.js"
 
 app.post("/menu-items", function(req, resp){
-    console.log(dagobah.menuItems);
     resp.send(dagobah.menuItems);
 });
 

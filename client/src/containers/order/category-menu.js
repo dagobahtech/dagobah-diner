@@ -37,11 +37,14 @@ class CategoryMenu extends Component {
         }
         return (
             items.map(function (item) {
-                return (
-                    <div className="col-12 col-md-6 col-lg-4 pb-3 menu-item-container" key={item.id}>
-                        <MenuItem item={item}  isClickable={true}/>
-                    </div>
-                    )
+                console.log(item.active);
+                if(item.active == true) {
+                    return (
+                        <div className="col-12 col-md-6 col-lg-4 pb-3 menu-item-container" key={item.id}>
+                            <MenuItem item={item}  isClickable={true}/>
+                        </div>
+                        )
+                }
             })
         )
     }1
