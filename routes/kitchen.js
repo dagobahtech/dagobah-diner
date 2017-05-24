@@ -2,14 +2,6 @@ const express = require("express");
 const router = express.Router();
 const path = require("path");
 
-//import the restuarant constraints class
-const SysConstraints = require('../kitchen-server/system-constraints');
-//initialise the constraints for a file.
-var restConstrains = new SysConstraints();
-
-//var menuArray = [];     //server array of menu items to be sent to client.
-var comboDiscount = restConstrains.comboDiscount;  //combo discount.
-
 /***************** ROUTE SETTINGS ********************/
 //Jed - kitchen testing client
 //@JED testing kitchen
@@ -61,6 +53,8 @@ function isDiscount (order){
 
 //true Order Total
 function calcTrueTotal(order, dagobah) {
+
+    let comboDiscount = dagobah.kitchen.comboDiscount;
     var discountAmount = 0;
     var subTotal = 0;
     var total = 0;
@@ -299,4 +293,75 @@ function socketHandler(io, dagobah, kitchen, dbSettings) {
     });
 }
 
-module.exports = { router, socketHandler }
+/*************** CONSTRAINTS SETTINGS **********************/
+router.post("/getConstraints", function (req, resp) {
+
+    // this._ORDERS_MAX =20;
+    // this._ORDERS_MIN =5;
+    //
+    // this._ITEMS_MAX = 15;
+    // this._ITEMS_MIN = 1;
+    //
+    // this._QTY_MIN = 1;
+    // this._QTY_MAX = 10;
+    //
+    // this._COMBO_MIN = 0;
+    // this._COMBO_MAX = 30;
+
+    let dagobah = req.app.get("dagobah");
+    let kitchen = dagobah.kitchen;
+
+    let orders = {
+        min: kitchen._ORDERS_MIN,
+        max: kitchen._ORDERS_MAX,
+        current: kitchen.maxOrders
+    };
+
+    let itemsPerOrder = {
+        min: kitchen._ITEMS_MIN,
+        max: kitchen._ITEMS_MAX,
+        current: kitchen.maxItemPerOrder
+    };
+
+    let qtyPerItem = {
+        min: kitchen._QTY_MIN,
+        max: kitchen._QTY_MAX,
+        current: kitchen.maxQuantityPerItem
+    };
+
+    let comboDiscount = {
+        min: kitchen._COMBO_MIN,
+        max: kitchen._COMBO_MAX,
+        current: kitchen.comboDiscount
+    };
+
+    resp.send({
+        status: "success",
+        kitchenStatus: dagobah.isOpen,
+        orders,
+        itemsPerOrder,
+        qtyPerItem,
+        comboDiscount
+    });
+});
+
+router.post("/setConstraints", function (req, resp) {
+
+    //{ orders: '10', items: '10', qty: '6', discount: '15' }
+    let dagobah = req.app.get("dagobah");
+    let kitchen = dagobah.kitchen;
+
+    let success = kitchen.saveConstraints(req.body.orders, req.body.items, req.body.qty, req.body.discount);
+
+    if(success) {
+        resp.send({
+            status: "success"
+        })
+    } else {
+        resp.send({
+            status: "fail"
+        })
+    }
+});
+
+module.exports = { router, socketHandler };

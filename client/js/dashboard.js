@@ -132,4 +132,129 @@ $(document).ready(function() {
             }
         });
     }, 1000);
+
+    /* CONSTRAINT SETTINGS ELEMENT*/
+    //spans
+    var maxItemsPerOrderValue = document.getElementById("maxItemsPerOrderValue");
+    var maxQtyPerItemValue = document.getElementById("maxQtyPerItemValue");
+    var maxOrdersValue = document.getElementById("maxOrdersValue");
+    var comboDiscountValue = document.getElementById("comboDiscountValue");
+
+    //ranges
+    var maxItemsPerOrder = document.getElementById("maxItemsPerOrder");
+    var maxQtyPerItem = document.getElementById("maxQtyPerItem");
+    var maxOrders = document.getElementById("maxOrders");
+    var comboDiscount = document.getElementById("comboDiscount");
+
+
+    //saveButton
+    var saveConstraintButton = document.getElementById("saveConstraintButton");
+
+    saveConstraintButton.addEventListener("click", function (event) {
+
+        let orders = maxOrders.value;
+        let items = maxItemsPerOrder.value;
+        let qty = maxQtyPerItem.value;
+        let discount = comboDiscount.value;
+
+        $.ajax({
+            url: "/kitchen/setConstraints",
+            type: "post",
+            data: {
+                orders, items, qty, discount
+            },
+            success: function (resp) {
+                if(resp.status==="success") {
+                    showModal("Server Message", "Constraints successfully saved");
+                } else {
+                    showModal("Server Message", "Problem encountered when saving");
+                }
+            }
+        })
+    });
+
+    function setMinMaxOfRange(elem, min, max) {
+        if(elem === comboDiscount) {
+            elem.step = 0.05;
+        }
+        elem.min = min;
+        elem.max = max;
+
+    }
+
+    function setRangeValue(elem, value) {
+        elem.value = value;
+    }
+
+
+    function setRangeEventHandler(elem, span) {
+        //also initialize their values
+        span.innerHTML = elem.value;
+
+        elem.addEventListener("input", function (event) {
+            span.innerHTML = event.target.value;
+        });
+
+        elem.addEventListener("change", function (event) {
+            span.innerHTML = event.target.value;
+        });
+    }
+
+    function setConstraintSettingsStatus(isEditable) {
+        maxItemsPerOrder.disabled = !isEditable;
+        maxQtyPerItem.disabled = !isEditable;
+        maxOrders.disabled = !isEditable;
+        comboDiscount.disabled = !isEditable;
+        saveConstraintButton.disabled = !isEditable;
+
+        if(!isEditable) {
+            document.getElementById("constraint-note").innerHTML = "Settings cannot be changed when restaurant is open";
+        } else {
+            document.getElementById("constraint-note").innerHTML = "";
+        }
+    }
+
+    //set the event listeners
+
+
+    $.ajax({
+        url: "/kitchen/getConstraints",
+        type: "post",
+        success: function (resp) {
+            if(resp.status === "success") {
+
+                //resp.orders.min
+                //resp.orders.max
+                //resp.itemsPerOrder.min
+                //resp.itemsPerOrder.max
+                //resp.qtyPerItem.min
+                //resp.qtyPerItem.max
+                //resp.comboDiscount.min
+                //resp.comboDiscount.max
+
+                //resp.orders.current
+                //resp.itemsPerOrder.current
+                //resp.qtyPerItem.current
+                //resp.comboDiscount.current
+
+                setMinMaxOfRange(maxItemsPerOrder, resp.itemsPerOrder.min, resp.itemsPerOrder.max);
+                setMinMaxOfRange(maxQtyPerItem, resp.qtyPerItem.min, resp.qtyPerItem.max);
+                setMinMaxOfRange(maxOrders, resp.orders.min, resp.orders.max);
+                setMinMaxOfRange(comboDiscount, resp.comboDiscount.min, resp.comboDiscount.max);
+
+                setRangeValue(maxItemsPerOrder, resp.itemsPerOrder.current);
+                setRangeValue(maxQtyPerItem, resp.qtyPerItem.current);
+                setRangeValue(maxOrders, resp.orders.current);
+                setRangeValue(comboDiscount, resp.comboDiscount.current);
+
+                setRangeEventHandler(maxItemsPerOrder, maxItemsPerOrderValue);
+                setRangeEventHandler(maxQtyPerItem, maxQtyPerItemValue);
+                setRangeEventHandler(maxOrders, maxOrdersValue);
+                setRangeEventHandler(comboDiscount, comboDiscountValue);
+
+                setConstraintSettingsStatus(resp.kitchenStatus === "false");
+            }
+        }
+    })
+
 });
