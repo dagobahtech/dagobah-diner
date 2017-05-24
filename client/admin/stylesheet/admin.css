@@ -26,16 +26,16 @@ html {
 
 #updateButton {
     color: white;
-    background-color: #5cb85c;
-    border-color: #5cb85c;
+    background-color: #31b0d5;;
+    border-color: #31b0d5;;
     transition: all ease 0.5s;
     border-radius: 5px;
     /*width: 50%;*/
 }
 
 #updateButton:hover {
-    background-color: rgb(92, 222, 92);
-    border-color: rgb(92, 222, 92);
+    background-color: rgb(96, 217, 222);
+    border-color: rgb(96, 217, 222);
 }
 .enabledItem {
     color: white;
@@ -43,7 +43,7 @@ html {
     border-color: #5cb85c;
     transition: all ease 0.5s;
     border-radius: 5px;
-    width: 50%;
+    /*width: 50%;*/
     /*padding: 0 5% 0 5%;*/
 }
 .disabledItem {
@@ -52,7 +52,7 @@ html {
     border-color: #d9534f;
     transition: all ease 0.5s;
     border-radius: 5px;
-    width: 50%;
+    /*width: 50%;*/
     /*padding: 0 5% 0 5%;*/
 }
 .enabledItem:hover {
