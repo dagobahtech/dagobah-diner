@@ -26,16 +26,16 @@ html {
 
 #updateButton {
     color: white;
-    background-color: #5cb85c;
-    border-color: #5cb85c;
+    background-color: #31b0d5;;
+    border-color: #31b0d5;;
     transition: all ease 0.5s;
     border-radius: 5px;
     /*width: 50%;*/
 }
 
 #updateButton:hover {
-    background-color: rgb(92, 222, 92);
-    border-color: rgb(92, 222, 92);
+    background-color: rgb(96, 217, 222);
+    border-color: rgb(96, 217, 222);
 }
 .enabledItem {
     color: white;
@@ -43,7 +43,7 @@ html {
     border-color: #5cb85c;
     transition: all ease 0.5s;
     border-radius: 5px;
-    width: 50%;
+    /*width: 50%;*/
     /*padding: 0 5% 0 5%;*/
 }
 .disabledItem {
@@ -52,7 +52,7 @@ html {
     border-color: #d9534f;
     transition: all ease 0.5s;
     border-radius: 5px;
-    width: 50%;
+    /*width: 50%;*/
     /*padding: 0 5% 0 5%;*/
 }
 .enabledItem:hover {
@@ -306,4 +306,37 @@ input:checked + .slider:before {
 #constraint-note {
     font-weight: bold;
     color: red;
+}
+
+#editor-modal {
+    z-index: 1;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0, 0.6);
+    display: none;
+}
+
+.editor {
+
+    position: absolute;
+    width: 700px;
+    left: 0;
+    right: 0;
+    top: 50px;
+    margin: auto;
+}
+
+#message {
+    text-align: center;
+}
+
+.error {
+    color: firebrick;
+}
+
+.success {
+    color: darkgreen;
 }

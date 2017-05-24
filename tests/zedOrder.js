@@ -15,7 +15,7 @@ module.exports = {
             .pause(200)
             .click('#yesConfirmButton')
             .pause(2000)
-            .assert.containsText('#orderConfirmation', 'Thank you for ordering')
+            .assert.containsText('#orderConfirmation', 'Thank You for Ordering')
 
             .url('http://localhost:3000/order')
             .pause(2000)
@@ -27,7 +27,7 @@ module.exports = {
             .pause(200)
             .click('#yesConfirmButton')
             .pause(2000)
-            .assert.containsText('#orderConfirmation', 'Thank you for ordering')
+            .assert.containsText('#orderConfirmation', 'Thank You for Ordering')
 
             .url('http://localhost:3000/order')
             .pause(2000)
@@ -39,7 +39,7 @@ module.exports = {
             .pause(200)
             .click('#yesConfirmButton')
             .pause(2000)
-            .assert.containsText('#orderConfirmation', 'Thank you for ordering')
+            .assert.containsText('#orderConfirmation', 'Thank You for Ordering')
 
             .url('http://localhost:3000/order')
             .pause(2000)
