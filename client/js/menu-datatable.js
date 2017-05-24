@@ -32,7 +32,7 @@ function init() {
                 item.push(response[i].kitchen_station_id);
                 item.push(response[i].price);
                 item.push("<button class='active' id='" + text + "'>" + text + "</button>");
-                item.push("<button class='updateBut' id='updateButton'>Update Item</button>");
+                item.push("<button class='updateBut'>Update Item</button>");
                 menuItems.push(item);
             }
             dataSet = menuItems;
@@ -54,7 +54,7 @@ function init() {
                 {button: ''},
                 {button: ''}
             ],
-            lengthMenu: [[-1], ["All"]]
+            lengthMenu: [[5,-1], [5,"All"]]
         });
         
     }, 1000);
@@ -92,6 +92,24 @@ $(document).ready(function(){
                         },
                         success:function(response){
                             console.log(response);
+                            document.getElementById("addUpdateBlock").style.display = "block";
+                            $.ajax({
+                                url:"/admin/sendUpdate",
+                                type:"post",
+                                data:{
+                                    type:"request"
+                                },
+                                success:function(response){
+                                    console.log(response.item);
+                                    items = response.item;
+                                    newName.value = items.name;
+                                    newDescription.value = items.desc;
+                                    newCategory.value = items.category;
+                                    newPrice.value = items.price;
+                                    newStation.value = items.station;
+
+                                }
+                            });
 
                         }
                     });
@@ -104,7 +122,7 @@ $(document).ready(function(){
             active[i].addEventListener("click", function() {
                 console.log("working");
                 var temp = this;
-                var item = this.parentNode.parentNode.childNodes[1].innerHTML;
+                var itemName = this.parentNode.parentNode.childNodes[1].innerHTML;
                 var isEnabled = this.innerHTML;
                 if(isEnabled == "Disable?") {
                     isEnabled = true;
@@ -115,7 +133,7 @@ $(document).ready(function(){
                     url: "/admin/itemStatus",
                     type: "post",
                     data: {
-                        item: item,
+                        item: itemName,
                         status: isEnabled
                     },
                     success: function(response) {
@@ -137,7 +155,7 @@ $(document).ready(function(){
                         temp.innerHTML = text;
                         
                         $.ajax({
-                           url: "/updateMenu-items",
+                           url: "/admin/updateMenu-items",
                             type: "post",
                             data: {
                                 item: response.item,
@@ -179,3 +197,46 @@ $(document).ready(function(){
     
     
 });
+
+
+var newName = document.getElementById("newMenuName");
+var newDescription = document.getElementById("newMenuDescription");
+var newCategory = document.getElementById("newMenuPrice");
+var newPrice = document.getElementById("newMenuCategory");
+var newStation = document.getElementById("newMenuStation");
+var submit = document.getElementById("submit");
+var items;
+
+
+
+
+submit.addEventListener("click", updateQuery);
+
+function updateQuery() {
+    $.ajax({
+        url:"/admin/updateAll",
+        type:"POST",
+        data:{
+            name: newName.value,
+            price: newPrice.value,
+            category: newCategory.value,
+            station: newStation.value,
+            desc: newDescription.value,
+            itemID: items.itemID,
+            image: "placeholder.png"
+        },
+        success:function(response){
+            if(response.message == "success"){
+                //do this
+                console.log(response);
+
+            } else {
+                // do that
+                console.log(response);
+            }
+
+        }
+    });
+
+}
+

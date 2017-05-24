@@ -77,28 +77,28 @@ router.post("/createItem", function (req, resp) {
 
 });
 
-router.post("/deleteItem", function(req, resp) {
-//    console.log("name recieved: " + req.body.name);
-    let dbQuery = "DELETE FROM menu WHERE name = $1";
-    pg.connect(dbURL, function(err, client, done) {
-        if(err) {
-            console.log(err);
-        }
-        client.query(dbQuery, [req.body.name], function(err, result) {
-            done();
-            if(err) {
-                console.log("error");
-                console.log(err);
-                resp.send(err);
-            }
-            else {
-                console.log("success");
-                console.log(result);
-                resp.send("success");
-            }
-        });
-    })
-});
+// router.post("/deleteItem", function(req, resp) {
+// //    console.log("name recieved: " + req.body.name);
+//     let dbQuery = "DELETE FROM menu WHERE name = $1";
+//     pg.connect(dbURL, function(err, client, done) {
+//         if(err) {
+//             console.log(err);
+//         }
+//         client.query(dbQuery, [req.body.name], function(err, result) {
+//             done();
+//             if(err) {
+//                 console.log("error");
+//                 console.log(err);
+//                 resp.send(err);
+//             }
+//             else {
+//                 console.log("success");
+//                 console.log(result);
+//                 resp.send("success");
+//             }
+//         });
+//     })
+// });
 
 /**************** ACCOUNT CRUD ***********************/
 
@@ -188,7 +188,7 @@ router.post("/getStatData", function (req, resp) {
     if(category === undefined) {
         resp.send({
             status: "fail"
-        })
+        });
     }
     pg.connect(dbURL, function(err, client, done) {
         if(err){console.log(err)}
@@ -264,7 +264,7 @@ router.post("/getOrderStat", function (req, resp) {
     if(year === undefined) {
         resp.send({
             status: "fail"
-        })
+        });
     }
 
     pg.connect(dbURL, function (err, client, done) {
@@ -300,7 +300,7 @@ router.post("/getDiscardStat", function (req, resp) {
     if(year === undefined) {
         resp.send({
             status: "fail"
-        })
+        });
     }
     pg.connect(dbURL, function (err, client, done) {
         if(err) {
@@ -335,7 +335,7 @@ router.post("/getOrderAvgStat", function (req, resp) {
     if(year === undefined) {
         resp.send({
             status: "fail"
-        })
+        });
     }
 
     pg.connect(dbURL, function (err, client, done) {
@@ -479,11 +479,11 @@ router.post("/sendUpdate", function(req, resp){
     
     if(req.body.type == "request"){
 
-        resp.send({status:"sent", item:updateObject})
+        resp.send({status:"sent", item:updateObject});
     }else{
         updateObject = req.body;
         console.log(updateObject);
-        resp.send({status:"recieved"})
+        resp.send({status:"recieved"});
     }
 });
 router.post("/restStatChange", function(req, resp) {
@@ -506,7 +506,7 @@ router.post("/restStatChange", function(req, resp) {
 router.post("/itemStatus", function(req, resp) {
     console.log(req.body.status);
     
-    var conv = null;
+    var conv;
     if(req.body.status == "true") {
         conv = false;
     } else if (req.body.status == "false") {
