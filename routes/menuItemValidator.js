@@ -5,7 +5,7 @@
 
 //Menu Regex Constants.
 const nameRegex = /^[A-Za-z0-9\' ]{3,50}$/;  //Name of Food item.
-const descRegex = /^[A-Za-z0-9\'\(\) ]{3,100}$/;
+const descRegex = /^[A-Za-z0-9\'\(\)\. ]{3,100}$/;
 const priceRegex = /^[\d]{1,3}(\.\d{1,2})?$/i;  //Price (in Imperial Credits)
 const catRegex = /^[1-3]$/;  //Menu category 1 - Main, 2 - Side, 3 - Beverage.
 const imageRegex = /^[\w-]{1,35}.(gif|jpg|jpeg|tiff|png)$/;  //Food item image file name.

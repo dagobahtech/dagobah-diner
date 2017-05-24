@@ -39,6 +39,19 @@ router.get("/logout", function(req, resp) {
 let menuTester = new MenuItemValidator();
 
 /****************** ITEM CRUD *************************/
+
+router.post("/getItems", function (req, resp) {
+
+
+    pool.query("SELECT * FROM menu",[], function (err, result) {
+        if(err) {
+            return false;
+        }
+        resp.send(result.rows);
+    })
+
+});
+
 router.post("/createItem", function (req, resp) {
 
     console.log(req.body);
@@ -339,6 +352,7 @@ router.post("/updateAll", function(req, resp) {
     let testedItem = menuTester.testItem(req.body);
     if (testedItem.passing) {
 
+
         let dbQuery = "UPDATE menu SET name = $1, price = $2, category = $3, description = $4, kitchen_station_id = $5  WHERE id = $6";
         pool.query(dbQuery, [req.body.name, parseFloat(req.body.price), parseInt(req.body.category), req.body.desc, parseInt(req.body.station), parseInt(req.body.itemID)], function(err, result) {
             if (err) {
@@ -348,6 +362,7 @@ router.post("/updateAll", function(req, resp) {
 
             getMenuItems(req.app.get("dagobah").menuItems);
             resp.send({status: "success", msg: "item updated!"});
+
 
         });
     } else {
