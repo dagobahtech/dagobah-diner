@@ -52,7 +52,8 @@ $(document).ready(function() {
 //        });
 //    });
     
-    restBut = document.getElementById("restaurantOpenClose");
+    var restBut = document.getElementById("restaurantOpenClose");
+    var toggleButton = document.getElementById("toggleButton");
 
     restBut.addEventListener("mouseover", function() {
         checkRestStatus("Close Restaurant", "Open Restaurant", "#5cb85c", "d9534f");
@@ -61,7 +62,13 @@ $(document).ready(function() {
         checkRestStatus("Restaurant is Open", "Restaurant is Closed",  "#5cb85c", "#d9534f");
     });
 
-    restBut.addEventListener("click", function() {
+    restBut.addEventListener("click", handleRestaurantStatusChange);
+
+    if(toggleButton.onclick !== handleRestaurantStatusChange) {
+        toggleButton.addEventListener("click", handleRestaurantStatusChange);
+    }
+
+    function handleRestaurantStatusChange(event) {
         console.log("working");
         $.ajax({
             url: "/admin/restStatChange",
@@ -72,10 +79,12 @@ $(document).ready(function() {
             success: function(response) {
                 console.log("response: " + response);
                 restStatus = response;
-                checkRestStatus("Restaurant is Open", "Restaurant is Closed",  "#5cb85c", "#d9534f");
+                checkRestStatus && checkRestStatus("Restaurant is Open", "Restaurant is Closed",  "#5cb85c", "#d9534f");
+                setConstraintSettingsStatus && setConstraintSettingsStatus(!response);
+                document.getElementById("toggleButton").checked = response;
             }
         });
-    });
+    }
 
     $.ajax({
         url: "/isOpen",
@@ -99,6 +108,7 @@ $(document).ready(function() {
         else {
             menuChange("Error", "white");
         }
+        toggleButton.checked = restStatus;
     }
     function menuChange(text, color) {
         restBut.innerHTML = text;
@@ -215,6 +225,8 @@ $(document).ready(function() {
     }
 
     function setConstraintSettingsStatus(isEditable) {
+
+        if(!document.getElementById("constraint-note")) {return;}
         maxItemsPerOrder.disabled = !isEditable;
         maxQtyPerItem.disabled = !isEditable;
         maxOrders.disabled = !isEditable;
@@ -266,7 +278,7 @@ $(document).ready(function() {
                 setRangeEventHandler(maxOrders, maxOrdersValue);
                 setRangeEventHandler(comboDiscount, comboDiscountValue);
 
-                setConstraintSettingsStatus(resp.kitchenStatus === "false");
+                setConstraintSettingsStatus(!resp.kitchenStatus);
             }
         }
     })
