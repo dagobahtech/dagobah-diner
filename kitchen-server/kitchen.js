@@ -107,6 +107,13 @@ class Kitchen {
         this.constraints.maxOrders = value;
     }
 
+    set cookDelay(newDelay) {
+        this.constraints.cookTime = newDelay;
+    }
+
+    get cookDelay() {
+        return parseInt(this.constraints.cookTime);
+    }
     get orderQueue() {
         return this._orderQueue;
     }
@@ -119,13 +126,14 @@ class Kitchen {
         return this._foodTray;
     }
 
-    set cookDelay(newDelay) {
-        this._cookDelay = newDelay;
-    };
 
-    get cookDelay() {
-        return this._cookDelay;
-    }
+    // set cookDelay(newDelay) {
+    //     this._cookDelay = newDelay;
+    // };
+    //
+    // get cookDelay() {
+    //     return this._cookDelay;
+    // }
 
     //TODO need to refactor this shit. this shit is too smurfing long. is it because of error handling? :(
     /*

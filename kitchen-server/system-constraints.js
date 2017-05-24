@@ -4,7 +4,7 @@
 'use-strict';
 const file = './kitchen-server/sys-constraints.ini';
 
-const fs = require('fs')
+const fs = require('fs');
 const ini = require('ini');
 
 var properties = ini.parse(fs.readFileSync(file, 'utf-8'));
