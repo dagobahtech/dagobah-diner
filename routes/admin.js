@@ -41,20 +41,15 @@ let menuTester = new MenuItemValidator();
 /****************** ITEM CRUD *************************/
 
 router.post("/getItems", function (req, resp) {
-    pg.connect(dbURL, function (err, client, done) {
-        if(err){
+
+
+    pool.query("SELECT * FROM menu",[], function (err, result) {
+        if(err) {
             return false;
         }
-
-        client.query("SELECT * FROM menu",[], function (err, result) {
-            done();
-            if(err) {
-                return false;
-            }
-
-            resp.send(result.rows);
-        })
+        resp.send(result.rows);
     })
+
 });
 
 router.post("/createItem", function (req, resp) {
