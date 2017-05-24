@@ -20,6 +20,30 @@ html {
 #settingsHeader {
     border: none;
 }
+#Enabled {
+    background-color: #5cb85c;
+    border-color: #5cb85c;
+    transition: all ease 0.5s;
+    border-radius: 5px;
+    width: 85%;
+    padding: 0 5% 0 5%;
+}
+#Disabled {
+    background-color: #d9534f;
+    border-color: #d9534f;
+    transition: all ease 0.5s;
+    border-radius: 5px;
+    width: 85%;
+    padding: 0 5% 0 5%;
+}
+#Enabled:hover {
+    background-color: rgb(92, 222, 92);
+    border-color: rgb(92, 222, 92);
+}
+#Disabled:hover {
+    background-color: rgb(255, 83, 79);
+    border-color: rgb(255, 83, 79); 
+}
 #d-hide {
     width: 100%;
     display: flex;

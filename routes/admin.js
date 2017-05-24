@@ -131,6 +131,7 @@ router.post("/deleteUser", function(req, resp) {
         client.query(dbQuery, [req.session.SPK_user], function(err, result) {
             var del = req.session.SPK_user;
             if(err) {
+                done();
                 console.log(err);
             }
             else {
@@ -149,6 +150,7 @@ router.post("/deleteUser", function(req, resp) {
                     });
                 }
                 else {
+                    done();
                     resp.send("error");
                 }
             }
@@ -601,6 +603,51 @@ router.post("/updateStation", function(req, resp) {
         resp.send({status: "success", msg: message});
     }
 });
+router.post("/restStatChange", function(req, resp) {
+     if(req.body.status == "true") {
+         req.app.get("dagobah").isOpen = false;
+         req.app.get("socketio").emit("store status", (req.app.get("dagobah").isOpen));
+         resp.send(false);
+     }
+     else if (req.body.status == "false") {
+         req.app.get("dagobah").isOpen = true;
+         req.app.get("socketio").emit("store status", (req.app.get("dagobah").isOpen));
+         resp.send(true);
+     }
+     else {
+         resp.send(null);
+         console.log("sending: error");
+     }
+});
+
+router.post("/itemStatus", function(req, resp) {
+    console.log(req.body.status);
+    
+    var conv = null;
+    if(req.body.status == "true") {
+        conv = false;
+    } else if (req.body.status == "false") {
+        conv = true;
+    } else {console.log("ERROR");}
+    
+    pg.connect(dbURL, function(err, client, done) {
+        if(err) {console.log(err);}
+        let dbQuery = "UPDATE menu SET active = ($1) where name = ($2)";
+        client.query(dbQuery, [conv, req.body.item], function(err, result) {
+            done();
+            if (err) {
+                console.log(err);
+                resp.send("ERROR");
+            }
+            else {
+                resp.send({
+                    item: req.body.item,
+                    status: conv
+                });
+            }
+        });
+    }); 
+});
 
 router.post("/updateAll", function(req, resp) {
 
@@ -628,7 +675,4 @@ router.post("/updateAll", function(req, resp) {
     }
 });
 
-
-
 module.exports = {router, getMenuItems, bcrypt};
-

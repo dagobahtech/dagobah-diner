@@ -51,12 +51,13 @@ $(document).ready(function() {
     restBut.addEventListener("click", function() {
         console.log("working");
         $.ajax({
-            url: "/restStatChange",
+            url: "/admin/restStatChange",
             type: "POST",
             data: {
                 status: restStatus
             },
             success: function(response) {
+                console.log("response: " + response);
                 restStatus = response;
                 checkRestStatus("Restaurant is Open", "Restaurant is Closed",  "#5cb85c", "#d9534f");
             }
