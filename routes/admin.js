@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 const pg = require("pg");
 const path = require("path");
-const bcrypt = require("bcrypt");
+const bcrypt = require("bcryptjs");
 const MenuItemValidator = require("./menuItemValidator");
 
 const dbURL = process.env.DATABASE_URL || "postgres://lpufbryv:FGc7GtCWBe6dyop0yJ2bu0pTXDoBJnEv@stampy.db.elephantsql.com:5432/lpufbryv";
@@ -621,32 +621,49 @@ router.post("/restStatChange", function(req, resp) {
 });
 
 router.post("/itemStatus", function(req, resp) {
-    console.log(req.body.status);
+    // console.log(req.body.status);
     
-    var conv = null;
-    if(req.body.status == "true") {
-        conv = false;
-    } else if (req.body.status == "false") {
-        conv = true;
-    } else {console.log("ERROR");}
-    
-    pg.connect(dbURL, function(err, client, done) {
-        if(err) {console.log(err);}
-        let dbQuery = "UPDATE menu SET active = ($1) where name = ($2)";
-        client.query(dbQuery, [conv, req.body.item], function(err, result) {
+    // var conv = null;
+    // if(req.body.status == "true") {
+    //     conv = false;
+    // } else if (req.body.status == "false") {
+    //     conv = true;
+    // } else {console.log("ERROR");}
+    //
+    // pg.connect(dbURL, function(err, client, done) {
+    //     if(err) {console.log(err);}
+    //     let dbQuery = "UPDATE menu SET active = ($1) where name = ($2)";
+    //     client.query(dbQuery, [conv, req.body.item], function(err, result) {
+    //         done();
+    //         if (err) {
+    //             console.log(err);
+    //             resp.send("ERROR");
+    //         }
+    //         else {
+    //             resp.send({
+    //                 item: req.body.item,
+    //                 status: conv
+    //             });
+    //         }
+    //     });
+    // });
+    var itemId = parseInt(req.body.id);
+
+    pg.connect(dbURL, function (err, client, done) {
+        if(err) {
+            return false;
+        }
+
+        client.query("UPDATE menu set active = not active where id=$1 returning active",[req.body.id], function (err, result) {
             done();
-            if (err) {
-                console.log(err);
-                resp.send("ERROR");
+            if(err) {
+                return false;
             }
-            else {
-                resp.send({
-                    item: req.body.item,
-                    status: conv
-                });
-            }
-        });
-    }); 
+            //update the menu items
+            updateMenuItems(req.app.get('dagobah').menuItems, itemId, ['active'], [result.rows[0].active])
+            resp.send(result.rows[0].active);
+        })
+    })
 });
 
 router.post("/updateAll", function(req, resp) {
@@ -675,4 +692,28 @@ router.post("/updateAll", function(req, resp) {
     }
 });
 
+//update fields of menuItems field array with new values
+function updateMenuItems(menuItems, id, fields, newValues) {
+    console.log("updating items");
+    if(fields.length !== newValues.length) {
+        return false;
+    }
+    console.log(menuItems.length);
+    for(let x = 0 ; x < menuItems.length ; x++) {
+
+        let item = menuItems[x];
+        console.log(item.id, id);
+        if(item.id === id) {
+            console.log("item found");
+            for(let index = 0 ; index < fields.length ; index++) {
+                if(!item.hasOwnProperty(fields[index])) {
+                    console.log('no property found on', item, "with ", fields[index]);
+                    continue;
+                }
+                console.log("updating", item[fields[index]], newValues[index]);
+                item[fields[index]] = newValues[index];
+            }
+        }
+    }
+}
 module.exports = {router, getMenuItems, bcrypt};
