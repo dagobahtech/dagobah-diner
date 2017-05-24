@@ -105,7 +105,6 @@ router.post("/deleteItem", function(req, resp) {
 router.post("/createAdmin", function(req, resp) {
     console.log(req.body);
     let dbQuery = "INSERT INTO user_login (username, password, type_id) VALUES ($1, $2, $3)";
-=======
     bcrypt.hash(req.body.pass, 5, function(err, bpass){
         pg.connect(dbURL, function(err, client, done) {
             if(err){console.log(err)}
