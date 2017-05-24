@@ -104,7 +104,7 @@ $(document).ready(function(){
             active[i].addEventListener("click", function() {
                 console.log("working");
                 var temp = this;
-                var item = this.parentNode.parentNode.childNodes[0].innerHTML;
+                var item = this.parentNode.parentNode.childNodes[1].innerHTML;
                 var isEnabled = this.innerHTML;
                 if(isEnabled == "Disable?") {
                     isEnabled = true;
@@ -149,7 +149,7 @@ $(document).ready(function(){
                         });
                         
                         for(i = 0; i < dataSet.length; i++) {
-                            if(dataSet[i][0] == response.item) {
+                            if(dataSet[i][1] == response.item) {
                                 console.log(dataSet);
                                 console.log("doing this");
                                 dataSet[i][5] = "<button class='active' id='" + text + "'>" + text + "</button>"
