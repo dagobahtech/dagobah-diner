@@ -149,9 +149,36 @@ $(document).ready(function() {
     //saveButton
     var saveConstraintButton = document.getElementById("saveConstraintButton");
 
+    saveConstraintButton.addEventListener("click", function (event) {
+
+        let orders = maxOrders.value;
+        let items = maxItemsPerOrder.value;
+        let qty = maxQtyPerItem.value;
+        let discount = comboDiscount.value;
+
+        $.ajax({
+            url: "/kitchen/setConstraints",
+            type: "post",
+            data: {
+                orders, items, qty, discount
+            },
+            success: function (resp) {
+                if(resp.status==="success") {
+                    showModal("Server Message", "Constraints successfully saved");
+                } else {
+                    showModal("Server Message", "Problem encountered when saving");
+                }
+            }
+        })
+    });
+
     function setMinMaxOfRange(elem, min, max) {
+        if(elem === comboDiscount) {
+            elem.step = 0.05;
+        }
         elem.min = min;
         elem.max = max;
+
     }
 
     function setRangeValue(elem, value) {

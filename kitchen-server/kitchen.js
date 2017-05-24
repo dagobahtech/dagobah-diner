@@ -6,13 +6,21 @@ const Order = require("./order");
 const ItemList = require("./item-list");
 const FoodTray = require("./food-tray");
 
+//import the restuarant constraints class
+const SysConstraints = require('./system-constraints');
+//initialise the constraints for a file.
+
+
+//var menuArray = [];     //server array of menu items to be sent to client.
+// var comboDiscount = restConstrains.comboDiscount;  //combo discount.
+
 //define constants
 //valid quantities to cook
 const VALID_QUANTITIES = [1,2,6];
-const DEFAULT_MAX_ORDER = 10;
-const DEFAULT_COOK_DELAY = 5000;
-const DEFAULT_MAX_ITEM_COUNT = 10;
-const DEFAULT_MAX_ITEM_QUANTITY = 6;
+// const DEFAULT_MAX_ORDER = 10;
+// const DEFAULT_COOK_DELAY = 5000;
+// const DEFAULT_MAX_ITEM_COUNT = 10;
+// const DEFAULT_MAX_ITEM_QUANTITY = 6;
 
 class Kitchen {
 
@@ -20,27 +28,83 @@ class Kitchen {
          this._readyQueue = new OrderQueue();
          this._orderQueue = new OrderQueue();
          this._foodTray = new FoodTray();
-         this._orderNumber = 0;
-         this._maxOrderNumber = DEFAULT_MAX_ORDER;
-         this._cookDelay = DEFAULT_COOK_DELAY; //in milliseconds. set for 1 for now. change in the future
-         this._maxItemPerOrder = DEFAULT_MAX_ITEM_COUNT;
-         this._maxQuantityPerItem = DEFAULT_MAX_ITEM_QUANTITY;
+         this.constraints = new SysConstraints();
+         this._orderNumber = 1;
+         // this._maxOrderNumber = restConstrains.maxOrders;
+         // this._cookDelay = restConstrains.cookTime; //in milliseconds. set for 1 for now. change in the future
+         // this._maxItemPerOrder = restConstrains.;
+         // this._maxQuantityPerItem = restConstrains.maxPerItem;
+         // this._comboDiscount = restConstrains;
+        // cannot modify if store is closed
+        // max items: 1 - 15 : add this to ini
+        // max qty per item: 1 - 10
+        // max orders: 5 - 20
+        // combo discount: 0 - .30
+
+        this._ORDERS_MAX =20;
+        this._ORDERS_MIN =5;
+
+        this._ITEMS_MAX = 15;
+        this._ITEMS_MIN = 1;
+
+        this._QTY_MIN = 1;
+        this._QTY_MAX = 10;
+
+        this._COMBO_MIN = 0;
+        this._COMBO_MAX = 0.30;
+
+    }
+
+    // kitchen.saveConstraints(req.body.orders, req.body.items, req.body.qty, req.body.discount);
+    saveConstraints(orders, items, qty, combo) {
+
+        if(orders < this._ORDERS_MIN || orders > this._ORDERS_MAX ||
+           items < this._ITEMS_MIN || items > this._ITEMS_MAX ||
+           qty < this._QTY_MIN || qty > this._QTY_MAX ||
+           combo < this._COMBO_MIN || combo > this._COMBO_MAX) {
+            return false;
+        }
+
+        this.constraints.maxItemPerOrder = items;
+        this.constraints.maxOrders = orders;
+        this.constraints.comboDiscount = combo;
+        this.constraints.maxPerItem = qty;
+
+        this.constraints.writeToFile();
+
+        return true;
+    }
+
+    set comboDiscount(newDiscount) {
+        this.constraints.comboDiscount = newDiscount;
+    }
+
+    get comboDiscount() {
+        return parseFloat(this.constraints.comboDiscount);
     }
 
     set maxItemPerOrder(newCount) {
-        this._maxItemPerOrder = newCount;
+        this.constraints.maxItemPerOrder = newCount;
     }
 
     get maxItemPerOrder() {
-        return this._maxItemPerOrder;
+        return parseInt(this.constraints.maxItemPerOrder);
     }
 
     set maxQuantityPerItem(newQuantity) {
-        this._maxQuantityPerItem = newQuantity;
+        this.constraints.maxPerItem = newQuantity;
     }
 
     get maxQuantityPerItem() {
-        return this._maxQuantityPerItem;
+        return parseInt(this.constraints.maxPerItem);
+    }
+
+    get maxOrders() {
+        return parseInt(this.constraints.maxOrders);
+    }
+
+    set maxOrders(value) {
+        this.constraints.maxOrders = value;
     }
 
     get orderQueue() {
@@ -63,10 +127,6 @@ class Kitchen {
         return this._cookDelay;
     }
 
-    set maxOrderNumber(maxNum) {
-        this._maxOrderNumber = maxNum;
-    }
-
     //TODO need to refactor this shit. this shit is too smurfing long. is it because of error handling? :(
     /*
     * @params
@@ -75,7 +135,7 @@ class Kitchen {
     * @returns
     *   orderNumber: Integer*/
     addOrder(order) {
-        if(this._orderQueue.orders.length === this._maxOrderNumber) {
+        if(this._orderQueue.orders.length === this.maxOrders) {
             throw "Orders maxed";
         }
         try {
