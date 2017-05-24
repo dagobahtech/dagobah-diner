@@ -36,9 +36,22 @@ $.ajax({
 
 
 $(document).ready(function() {
-    //Is the restaurant open functional
-    //it is now.
-
+//    var restSwitch = document.getElementById("restSwitch");
+//    restSwitch.addEventListener("click", function() {
+//        $.ajax({
+//            url: "/admin/restStatChange",
+//            type: "POST",
+//            data: {
+//                status: restStatus
+//            },
+//            success: function(response) {
+//                console.log("response: " + response);
+//                restStatus = response;
+//                checkRestStatus("Restaurant is Open", "Restaurant is Closed",  "#5cb85c", "#d9534f");
+//            }
+//        });
+//    });
+    
     restBut = document.getElementById("restaurantOpenClose");
 
     restBut.addEventListener("mouseover", function() {
@@ -76,16 +89,17 @@ $(document).ready(function() {
     function checkRestStatus(textA, textB, colorA, colorB) {
         restStatus = Boolean(restStatus);
         if(restStatus) {
+//            restSwitch.checked = true;
             menuChange(textA, colorA);
         }
         else if (!restStatus) {
+//            restSwitch.checked = false;
             menuChange(textB, colorB);
         }
         else {
             menuChange("Error", "white");
         }
     }
-
     function menuChange(text, color) {
         restBut.innerHTML = text;
         restBut.style.borderColor = color;
