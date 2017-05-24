@@ -23,27 +23,43 @@ html {
 #settingsHeader {
     border: none;
 }
-#Enabled {
+
+#updateButton {
+    color: white;
     background-color: #5cb85c;
     border-color: #5cb85c;
     transition: all ease 0.5s;
     border-radius: 5px;
-    width: 85%;
-    padding: 0 5% 0 5%;
+    /*width: 50%;*/
 }
-#Disabled {
+
+#updateButton:hover {
+    background-color: rgb(92, 222, 92);
+    border-color: rgb(92, 222, 92);
+}
+.enabledItem {
+    color: white;
+    background-color: #5cb85c;
+    border-color: #5cb85c;
+    transition: all ease 0.5s;
+    border-radius: 5px;
+    width: 50%;
+    /*padding: 0 5% 0 5%;*/
+}
+.disabledItem {
+    color: white;
     background-color: #d9534f;
     border-color: #d9534f;
     transition: all ease 0.5s;
     border-radius: 5px;
-    width: 85%;
-    padding: 0 5% 0 5%;
+    width: 50%;
+    /*padding: 0 5% 0 5%;*/
 }
-#Enabled:hover {
+.enabledItem:hover {
     background-color: rgb(92, 222, 92);
     border-color: rgb(92, 222, 92);
 }
-#Disabled:hover {
+.disabledItem:hover {
     background-color: rgb(255, 83, 79);
     border-color: rgb(255, 83, 79); 
 }
