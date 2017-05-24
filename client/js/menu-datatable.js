@@ -121,10 +121,23 @@ function init() {
                     button.removeClass("enabledItem");
                     button.addClass("disabledItem");
                 }
+
                 data.active = resp;
                 disableButtonClick = false;
 
                 showModal("Item Active Changed", "Item's status successfully changed");
+
+                // let item = [];
+                // item.push(response[i].id);
+                // item.push(response[i].name);
+                // item.push(categoryName[parseInt(response[i].category) - 1]);
+                // item.push(response[i].description);
+                // item.push(response[i].kitchen_station_id);
+                // item.push(response[i].price);
+                // item.push("<button class='active' id='" + text + "'>" + text + "</button>");
+                // item.push("<button class='updateBut'>Update Item</button>");
+                // menuItems.push(item);
+
             }
         })
 
@@ -142,6 +155,7 @@ function init() {
         }
     });
 
+
     $('#menuTable tbody').on( 'mouseout', '#status-toggle', function () {
         var data = table.row( $(this).parents('tr') ).data();
 
@@ -154,10 +168,32 @@ function init() {
         }
 
     } );
+
+    
+    // setTimeout(function() {
+    //     $('#menuTable').html("");
+    //     $('#menuTable').DataTable({
+    //         data: dataSet,
+    //         columns: [
+    //             {title: 'ID'},
+    //             {title: 'Name'},
+    //             {title: 'Category'},
+    //             {title: 'Description'},
+    //             {title: 'Cook Station'},
+    //             {title: 'Price'},
+    //             {button: ''},
+    //             {button: ''}
+    //         ],
+    //         lengthMenu: [[5,-1], [5,"All"]]
+    //     });
+    //
+    // }, 1000);
+
 }
 $(document).ready(function(){
     init();
     
+
     // $('#menuTable').on( 'draw.dt', function () {
     //     var active = document.getElementsByClassName("active");
     //     for(i = 0; i < active.length; i++) {
@@ -239,6 +275,48 @@ $(document).ready(function(){
     //         });
     //     }
     // });
-    
-    
+
 });
+
+
+var newName = document.getElementById("newMenuName");
+var newDescription = document.getElementById("newMenuDescription");
+var newCategory = document.getElementById("newMenuPrice");
+var newPrice = document.getElementById("newMenuCategory");
+var newStation = document.getElementById("newMenuStation");
+var submit = document.getElementById("submit");
+var items;
+
+
+
+
+submit.addEventListener("click", updateQuery);
+
+function updateQuery() {
+    $.ajax({
+        url:"/admin/updateAll",
+        type:"POST",
+        data:{
+            name: newName.value,
+            price: newPrice.value,
+            category: newCategory.value,
+            station: newStation.value,
+            desc: newDescription.value,
+            itemID: items.itemID,
+            image: "placeholder.png"
+        },
+        success:function(response){
+            if(response.message == "success"){
+                //do this
+                console.log(response);
+
+            } else {
+                // do that
+                console.log(response);
+            }
+
+        }
+    });
+
+}
+

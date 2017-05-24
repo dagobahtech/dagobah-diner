@@ -1,6 +1,9 @@
 html {
     min-height: 100%;
 }
+#addUpdateBlock {
+    display: none;
+}
 .deleteBut {
     background-color: rgb(217, 83, 79);
     border-color: rgb(217, 83, 79);
