@@ -17,7 +17,7 @@ module.exports = {
             .pause(100)
             .click('#yesConfirmButton')
             .pause(2000)
-            .assert.containsText('#orderConfirmation', 'Thank you for ordering')
+            .assert.containsText('#orderConfirmation', 'Thank You for Ordering')
             .end()
 
     }

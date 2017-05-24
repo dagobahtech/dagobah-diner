@@ -44,7 +44,6 @@ pool.on('error', function (err, client) {
 
 //export the 'query' method for passing queries to the pool
 module.exports.query = function (text, values, callback) {
-    console.log('query:', text, values);
     return pool.query(text, values, callback);
 };
 //export 'connect' method to borrow client from pool
