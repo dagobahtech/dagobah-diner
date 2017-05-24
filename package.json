@@ -9,7 +9,7 @@
   "scripts": {
     "start": "node --use_strict index.js",
     "build": "cd client && npm run build",
-    "heroku-postbuild": "webpack && cd client/ && npm install --only=dev && npm install && npm run build",
+    "heroku-postbuild": "cd client/ && npm install --only=dev && npm install && npm run build",
     "test": "./node_modules/.bin/jest",
     "test:night": "./node_modules/.bin/concurrently \"npm start\" \"nightwatch --env chrome\"",
     "test:firefox": "./node_modules/.bin/nightwatch",
