@@ -24,20 +24,40 @@ const kitchenServer = require('./routes/kitchen');
 //login route
 const login = require("./routes/login");
 
-// DanLi - Cloud Database Hosted on ElephantSQL.com credentials posted on GitHub
+
+// DanLi - Cloud Database Pool config
+var dbConfig = {
+    user: 'lpufbryv',
+    database: 'lpufbryv',
+    password: 'FGc7GtCWBe6dyop0yJ2bu0pTXDoBJnEv',
+    host: 'stampy.db.elephantsql.com',
+    port: 5432,
+    max: 4,
+    idleTimeoutMillis: 30000
+};
+const pool = new pg.Pool(dbConfig);
 const dbURL = process.env.DATABASE_URL || "postgres://lpufbryv:FGc7GtCWBe6dyop0yJ2bu0pTXDoBJnEv@stampy.db.elephantsql.com:5432/lpufbryv";
 
+pool.on('error', function (err, client) {
+    console.error('idle client error', err.message, err.stack);
+});
+
+//export the 'query' method for passing queries to the pool
+module.exports.query = function (text, values, callback) {
+    console.log('query:', text, values);
+    return pool.query(text, values, callback);
+};
+//export 'connect' method to borrow client from pool
+module.exports.connect = function (callback) {
+    return pool.connect(callback);
+};
+
+
 var pFolder = path.resolve(__dirname, "client/public");
-var adminFolder = path.resolve(__dirname, "client/admin");
-var loginForm = path.resolve(__dirname, "client/admin/login.html");
 
 //***NOTE*** 
 //remember to uncomment the line below... or modify the class somewhere
 //dagobah.isOpen = false;
-
-// redirect to css and js folders
-//app.use("/buildScripts", express.static("client/buildjs"));
-
 
 // redirect to image, css and js folders
 app.use("/scripts", express.static("client/js"));
@@ -110,7 +130,7 @@ app.get('*', function (request, response){
 });
 
 //initialize menu items
-adminServer.getMenuItems(pg,dbURL, dagobah);
+adminServer.getMenuItems(dagobah);
 //start the kitchen server
 kitchenServer.socketHandler(io, dagobah, kitchen, {pg, dbURL});
 
