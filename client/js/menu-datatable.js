@@ -14,7 +14,7 @@ var table;
 var disableButtonClick = false; //lock for button click
 
 function init() {
-    
+
     table = $('#menuTable').DataTable( {
         "processing": true,
         "serverSide": false,
