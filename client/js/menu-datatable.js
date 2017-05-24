@@ -1,4 +1,5 @@
 var dataSet = [];
+var menuItems = [];
 var time = new Date();
 var categoryName = ["Main", "Side", "Drink"];
 var options = {
@@ -14,8 +15,15 @@ function init() {
         url: "/menu-items",
         type: "POST",
         success: function(response) {
-            var menuItems = [];
             for (let i = 0; i < response.length; i++){
+                var text;
+                if(response[i].active == true) {
+                    text = "Enabled";
+                } else if (response[i].active == false) {
+                    text = "Disabled";
+                } else {
+                    console.log("Error");
+                }
                 let item = [];
                 item.push(response[i].id);
                 item.push(response[i].name);
@@ -23,7 +31,7 @@ function init() {
                 item.push(response[i].description);
                 item.push(response[i].kitchen_station_id);
                 item.push(response[i].price);
-                item.push("<button class='deleteBut'>Delete Item</button>");
+                item.push("<button class='active' id='" + text + "'>" + text + "</button>");
                 item.push("<button class='updateBut' id='updateButton'>Update Item</button>");
                 menuItems.push(item);
             }
@@ -55,9 +63,7 @@ $(document).ready(function(){
     init();
     
     $('#menuTable').on( 'draw.dt', function () {
-        var delButtons = document.getElementsByClassName("deleteBut");
         var modifyButtons = document.getElementsByClassName("updateBut");
-        console.log(delButtons);
         console.log(modifyButtons);
 
         for(y = 0; y < modifyButtons.length; y++){
@@ -93,40 +99,83 @@ $(document).ready(function(){
             });
         }
 
-        for(i = 0; i < delButtons.length; i++) {
-            delButtons[i].addEventListener("click", function() {
+        var active = document.getElementsByClassName("active");
+        for(i = 0; i < active.length; i++) {
+            active[i].addEventListener("click", function() {
                 console.log("working");
-                console.log(this.parentNode.parentNode);
-                
-                //styling
-                this.innerHTML = "are you sure?";
-                
-                this.addEventListener("click", function() {
-                    console.log(this.parentNode.parentNode.childNodes[0].innerHTML);
-                    var temp = this.parentNode.parentNode;
-                    $.ajax({
-                        url: "/admin/deleteItem",
-                        type: "post",
-                        data: {
-                            name: this.parentNode.parentNode.childNodes[0].innerHTML
-                        },
-                        success: function(response) {
-                            console.log(response);
-                            if(response != "error") {
-                                temp.remove();
-                                for(x = 0; x < dataSet.length; x++) {
-                                    if(dataSet[x][0] == temp.childNodes[0].innerHTML) {
-                                        dataSet.splice(x, 1);
-                                    }
-                                }
-                                //@ANYONE help
-                                //@ dataTable wont update?? 
-                                //i remove it but it'll redraw with removed values' 
+                var temp = this;
+                var item = this.parentNode.parentNode.childNodes[0].innerHTML;
+                var isEnabled = this.innerHTML;
+                if(isEnabled == "Disable?") {
+                    isEnabled = true;
+                } else if (isEnabled == "Enable?") {
+                    isEnabled = false;
+                }
+                $.ajax({
+                    url: "/admin/itemStatus",
+                    type: "post",
+                    data: {
+                        item: item,
+                        status: isEnabled
+                    },
+                    success: function(response) {
+                        
+                        console.log(response);
+                        
+                        var text;
+                        if(response.status == true) {
+                            text = "Enabled";
+                            console.log(text)
+                        } else if (response.status == false) {
+                            text = "Disabled";
+                            console.log(text)
+                        } else {
+                            console.log("Error");
+                        }
+                        console.log(this);
+                        temp.id =  text;
+                        temp.innerHTML = text;
+                        
+                        $.ajax({
+                           url: "/updateMenu-items",
+                            type: "post",
+                            data: {
+                                item: response.item,
+                                status: response.status
+                            },
+                            success: function(response) {
+                                console.log(response);
+                            }
+                        });
+                        
+                        for(i = 0; i < dataSet.length; i++) {
+                            if(dataSet[i][0] == response.item) {
+                                console.log(dataSet);
+                                console.log("doing this");
+                                dataSet[i][5] = "<button class='active' id='" + text + "'>" + text + "</button>"
+                                menuItems[i][5] = "<button class='active' id='" + text + "'>" + text + "</button>"
                             }
                         }
-                    });
-                });
+                    }
+                })
+            });
+            
+            active[i].addEventListener("mouseover", function() {
+                if(this.innerHTML == "Enabled") {
+                    this.innerHTML = "Disable?";
+                } else if (this.innerHTML == "Disabled") {
+                    this.innerHTML = "Enable?";
+                }
+            });
+            active[i].addEventListener("mouseout", function() {
+                if(this.innerHTML == "Disable?") {
+                    this.innerHTML = "Enabled";
+                } else if (this.innerHTML == "Enable?") {
+                    this.innerHTML = "Disabled";
+                }
             });
         }
     });
+    
+    
 });

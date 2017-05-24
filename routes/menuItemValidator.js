@@ -12,12 +12,12 @@ const imageRegex = /^[\w-]{1,35}.(gif|jpg|jpeg|tiff|png)$/;  //Food item image f
 const stationRegex = /^[1-5]$/;  //Cook Station:  1 = Grill || 2 = Stove Top || 3 = Deep Fryer || 4 = Curries+Stews || 5 = Drinks
 
 //Error Messages.
-const nameErrMessage = "Bad Name - Name must be must between 3 and 50 characters and only contain Alphanumeric characters and single quotations.";
-const descErrMessage = "Bad Description - Description must be must between 3 and 100 characters and only contain Alphanumeric characters, single quotations, and round brackets.";
-const catErrMessage = "Bad Category - Category can only be 1, 2, or 3.";
-const priceErrMessage = "Bad Price - Price must be between 0.01 and 999.99 Imperial Credits.";
-const imageErrMessage = "Bad Image - Image filename must be between 1 and 35 Alphanumeric characters with no spaces.  Only png, jpg, jpeg, gif, and tiff extensions allowed.";
-const stationErrMessage = "Bad Station - Station can only be 1 to 5.";
+const nameErrMessage = "<strong>Bad Name</strong> - Name must be must between 3 and 50 characters and only contain Alphanumeric characters and single quotations.";
+const descErrMessage = "<strong>Bad Description</strong> - Description must be must between 3 and 100 characters and only contain Alphanumeric characters, single quotations, and round brackets.";
+const catErrMessage = "<strong>Bad Category</strong> - Category can only be 1, 2, or 3.";
+const priceErrMessage = "<strong>Bad Price</strong> - Price must be between 0.01 and 999.99 Imperial Credits.";
+const imageErrMessage = "<strong>Bad Image</strong> - Image filename must be between 1 and 35 Alphanumeric characters with no spaces.  Only png, jpg, jpeg, gif, and tiff extensions allowed.";
+const stationErrMessage = "<strong>Bad Station</strong> - Station can only be 1 to 5.";
 
 class MenuItemValidator {
 
@@ -29,42 +29,42 @@ class MenuItemValidator {
     _testName(name) {
         if (!nameRegex.test(name)) {
             this._passing = false;
-            this._errMessage += nameErrMessage + "\n\n";
+            this._errMessage += nameErrMessage + "<br>";
         }
     }
 
     _testDesc(desc) {
         if (!descRegex.test(desc)) {
             this._passing = false;
-            this._errMessage += descErrMessage + "\n\n";
+            this._errMessage += descErrMessage + "<br>";
         }
     }
 
     _testCat(category) {
         if (!catRegex.test(category)) {
             this._passing = false;
-            this._errMessage += catErrMessage + "\n\n";
+            this._errMessage += catErrMessage + "<br>";
         }
     }
 
     _testPrice(price) {
         if (!priceRegex.test(price)) {
             this._passing = false;
-            this._errMessage += priceErrMessage + "\n\n";
+            this._errMessage += priceErrMessage + "<br>";
         }
     }
 
     _testImage(image) {
         if (!imageRegex.test(image)) {
             this._passing = false;
-            this._errMessage += imageErrMessage + "\n\n";
+            this._errMessage += imageErrMessage + "<br>";
         }
     }
 
     _testStation(station) {
         if (!stationRegex.test(station)) {
             this._passing = false;
-            this._errMessage += stationErrMessage + "\n\n";
+            this._errMessage += stationErrMessage + "<br>";
         }
     }
 
@@ -83,7 +83,7 @@ class MenuItemValidator {
         this._testStation(menuItem.station);
         let obj = {
             passing : this._passing,
-            err : this._errMessage.trim()
+            err : this._errMessage
         };
         return obj;
     }
