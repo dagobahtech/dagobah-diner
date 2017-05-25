@@ -33,7 +33,7 @@ var upload = multer({
         cb(null, true)
     },
     limits:{
-        fileSize:5000 //size of u file
+        fileSize:1000000 //size of u file
     },}).single('food_image');
 
 /* Menu Access code section */
