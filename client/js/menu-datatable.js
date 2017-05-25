@@ -1,5 +1,4 @@
-var dataSet = [];
-var menuItems = [];
+
 var time = new Date();
 var categoryName = ["Main", "Side", "Beverage"];
 var options = {
@@ -14,7 +13,6 @@ $('#tableUpdateTime').html("Last Update: " + time.toLocaleString("en-us",options
 var table;
 var disableButtonClick = false; //lock for button click
 
-
 var recordEditor = document.getElementById("editor-modal");
 var submit = document.getElementById("submit");
 var cancel = document.getElementById("cancel");
@@ -26,17 +24,18 @@ var newCategory = document.getElementById("newMenuCategory");
 var newPrice = document.getElementById("newMenuPrice");
 var newMenuId = document.getElementById("newMenuId");
 var updateForm = document.getElementById("updateForm");
-
+var menuImage = document.getElementById("newMenuImage");
 
 function init() {
 
+    //initialize the data tables
     table = $('#menuTable').DataTable( {
         "processing": true,
         "serverSide": false,
         "ajax": {
-            "url": "/admin/getItems",
+            "url": "/admin/getItems", //grab the items from this ajax post call
             "type": "POST",
-            "dataSrc": ""
+            "dataSrc": "" //data src is blank
         },
 
         "columns": [
@@ -61,6 +60,7 @@ function init() {
         lengthMenu: [[5, 10, -1], [5, 10, "All"]]
     } );
 
+    //show the edit record modal
     $('#menuTable tbody').on( 'click', '#updateButton', function () {
         var data = table.row( $(this).parents('tr') ).data();
         showRecordEditorModal(data, $(this).parents('tr'));
@@ -175,69 +175,12 @@ $(document).ready(function(){
         return false;
     });
 
-    function updateQuery(event) {
-
-
-
-        // console.log(newDescription.value);
-        // $.ajax({
-        //     url:"/admin/updateAll",
-        //     type:"POST",
-        //     data:{
-        //         name: newName.value,
-        //         price: newPrice.value,
-        //         category: newCategory.value,
-        //         desc: newDescription.value,
-        //         station: 1, //always one.. there is only 1
-        //         itemID: event.target.item_id,
-        //         image: "placeholder.png"
-        //     },
-        //     success:function(response){
-        //         if(response.status == "success"){
-        //             //do this
-        //             message.className = "success";
-        //             message.innerHTML = response.msg;
-        //
-        //             //update the values points to by data
-        //             event.target.data.name = response.data.name;
-        //             event.target.data.description = response.data.description;
-        //             event.target.data.price = response.data.price;
-        //             event.target.data.category = response.data.category;
-        //             event.target.data.image_name = response.data.image_name;
-        //
-        //             // console.log(table.row(event.target.origin).data());
-        //             table.row(event.target.origin).invalidate();
-        //
-        //         } else {
-        //             // do that
-        //             message.className = "error";
-        //             message.innerHTML = response.msg;
-        //         }
-        //
-        //     }
-        // });
-
-    }
-
-
-
     cancel.addEventListener("click", function (event) {
         message.innerHTML = "";
         recordEditor.style.display = "none";
-
+        //when cancelling clear the file chooser
+        document.getElementById("updateForm").reset();
     });
-
-
-// var newName = document.getElementById("newMenuName");
-// var newDescription = document.getElementById("newMenuDescription");
-// var newCategory = document.getElementById("newMenuPrice");
-// var newPrice = document.getElementById("newMenuCategory");
-// var newStation = document.getElementById("newMenuStation");
-// var submit = document.getElementById("submit");
-// var items;
-//
-//    submit.addEventListener("click", updateQuery);
-
 
 });
 
