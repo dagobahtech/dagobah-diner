@@ -50,7 +50,6 @@
                 script.setAttribute("src", "/scripts/"+PAGE[page]+".js");
                 display.appendChild(script);
             }
-
         });
 
         (activeItem !== undefined) && activeItem.parentNode.classList.remove("active");
