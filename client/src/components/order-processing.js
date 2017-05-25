@@ -22,6 +22,19 @@ class OrderProcessing extends Component {
 	}
     render() {
 
+        let comp = (<div></div>);
+
+        if(this.props.processedOrder.subTotal !== this.props.processedOrder.total) {
+            comp = (<div className="right-align">
+                <h5>{this.props.processedOrder.comboDiscount * 100}% Combo Discount:
+                    <div className="currency currency-black currency-large"></div>
+                    <NumberFormat value={this.props.processedOrder.subTotal - this.props.processedOrder.total}
+                                  decimalPrecision={2}
+                                  displayType={'text'} thousandSeparator={true}
+                    />
+                </h5>
+            </div>)
+        }
         return (
             <div className="transition-item enter-up-exit-down">
                 <div className="container">
@@ -70,15 +83,7 @@ class OrderProcessing extends Component {
                                         />
                                     </h5>
                                     </div>
-                                    <div className="right-align">
-                                        <h5>{this.props.processedOrder.comboDiscount * 100}% Combo Discount:
-                                            <div className="currency currency-black currency-large"></div>
-                                            <NumberFormat value={this.props.processedOrder.subTotal - this.props.processedOrder.total}
-                                                          decimalPrecision={2}
-                                                          displayType={'text'} thousandSeparator={true}
-                                            />
-                                        </h5>
-                                    </div>
+                                    {comp}
                                     <div className="right-align">
                                         <h3>Total: <div className="currency currency-black currency-large"></div>
                                             <NumberFormat value={this.props.processedOrder.total}
