@@ -24,6 +24,9 @@ var newName = document.getElementById("newMenuName");
 var newDescription = document.getElementById("newMenuDescription");
 var newCategory = document.getElementById("newMenuCategory");
 var newPrice = document.getElementById("newMenuPrice");
+var newMenuId = document.getElementById("newMenuId");
+var updateForm = document.getElementById("updateForm");
+
 
 function init() {
 
@@ -133,45 +136,86 @@ function init() {
 $(document).ready(function(){
     init();
 
-    function updateQuery(event) {
+    $("#updateForm").submit(function(){
 
-        console.log(newDescription.value);
+        var formData = new FormData($(this)[0]);
+
         $.ajax({
-            url:"/admin/updateAll",
-            type:"POST",
-            data:{
-                name: newName.value,
-                price: newPrice.value,
-                category: newCategory.value,
-                desc: newDescription.value,
-                station: 1, //always one.. there is only 1
-                itemID: event.target.item_id,
-                image: "placeholder.png"
-            },
-            success:function(response){
+            url: "/admin/updateAll",
+            type: 'POST',
+            data: formData,
+            async: true,
+            success: function (response) {
                 if(response.status == "success"){
                     //do this
                     message.className = "success";
                     message.innerHTML = response.msg;
 
                     //update the values points to by data
-                    event.target.data.name = response.data.name;
-                    event.target.data.description = response.data.description;
-                    event.target.data.price = response.data.price;
-                    event.target.data.category = response.data.category;
-                    event.target.data.image_name = response.data.image_name;
+                    updateForm.data.name = response.data.name;
+                    updateForm.data.description = response.data.description;
+                    updateForm.data.price = response.data.price;
+                    updateForm.data.category = response.data.category;
+                    updateForm.data.image_name = response.data.image_name;
 
                     // console.log(table.row(event.target.origin).data());
-                    table.row(event.target.origin).invalidate();
+                    table.row(updateForm.origin).invalidate();
 
                 } else {
                     // do that
                     message.className = "error";
                     message.innerHTML = response.msg;
                 }
-
-            }
+            },
+            cache: false,
+            contentType: false,
+            processData: false
         });
+
+        return false;
+    });
+
+    function updateQuery(event) {
+
+
+
+        // console.log(newDescription.value);
+        // $.ajax({
+        //     url:"/admin/updateAll",
+        //     type:"POST",
+        //     data:{
+        //         name: newName.value,
+        //         price: newPrice.value,
+        //         category: newCategory.value,
+        //         desc: newDescription.value,
+        //         station: 1, //always one.. there is only 1
+        //         itemID: event.target.item_id,
+        //         image: "placeholder.png"
+        //     },
+        //     success:function(response){
+        //         if(response.status == "success"){
+        //             //do this
+        //             message.className = "success";
+        //             message.innerHTML = response.msg;
+        //
+        //             //update the values points to by data
+        //             event.target.data.name = response.data.name;
+        //             event.target.data.description = response.data.description;
+        //             event.target.data.price = response.data.price;
+        //             event.target.data.category = response.data.category;
+        //             event.target.data.image_name = response.data.image_name;
+        //
+        //             // console.log(table.row(event.target.origin).data());
+        //             table.row(event.target.origin).invalidate();
+        //
+        //         } else {
+        //             // do that
+        //             message.className = "error";
+        //             message.innerHTML = response.msg;
+        //         }
+        //
+        //     }
+        // });
 
     }
 
@@ -192,7 +236,7 @@ $(document).ready(function(){
 // var submit = document.getElementById("submit");
 // var items;
 //
-    submit.addEventListener("click", updateQuery);
+//    submit.addEventListener("click", updateQuery);
 
 
 });
@@ -201,14 +245,15 @@ function showRecordEditorModal(withData, origin) {
 
     message.innerHTML = "";
     newName.value= withData.name;
+    newMenuId.value = withData.id;
     newDescription.value = withData.description;
     newCategory.value = withData.category;
     newPrice.value = withData.price;
 
     recordEditor.style.display = "block";
     submit.item_id = withData.id;
-    submit.origin = origin;
-    submit.data = withData;
+    updateForm.origin = origin;
+    updateForm.data = withData;
 }
 
 

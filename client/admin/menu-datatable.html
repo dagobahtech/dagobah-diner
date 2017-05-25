@@ -24,45 +24,50 @@
             <h4>Record Editor</h4>
         </div>
         <div class="card-block">
-            <div class="form-group row">
-                <label for="newMenuName" class="col-2 col-form-label">Food Name</label>
-                <div class="col-10">
-                    <input class="form-control" type="text"  id="newMenuName">
+            <div id="foodPic"></div>
+            <form id="updateForm" method="post" action="/admin/updateAll" enctype="multipart/form-data">
+                <div class="form-group row">
+                    <label for="newMenuName" class="col-2 col-form-label">Food Name</label>
+                    <div class="col-10">
+                        <input type="hidden" name="itemID" id="newMenuId">
+                        <input type="hidden" name="station" id="newCookStation" value="1">
+                        <input class="form-control" type="text"  id="newMenuName" name="name">
+                    </div>
                 </div>
-            </div>
 
-            <div class="form-group row">
-                <label for="newMenuDescription" class="col-2 col-form-label">Description</label>
-                <div class="col-10">
-                    <textarea  class="form-control"  id="newMenuDescription" rows="5"></textarea>
+                <div class="form-group row">
+                    <label for="newMenuDescription" class="col-2 col-form-label">Description</label>
+                    <div class="col-10">
+                        <textarea  class="form-control"  id="newMenuDescription" rows="5" name="desc"></textarea>
+                    </div>
                 </div>
-            </div>
 
-            <div class="form-group row">
-                <label for="newMenuPrice" class="col-2 col-form-label">Price</label>
-                <div class="col-10">
-                    <input class="form-control" type="number"  id="newMenuPrice">
+                <div class="form-group row">
+                    <label for="newMenuPrice" class="col-2 col-form-label">Price</label>
+                    <div class="col-10">
+                        <input class="form-control" type="number"  id="newMenuPrice" name="price">
+                    </div>
                 </div>
-            </div>
-            <div class="form-group row">
-                <label for="newMenuCategory" class="col-2 col-form-label">Category</label>
-                <div class="col-10">
-                    <select class="form-control" name="" id="newMenuCategory">
-                        <option value="1">Main</option>
-                        <option value="2">Side</option>
-                        <option value="3">Beverage</option>
-                    </select>
+                <div class="form-group row">
+                    <label for="newMenuCategory" class="col-2 col-form-label">Category</label>
+                    <div class="col-10">
+                        <select class="form-control" name="category" id="newMenuCategory">
+                            <option value="1">Main</option>
+                            <option value="2">Side</option>
+                            <option value="3">Beverage</option>
+                        </select>
+                    </div>
                 </div>
-            </div>
 
-            <div class="form-group row">
-                <label for="newMenuImage" class="col-2 col-form-label">Image</label>
-                <div class="col-10">
-                    <input type='file' id='newMenuImage' name='food_image'/>
+                <div class="form-group row">
+                    <label for="newMenuImage" class="col-2 col-form-label">Image</label>
+                    <div class="col-10">
+                        <input type='file' id='newMenuImage' name='food_image'/>
+                    </div>
                 </div>
-            </div>
-            <button id="submit" type="submit" class="btn btn-primary">Submit</button>
-            <button id="cancel" class="btn btn-danger">Cancel</button>
+                <input id="submit" type="submit" class="btn btn-primary" value="Submit">
+                <button id="cancel" class="btn btn-danger">Cancel</button>
+            </form>
         </div>
         <div class="card-footer"><div id="message"></div></div>
 

@@ -4,8 +4,38 @@ const path = require("path");
 const bcrypt = require("bcryptjs");
 const MenuItemValidator = require("./menuItemValidator");
 const pool = require('../index');
+const multer = require("multer");
 
 const adminFolder = path.resolve(__dirname, "../client/admin");
+
+/**MULTER SETTINGS **/
+multer({
+    fileFilter: function (req, file, cb) {
+        if (path.extension(file.originalname) !== '.jpg' ||
+            path.extension(file.originalname) !== '.png' ||
+            path.extension(file.originalname) !== '.gif' ||
+            path.extension(file.originalname) !== '.jpeg' ||
+            path.extension(file.originalname) !== '.tiff') {
+            return cb(new Error('Only pdfs are allowed'))
+        }
+
+        cb(null, true)
+    },
+    limits:{
+        fileSize:5000 //size of u file
+    },
+})
+
+var storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+        cb(null, './MenuPics')
+    },
+    filename: function (req, file, cb) {
+        cb(null, file.originalname)
+    }
+})
+
+var upload = multer({ storage: storage });
 
 /* Menu Access code section */
 
@@ -42,6 +72,7 @@ let menuTester = new MenuItemValidator();
 
 router.post("/getItems", function (req, resp) {
 
+
     pool.query("SELECT * FROM menu",[], function (err, result) {
         if(err) {
             return false;
@@ -57,14 +88,17 @@ router.post("/createItem", function (req, resp) {
     let testedItem = menuTester.testItem(req.body);
     if (testedItem.passing) {
 
-        let dbQuery = "INSERT INTO menu (name, category, description, price, image_name, kitchen_station_id ) VALUES ($1, $2, $3, $4, $5, $6)";
-        pool.query(dbQuery, [req.body.name, req.body.category, req.body.desc, req.body.price, req.body.image, 1], function(err, result) {
-            if (err) {console.log(err)}
+        let dbQuery = "INSERT INTO menu (name, category, description, price, image_name, kitchen_station_id) VALUES ($1, $2, $3, $4, $5, $6)";
+        pool.query(dbQuery, [req.body.name, req.body.category, req.body.desc, req.body.price, req.body.image, req.body.station], function(err, result) {
+            if (err) {
+                console.log(err);
+                resp.end("ERROR");
+            }
 
-            getMenuItems(req.app.get("dagobah").menuItems);
-            resp.send({status: "success", msg:"Item created!"});
+            getMenuItems(req.app.get("dagobah"));
+            resp.send({status: "success", msg: "item created!"});
+
         });
-
     } else {
         let message = testedItem.err;
         resp.send({status: "fail", msg: message});
@@ -368,23 +402,49 @@ router.post("/getItemStatForMonth", function (req, resp) {
 
 
 
-router.post("/updateAll", function(req, resp) {
+router.post("/updateAll", upload.single('food_image'), function(req, resp) {
 
-    let testedItem = menuTester.testItem(req.body);
+    console.log(req.body);
+    let body = req.body;
+
+    if(req.file === undefined) {
+        body.image = "temp.jpg" //temp. just so the test passes
+    } else {
+        body.image = req.file.filename;
+    }
+    // resp.send({status:"success"});
+    console.log(body);
+    console.log(req.file);
+
+    // upload(req,res,function(err) {
+    //     if(err) {
+    //         return res.end("Error uploading file.");
+    //     }
+    //     res.end("File is uploaded");
+    // });
+
+    let testedItem = menuTester.testItem(body);
     if (testedItem.passing) {
 
+        let dbQuery;
+        let params;
+        if(req.file === undefined) {
+            dbQuery = "UPDATE menu SET name = $1, price = $2, category = $3, description = $4, kitchen_station_id = $5  WHERE id = $6 RETURNING *";
+            params = [body.name, parseFloat(body.price), parseInt(body.category), body.desc, parseInt(body.station), parseInt(body.itemID)]
+        } else {
+            dbQuery = "UPDATE menu SET name = $1, price = $2, category = $3, description = $4, kitchen_station_id = $5, image_name = $6  WHERE id = $7 RETURNING *";
+            params = [body.name, parseFloat(body.price), parseInt(body.category), body.desc, parseInt(body.station), body.image, parseInt(body.itemID)]
+        }
 
-        let dbQuery = "UPDATE menu SET name = $1, price = $2, category = $3, description = $4, kitchen_station_id = $5  WHERE id = $6 RETURNING *";
-        pool.query(dbQuery, [req.body.name, parseFloat(req.body.price), parseInt(req.body.category), req.body.desc, parseInt(req.body.station), parseInt(req.body.itemID)], function(err, result) {
+        pool.query(dbQuery, params, function(err, result) {
             if (err) {
                 console.log(err);
                 resp.end("ERROR");
             }
 
-            getMenuItems(req.app.get("dagobah").menuItems);
+            console.log(result.rows[0]);
+            getMenuItems(req.app.get("dagobah"));
             resp.send({status: "success", msg: "Item updated!", data: result.rows[0]});
-
-
         });
     } else {
         let message = testedItem.err.replace("\n\n", "<br>");
