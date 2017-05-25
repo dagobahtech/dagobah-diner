@@ -13,17 +13,17 @@ class Banner extends Component {
                     <div className="banner">Dagobah <span style={{'color':'orange'}}>Diner</span>
                         <div className="sub">We bet you won’t find better</div>
                     </div>
+
                 </a>
                 <div className="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul className="navbar-nav ml-auto">
                         <li className="nav-item">
                             <a className="nav-link" href="/orderview"><h3>Orderview</h3></a>
                         </li>
-                        <li className="nav-item">
-                            <a className="nav-link" href="/login"><h3>Login</h3></a>
-                        </li>
                     </ul>
+
                 </div>
+
             </nav>
         );
     }
