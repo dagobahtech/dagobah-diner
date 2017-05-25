@@ -32,7 +32,7 @@ var dbConfig = {
     password: 'FGc7GtCWBe6dyop0yJ2bu0pTXDoBJnEv',
     host: 'stampy.db.elephantsql.com',
     port: 5432,
-    max: 4,
+    max: 5,
     idleTimeoutMillis: 30000
 };
 const pool = new pg.Pool(dbConfig);
