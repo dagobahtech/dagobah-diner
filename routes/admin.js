@@ -161,7 +161,7 @@ router.post("/getSummary", function(req, resp) {
     pool.connect(function(err, client, done) {
         if(err){console.error(err)}
 
-        let dbQuery = "SELECT to_char(date AT TIME ZONE 'MST', 'YYYY-MM-DD') as date, COUNT(id) AS orders FROM order_submitted GROUP BY to_char(date AT TIME ZONE 'MST', 'YYYY-MM-DD') ORDER BY date;";
+        let dbQuery = "SELECT to_char(date AT TIME ZONE 'PST', 'YYYY-MM-DD') as date, COUNT(id) AS orders FROM order_submitted GROUP BY to_char(date AT TIME ZONE 'PST', 'YYYY-MM-DD') ORDER BY date;";
         client.query(dbQuery, [], function (err, result) {
             if (err) {console.log(err)}
 
@@ -179,7 +179,7 @@ router.post("/getSummary", function(req, resp) {
 
                     summary.itemsActive = result.rows[0].count;
 
-                    let dbQuery4 = "SELECT id, TO_CHAR(date AT TIME ZONE 'MST', 'dd/Mon/yyyy') AS date, TO_CHAR(date AT TIME ZONE 'MST', 'HH24:mm:ss') AS time, total FROM order_submitted ORDER BY id DESC LIMIT 10";
+                    let dbQuery4 = "SELECT id, TO_CHAR(date AT TIME ZONE 'PST', 'dd/Mon/yyyy') AS date, TO_CHAR(date AT TIME ZONE 'PST', 'HH24:mm:ss') AS time, total FROM order_submitted ORDER BY id DESC LIMIT 10";
                     client.query(dbQuery4, [], function(err, result) {
                         done();
                         if(err){console.log(err)}
@@ -313,6 +313,66 @@ router.post("/getDiscardStat", function (req, resp) {
     });
 });
 
+router.post("/salesAtDate", function (req, resp) {
+
+    if(req.body.year === undefined || req.body.month === undefined || req.body.day === undefined) {
+        return ({
+            status: "fail"
+        });
+    }
+
+    let dbQuery = "SELECT COALESCE(SUM(total), 0.00) AS sales FROM order_submitted " +
+        "WHERE EXTRACT(YEAR FROM order_submitted.date)=$1 " +
+        "AND EXTRACT(MONTH FROM order_submitted.date)=$2 " +
+        "AND EXTRACT(DAY FROM order_submitted.date AT TIME ZONE 'PST')=$3";
+
+    pool.query(dbQuery, [req.body.year, req.body.month, req.body.day], function (err, result) {
+        if(err) {
+            console.log(err);
+            resp.send({
+                status: "fail"
+            })
+            return false
+        }
+
+        resp.send({
+            status: "success",
+            data: result.rows[0].sales
+        })
+    })
+});
+
+router.post("/discardsAtDate", function (req, resp) {
+
+    if(req.body.year === undefined || req.body.month === undefined || req.body.day === undefined) {
+        return ({
+            status: "fail"
+        });
+    }
+
+    let dbQuery = "SELECT COALESCE(SUM(menu.price), 0.00) as discards " +
+        "FROM item_discarded, menu WHERE item_discarded.item_id = menu.id AND " +
+        "EXTRACT(YEAR FROM item_discarded.date)=$1 " +
+        "AND EXTRACT(MONTH FROM item_discarded.date)=$2 " +
+        "AND EXTRACT(DAY FROM item_discarded.date AT TIME ZONE 'PST')=$3";
+
+    pool.query(dbQuery, [req.body.year, req.body.month, req.body.day], function (err, result) {
+        if(err) {
+            console.log(err);
+            resp.send({
+                status: "fail"
+            })
+            return false;
+        }
+
+        console.log(result.rows[0].discards)
+        resp.send({
+            status: "success",
+            data: result.rows[0].discards
+        })
+    })
+});
+
 router.post("/getOrderAvgStat", function (req, resp) {
 
     let year = req.body.year;
@@ -402,6 +462,37 @@ router.post("/getItemStatForMonth", function (req, resp) {
     });
 });
 
+router.post("/getItemStatToday", function (req, resp) {
+
+    let year = req.body.year;
+    let month = req.body.month;
+    let day = req.body.day;
+    let category = req.body.category
+    if(year === undefined || category === undefined || month === undefined || day === undefined) {
+        resp.send({status: "fail"});
+    }
+
+    let dbQuery = "SELECT menu_category.name AS category, COALESCE(items_in_orders.count, 0) AS value " +
+        "FROM (SELECT menu.name as name, menu.id as id FROM menu " +
+        "WHERE menu.category=$4) as menu_category " +
+        "LEFT OUTER JOIN (SELECT item_in_order.item_id as item_id, count(*) AS count " +
+        "FROM item_in_order, order_submitted " +
+        "WHERE item_in_order.order_id = order_submitted.id AND EXTRACT(YEAR FROM order_submitted.date) = $1 " +
+        "AND EXTRACT (MONTH FROM order_submitted.date) = $2 AND EXTRACT (DAY FROM order_submitted.date AT TIME ZONE 'PST') =$3" +
+        "GROUP BY item_in_order.item_id) AS items_in_orders ON menu_category.id = items_in_orders.item_id";
+
+    pool.query(dbQuery,[year, month, day, category], function (err, result) {
+        if(err) {
+            console.log(err);
+            return false;
+        }
+
+        resp.send({
+            status: "success",
+            data: result.rows
+        });
+    });
+})
 
 
 router.post("/updateAll", function(req, resp) {
