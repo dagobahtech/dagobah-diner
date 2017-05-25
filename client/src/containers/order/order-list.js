@@ -178,13 +178,13 @@ class OrderList extends Component {
         console.log(this.props.orderedItems.items);
         return (
             <div className="card">
-                <div className="card-header discount">Order one Main, Side, and Beverage and receive a discount!</div>
                 <div className="card-header">
                     <h2>Total : <div className="currency currency-black currency-large"></div>
                         <NumberFormat value={this.props.orderedItems.total}
                                               decimalPrecision={2}
                                               displayType={'text'} thousandSeparator={true}
                                               /></h2>
+                    <p className="text-muted discount">Order one Main, Side, and Beverage and receive a discount!</p>
                 </div>
                 <div className="card-block">
                         <table className="table">
