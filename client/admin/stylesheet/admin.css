@@ -146,7 +146,7 @@ a {
 }
 
 .content-wrapper {
-
+    margin-top: 60px;
 }
     @media (min-width: 992px) {
         .content-wrapper {

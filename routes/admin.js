@@ -169,22 +169,24 @@ router.post("/getSummary", function(req, resp) {
 
             let dbQuery2 = "SELECT COUNT(date) FROM item_discarded;";
             client.query(dbQuery2, [], function (err, result) {
-                if (err) {
-                    console.error(err)
-                }
+                if (err) {console.error(err)}
 
                 summary.itemsDiscarded = result.rows[0].count;
 
                 let dbQuery3 = "SELECT COUNT(active) FROM menu WHERE active = 't'";
                 client.query(dbQuery3, [], function (err, result) {
-                    done(err);
-                    if (err) {
-                        console.error(err)
-                    }
+                    if (err) {console.error(err)}
 
                     summary.itemsActive = result.rows[0].count;
 
-                    resp.send(summary);
+                    let dbQuery4 = "SELECT id, TO_CHAR(date AT TIME ZONE 'MST', 'dd/Mon/yyyy') AS date, TO_CHAR(date AT TIME ZONE 'MST', 'HH24:mm:ss') AS time, total FROM order_submitted ORDER BY id DESC LIMIT 10";
+                    client.query(dbQuery4, [], function(err, result) {
+                        if(err){console.log(err)}
+
+                        summary.recentTransactions = result.rows;
+
+                        resp.send(summary);
+                    });
                 });
             });
         });

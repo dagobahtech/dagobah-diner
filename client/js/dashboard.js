@@ -39,9 +39,9 @@ $(document).ready(function() {
                 ordersArray.push(response.ordersDate[i].orders);
             }
 
-            $('#totalOrdersCard').html(totalOrders + " Total orders!");
-            $('#itemDiscardedCard').html(itemsDiscarded + " Items Discarded!");
-            $('#itemsActiveCard').html(itemsActive + " Items Active in the Menu!");
+            $('#totalOrdersCard').html(totalOrders + " Total Orders!");
+            $('#itemDiscardedCard').html(itemsDiscarded + " Discarded Items!");
+            $('#itemsActiveCard').html(itemsActive + " Active Items in Menu!");
 
         }
     });

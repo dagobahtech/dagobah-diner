@@ -63,8 +63,7 @@
 <!-- SETTINGS -->
 <div class="card mb-3">
     <div class="card-header">
-        <i class="fa fa-cog" aria-hidden="true"></i> Settings
-        <div id="constraint-note"></div>
+        <i class="fa fa-cog" aria-hidden="true"></i> Restaurant Constraints
     </div>
     <div class="card-block">
         <div id="constraint-settings">
@@ -97,20 +96,61 @@
         </div>
     </div>
     <div class="card-footer text-right">
-        <button type="submit" class="btn btn-primary" id="saveConstraintButton">Save</button>
+        <span class="text-muted" id="constraint-note"></span>
+        <button type="submit" class="btn btn-primary ml-3" id="saveConstraintButton">Save</button>
     </div>
 </div>
 
 
 <!--Area Chart-->
-<div class="card mb-3">
-    <div class="card-header">
-        <i class="fa fa-area-chart"></i> Daily Orders
+<div class="row">
+    <div class="col-lg-8">
+        <div class="card mb-3">
+            <div class="card-header">
+                <i class="fa fa-area-chart"></i> Number of Daily Orders
+            </div>
+            <div class="card-block">
+                <canvas id="dailyOrdersChart" width="100" height="35"></canvas>
+            </div>
+            <div id="tableUpdateTime" class="card-footer small text-muted">
+                ...
+            </div>
+        </div>
     </div>
-    <div class="card-block">
-        <canvas id="dailyOrdersChart" height="35"></canvas>
-    </div>
-    <div id="tableUpdateTime" class="card-footer small text-muted">
-        ...
+</div>
+
+<div class="row">
+    <div class="col-lg-6">
+        <div class="card">
+            <div class="card-header">
+                <i class="fa fa-money fa-fw"></i> Most Recent Transactions
+            </div>
+            <div class="card-block">
+                <div class="table-responsive">
+                    <table class="table table-bordered table-hover table-striped">
+                        <thead>
+                        <tr>
+                            <th>Order #</th>
+                            <th>Order Date</th>
+                            <th>Order Time</th>
+                            <th>Amount (USD)</th>
+                        </tr>
+                        </thead>
+                        <tbody id="recentTransactionsBody">
+                        <tr>
+                            <td>3326</td>
+                            <td>10/21/2013</td>
+                            <td>3:29 PM</td>
+                            <td>$321.33</td>
+                        </tr>
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="card-footer text-right">
+                <a href="#">View All Transactions <i class="fa fa-arrow-circle-right"></i></a>
+            </div>
+        </div>
     </div>
 </div>
