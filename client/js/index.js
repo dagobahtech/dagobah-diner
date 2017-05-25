@@ -1,4 +1,3 @@
-$(document).ready(function () {
 
     let currentPage;
     //pointer to the active link so we can disable it activate the new one
@@ -75,7 +74,6 @@ $(document).ready(function () {
     loadPage('DASHBOARD', adminLink);
 
 
-});
 
 function showModal (title, message, type){
     document.getElementById("modalTitle").innerHTML = title;

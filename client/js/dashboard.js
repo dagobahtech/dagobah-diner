@@ -1,3 +1,9 @@
+
+document.getElementById('viewDetail1').addEventListener("click", (event)=> {return loadPage('STATISTICS', event.target)});
+document.getElementById('viewDetail2').addEventListener("click", (event)=> {return loadPage('STATISTICS', event.target)});
+document.getElementById('viewDetail3').addEventListener("click", (event)=> {return loadPage('STATISTICS', event.target)});
+
+
 var time = new Date();
 var restStatus = null;
 var options = {
