@@ -126,14 +126,38 @@ router.post("/deleteUser", function(req, resp) {
 /*************** STATISTICS *************************/
 router.post("/getSummary", function(req, resp) {
 
-    let summary = {};
-    let dbQuery = "SELECT to_char(date AT TIME ZONE 'MST', 'YYYY-MM-DD') as date, COUNT(id) AS orders FROM order_submitted GROUP BY to_char(date AT TIME ZONE 'MST', 'YYYY-MM-DD') ORDER BY date;";
-    pool.query(dbQuery,[], function(err, result){
-        if(err){console.log(err)}
+    var summary = {};
 
-        summary.ordersDate = result.rows;
+    pool.connect(function(err, client, done) {
+        if(err){console.error(err)}
 
-        resp.send(summary);
+        let dbQuery = "SELECT to_char(date AT TIME ZONE 'MST', 'YYYY-MM-DD') as date, COUNT(id) AS orders FROM order_submitted GROUP BY to_char(date AT TIME ZONE 'MST', 'YYYY-MM-DD') ORDER BY date;";
+        client.query(dbQuery, [], function (err, result) {
+            if (err) {console.log(err)}
+
+            summary.ordersDate = result.rows;
+
+            let dbQuery2 = "SELECT COUNT(date) FROM item_discarded;";
+            client.query(dbQuery2, [], function (err, result) {
+                if (err) {
+                    console.error(err)
+                }
+
+                summary.itemsDiscarded = result.rows[0].count;
+
+                let dbQuery3 = "SELECT COUNT(active) FROM menu WHERE active = 't'";
+                client.query(dbQuery3, [], function (err, result) {
+                    done(err);
+                    if (err) {
+                        console.error(err)
+                    }
+
+                    summary.itemsActive = result.rows[0].count;
+
+                    resp.send(summary);
+                });
+            });
+        });
     });
 });
 
