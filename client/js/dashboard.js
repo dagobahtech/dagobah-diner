@@ -128,6 +128,7 @@ $(document).ready(function() {
                 checkRestStatus && checkRestStatus("Restaurant is Open", "Restaurant is Closed",  "#5cb85c", "#d9534f");
                 setConstraintSettingsStatus && setConstraintSettingsStatus(!response);
                 document.getElementById("toggleButton").checked = response;
+                initSliders();
             }
         });
     }
