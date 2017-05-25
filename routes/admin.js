@@ -33,7 +33,7 @@ var upload = multer({
         cb(null, true)
     },
     limits:{
-        fileSize:5000 //size of u file
+        fileSize:1000000 //size of u file
     },}).single('food_image');
 
 /* Menu Access code section */
@@ -83,25 +83,67 @@ router.post("/getItems", function (req, resp) {
 
 router.post("/createItem", function (req, resp) {
 
-    console.log(req.body);
-    let testedItem = menuTester.testItem(req.body);
-    if (testedItem.passing) {
+    upload(req, resp, function (err) {
+        if (err) {
+            return resp.send({
+                status: "fail",
+                msg: err.message
+            });
+            return false
+        }
 
-        let dbQuery = "INSERT INTO menu (name, category, description, price, image_name, kitchen_station_id) VALUES ($1, $2, $3, $4, $5, $6)";
-        pool.query(dbQuery, [req.body.name, req.body.category, req.body.desc, req.body.price, req.body.image, req.body.station], function(err, result) {
-            if (err) {
-                console.log(err);
-                resp.end("ERROR");
-            }
+        console.log(req.body);
+        let body = req.body;
 
-            getMenuItems(req.app.get("dagobah"));
-            resp.send({status: "success", msg: "item created!"});
 
-        });
-    } else {
-        let message = testedItem.err;
-        resp.send({status: "fail", msg: message});
-    }
+        if(req.file === undefined) {
+            resp.send({
+                status: "fail",
+                msg: "No File Uploaded"
+            });
+            return false;
+        }
+
+        body.image = req.file.originalname;
+        let testedItem = menuTester.testItem(body);
+        if (testedItem.passing) {
+
+            let dbQuery = "INSERT INTO menu (name, category, description, price, image_name, kitchen_station_id) VALUES ($1, $2, $3, $4, $5, $6)";
+            pool.query(dbQuery, [body.name, body.category, body.desc, body.price, body.image, body.station], function(err, result) {
+                if (err) {
+                    console.log(err);
+                    resp.end("ERROR");
+                }
+
+                getMenuItems(req.app.get("dagobah"));
+                resp.send({status: "success", msg: "item created!"});
+
+            });
+        } else {
+            let message = testedItem.err.replace("\n\n", "<br>");
+            resp.send({status: "fail", msg: message});
+        }
+    })
+
+    // console.log(req.body);
+    // let testedItem = menuTester.testItem(req.body);
+    // if (testedItem.passing) {
+    //
+    //     let dbQuery = "INSERT INTO menu (name, category, description, price, image_name, kitchen_station_id) VALUES ($1, $2, $3, $4, $5, $6)";
+    //     pool.query(dbQuery, [req.body.name, req.body.category, req.body.desc, req.body.price, req.body.image, req.body.station], function(err, result) {
+    //         if (err) {
+    //             console.log(err);
+    //             resp.end("ERROR");
+    //         }
+    //
+    //         getMenuItems(req.app.get("dagobah"));
+    //         resp.send({status: "success", msg: "item created!"});
+    //
+    //     });
+    // } else {
+    //     let message = testedItem.err;
+    //     resp.send({status: "fail", msg: message});
+    // }
 });
 
 /**************** ACCOUNT CRUD ***********************/
@@ -540,7 +582,7 @@ router.post("/updateAll", function(req, resp) {
             });
         } else {
             let message = testedItem.err.replace("\n\n", "<br>");
-            resp.send({status: "success", msg: message});
+            resp.send({status: "fail", msg: message});
         }
     })
 

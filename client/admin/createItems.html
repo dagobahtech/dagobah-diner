@@ -9,50 +9,53 @@
             <div class="card-header text-center">
                 <h4>Add New Menu Item</h4>
             </div>
+            <form id="createItemForm" method="post" action="/admin/createItem" enctype="multipart/form-data">
+                <div class="card-block">
+                    <div class="form-group row">
+                        <input type="hidden" name="itemID" id="newMenuId" value="1">
+                        <input type="hidden" name="station" id="newCookStation" value="1">
+                        <label for="inputCreateItemName" class="col-2 col-form-label">Item Name</label>
+                        <div class="col-10">
+                            <input class="form-control" type="text"  id="inputCreateItemName" name="name">
+                        </div>
+                    </div>
 
-            <div class="card-block">
-                <div class="form-group row">
-                    <label for="inputCreateItemName" class="col-2 col-form-label">Item Name</label>
-                    <div class="col-10">
-                        <input class="form-control" type="text"  id="inputCreateItemName">
+                    <div class="form-group row">
+                        <label for="inputCreateItemDesc" class="col-2 col-form-label">Description</label>
+                        <div class="col-10">
+                            <textarea  class="form-control" id="inputCreateItemDesc" rows="5" name="desc"></textarea>
+                        </div>
                     </div>
-                </div>
 
-                <div class="form-group row">
-                    <label for="inputCreateItemDesc" class="col-2 col-form-label">Description</label>
-                    <div class="col-10">
-                        <textarea  class="form-control" id="inputCreateItemDesc" rows="5"></textarea>
+                    <div class="form-group row">
+                        <label for="inputCreateItemPrice" class="col-2 col-form-label">Price</label>
+                        <div class="col-10">
+                            <input class="form-control" type="number" id="inputCreateItemPrice" name="price" step="0.01"/ >
+                        </div>
                     </div>
-                </div>
+                    <div class="form-group row">
+                        <label for="radioCreateItemCategory" class="col-2 col-form-label">Category</label>
+                        <div class="col-10">
+                            <select class="form-control" id="radioCreateItemCategory" name="category">
+                                <option value="1" selected="selected">Main</option>
+                                <option value="2">Side</option>
+                                <option value="3">Beverage</option>
+                            </select>
+                        </div>
+                    </div>
 
-                <div class="form-group row">
-                    <label for="inputCreateItemPrice" class="col-2 col-form-label">Price</label>
-                    <div class="col-10">
-                        <input class="form-control" type="number" id="inputCreateItemPrice">
+                    <div class="form-group row">
+                        <label for="inputCreateItemImage" class="col-2 col-form-label">Image (Max 1MB)</label>
+                        <div class="col-10">
+                            <input type='file' id='inputCreateItemImage' name='food_image'/>
+                        </div>
                     </div>
+                    <div class="text-center" id="statusCreateItem"></div>
                 </div>
-                <div class="form-group row">
-                    <label for="radioCreateItemCategory" class="col-2 col-form-label">Category</label>
-                    <div class="col-10">
-                        <select class="form-control" name="" id="radioCreateItemCategory">
-                            <option value="1" selected="selected">Main</option>
-                            <option value="2">Side</option>
-                            <option value="3">Beverage</option>
-                        </select>
-                    </div>
+                <div class="card-footer text-right">
+                    <button type="submit" id="buttonSubmitNewItem" class="btn btn-primary">Create New Item</button>
                 </div>
-
-                <div class="form-group row">
-                    <label for="inputCreateItemImage" class="col-2 col-form-label">Image</label>
-                    <div class="col-10">
-                        <input type='text' id='inputCreateItemImage' name='food_image'/>
-                    </div>
-                </div>
-                <h2 class="text-center" id="statusCreateItem"></h2>
-            </div>
-            <div class="card-footer text-right">
-                <button id="buttonSubmitNewItem" class="btn btn-primary">Create New Item</button>
-            </div>
+            </form>
         </div>
     </div>
 </div>
