@@ -1,9 +1,7 @@
 html {
     min-height: 100%;
 }
-a {
-    cursor: pointer;
-}
+
 #addUpdateBlock {
     display: none;
 }
@@ -307,8 +305,7 @@ input:checked + .slider:before {
 }
 
 #constraint-note {
-    font-weight: bold;
-    color: red;
+    font-size: 0.8rem;
 }
 
 #editor-modal {

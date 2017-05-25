@@ -181,6 +181,7 @@ router.post("/getSummary", function(req, resp) {
 
                     let dbQuery4 = "SELECT id, TO_CHAR(date AT TIME ZONE 'MST', 'dd/Mon/yyyy') AS date, TO_CHAR(date AT TIME ZONE 'MST', 'HH24:mm:ss') AS time, total FROM order_submitted ORDER BY id DESC LIMIT 10";
                     client.query(dbQuery4, [], function(err, result) {
+                        done();
                         if(err){console.log(err)}
 
                         summary.recentTransactions = result.rows;
