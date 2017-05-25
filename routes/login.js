@@ -18,8 +18,6 @@ router.post("/", function (req, resp){
         pool.query(dbQuery, [req.body.username], function (err, result) {
             if (err) {console.log(err)}
 
-            console.log(result.rows[0]);
-
             if (result.rows[0] !== undefined) {
                 if (result.rows.length > 0) {
                     bcrypt.compare(req.body.password, result.rows[0].password, function (err, isMatch) {
@@ -42,8 +40,10 @@ router.post("/", function (req, resp){
                     //console.log(req.session.user.password);
                     //resp.send({status:"success", user:req.session.user});
                 } else {
-                    resp.send({status: "fail"});
+                    resp.send({status: "fail", message: "incorrect login"});
                 }
+            } else {
+                resp.send({status: "fail", message: "incorrect login"});
             }
         });
 });
