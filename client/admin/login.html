@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>Login - Dagobah</title>
+    <title>Login - Dagobah Diner</title>
 
     <!-- Lobster Font -->
     <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Lobster" />
@@ -17,6 +17,7 @@
 
     <!-- Latest compiled and minified JavaScript -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
 
     <!--Will move to custom .css-->
     <style>
@@ -72,6 +73,26 @@
 </head>
 <body>
 
+<!-- Modal -->
+<div class="modal fade" id="adminModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title" id="modalTitle">Incorrect Login</h3>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p id="modalMessage">Incorrect username or password.  Please try again.</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <div class="container">
     <div class="row">
         <div class="col-sm-6 col-sm-offset-3 text-center">
@@ -100,31 +121,8 @@
     </div>
 </div>
 
-<script>
 
-    document.getElementById("loginButton").addEventListener("click", function() {
-        $.ajax({
-            url: "/login",
-            type: "POST",
-            data: {
-                username: document.getElementById("usernameInput").value,
-                password: document.getElementById("passwordInput").value
-            },
-            success: function(response) {
-
-                if(response.status === "success") {
-                    if(response.type === 1){
-                        location.href = "/admin"
-                    } else if (response.type === 2) {
-                        location.href = "/kitchen"
-                    }
-                } else {
-                    console.log(response.message);
-                }
-            }
-        });
-    });
-</script>
+<script src="scripts/clientlogin.js"></script>
 
 </body>
 </html>
