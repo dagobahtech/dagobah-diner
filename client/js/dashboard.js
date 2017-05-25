@@ -1,6 +1,6 @@
 
 document.getElementById('viewDetail1').addEventListener("click", (event)=> {return loadPage('STATISTICS', event.target)});
-document.getElementById('viewDetail2').addEventListener("click", (event)=> {return loadPage('STATISTICS', event.target)});
+document.getElementById('viewDetail2').addEventListener("click", (event)=> {return loadPage('MENU_DATATABLE', event.target)});
 document.getElementById('viewDetail3').addEventListener("click", (event)=> {return loadPage('STATISTICS', event.target)});
 
 
@@ -17,31 +17,37 @@ var dateArray = [];
 var ordersArray = [];
 
 var ordersDate = null;
-
-$.ajax({
-    url: "/admin/getSummary",
-    type: "POST",
-    success: function(response) {
-
-        ordersDate = response.ordersDate;
-        var totalOrders = 0;
-
-        for (var i = 0; i < response.ordersDate.length; i++) {
-            totalOrders += parseInt(response.ordersDate[i].orders);
-
-
-
-            dateArray.push(response.ordersDate[i].date);
-            ordersArray.push(response.ordersDate[i].orders);
-        }
-
-        $('#totalOrdersCard').html(totalOrders + " Total orders!");
-
-    }
-});
-
+var itemsDiscarded = null;
+var itemsActive = null;
 
 $(document).ready(function() {
+
+    $.ajax({
+        url: "/admin/getSummary",
+        type: "POST",
+        success: function(response) {
+
+            ordersDate = response.ordersDate;
+            itemsDiscarded = response.itemsDiscarded;
+            itemsActive = response.itemsActive;
+            var totalOrders = 0;
+
+            for (var i = 0; i < response.ordersDate.length; i++) {
+                totalOrders += parseInt(response.ordersDate[i].orders);
+
+                dateArray.push(response.ordersDate[i].date);
+                ordersArray.push(response.ordersDate[i].orders);
+            }
+
+            $('#totalOrdersCard').html(totalOrders + " Total orders!");
+            $('#itemDiscardedCard').html(itemsDiscarded + " Items Discarded!");
+            $('#itemsActiveCard').html(itemsActive + " Items Active in the Menu!");
+
+        }
+    });
+
+
+
 //    var restSwitch = document.getElementById("restSwitch");
 //    restSwitch.addEventListener("click", function() {
 //        $.ajax({
@@ -182,10 +188,10 @@ $(document).ready(function() {
 
     saveConstraintButton.addEventListener("click", function (event) {
 
-        let orders = maxOrders.value;
-        let items = maxItemsPerOrder.value;
-        let qty = maxQtyPerItem.value;
-        let discount = comboDiscount.value;
+        var orders = maxOrders.value;
+        var items = maxItemsPerOrder.value;
+        var qty = maxQtyPerItem.value;
+        var discount = comboDiscount.value;
 
         $.ajax({
             url: "/kitchen/setConstraints",
