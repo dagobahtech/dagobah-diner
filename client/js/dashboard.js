@@ -2,6 +2,7 @@
 document.getElementById('viewDetail1').addEventListener("click", (event)=> {return loadPage('STATISTICS', event.target)});
 document.getElementById('viewDetail2').addEventListener("click", (event)=> {return loadPage('MENU_DATATABLE', event.target)});
 document.getElementById('viewDetail3').addEventListener("click", (event)=> {return loadPage('STATISTICS', event.target)});
+document.getElementById('viewRecentTransactions').addEventListener("click", (event)=> {return loadPage('STATISTICS', event.target)});
 
 
 var time = new Date();
@@ -19,50 +20,81 @@ var ordersArray = [];
 var ordersDate = null;
 var itemsDiscarded = null;
 var itemsActive = null;
+var recentTransactions=null;
+
+$.ajax({
+    url: "/admin/getSummary",
+    type: "POST",
+    success: function(response) {
+
+        ordersDate = response.ordersDate;
+        itemsDiscarded = response.itemsDiscarded;
+        itemsActive = response.itemsActive;
+        recentTransactions = response.recentTransactions;
+        var totalOrders = 0;
+
+        for (var i = 0; i < response.ordersDate.length; i++) {
+            totalOrders += parseInt(response.ordersDate[i].orders);
+
+            dateArray.push(response.ordersDate[i].date);
+            ordersArray.push(response.ordersDate[i].orders);
+        }
+
+        for (var j = 0; j < recentTransactions.length; j++) {
+            var newTransaction = document.createElement('tr');
+            newTransaction.innerHTML = "<td>" + recentTransactions[j].id + "</td><td>" + recentTransactions[j].date +"</td><td>"+ recentTransactions[j].time + "</td><td>"+ recentTransactions[j].total +"</td>";
+
+            document.getElementById('recentTransactionsBody').appendChild(newTransaction);
+        }
+
+        $('#totalOrdersCard').html(totalOrders + " Total Orders!");
+        $('#itemDiscardedCard').html(itemsDiscarded + " Discarded Items!");
+        $('#itemsActiveCard').html(itemsActive + " Active Items in Menu!");
+
+    }
+});
 
 $(document).ready(function() {
 
-    $.ajax({
-        url: "/admin/getSummary",
-        type: "POST",
-        success: function(response) {
+    var dataAreaChart = {
+        labels: dateArray,
+        datasets: [{
+            label: "Orders",
+            lineTension: 0.3,
+            backgroundColor: "rgba(2,117,216,0.2)",
+            borderColor: "rgba(2,117,216,1)",
+            pointRadius: 5,
+            pointBackgroundColor: "rgba(2,117,216,1)",
+            pointBorderColor: "rgba(255,255,255,0.8)",
+            pointHoverRadius: 5,
+            pointHoverBackgroundColor: "rgba(2,117,216,1)",
+            pointHitRadius: 20,
+            pointBorderWidth: 2,
+            data: ordersArray
+        }]
+    };
 
-            ordersDate = response.ordersDate;
-            itemsDiscarded = response.itemsDiscarded;
-            itemsActive = response.itemsActive;
-            var totalOrders = 0;
-
-            for (var i = 0; i < response.ordersDate.length; i++) {
-                totalOrders += parseInt(response.ordersDate[i].orders);
-
-                dateArray.push(response.ordersDate[i].date);
-                ordersArray.push(response.ordersDate[i].orders);
+    var ctx = document.getElementById("dailyOrdersChart");
+    setTimeout(function() {
+        var myChart = new Chart(ctx, {
+            type: "line",
+            data: dataAreaChart,
+            options: {
+                legend: {
+                    display: false
+                },
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero: true
+                        }
+                    }]
+                },
+                responsive:true,
+                maintainAspectRatio: true
             }
-
-            $('#totalOrdersCard').html(totalOrders + " Total orders!");
-            $('#itemDiscardedCard').html(itemsDiscarded + " Items Discarded!");
-            $('#itemsActiveCard').html(itemsActive + " Items Active in the Menu!");
-
-        }
-    });
-
-
-
-//    var restSwitch = document.getElementById("restSwitch");
-//    restSwitch.addEventListener("click", function() {
-//        $.ajax({
-//            url: "/admin/restStatChange",
-//            type: "POST",
-//            data: {
-//                status: restStatus
-//            },
-//            success: function(response) {
-//                console.log("response: " + response);
-//                restStatus = response;
-//                checkRestStatus("Restaurant is Open", "Restaurant is Closed",  "#5cb85c", "#d9534f");
-//            }
-//        });
-//    });
+        });
+    }, 500);
     
     var restBut = document.getElementById("restaurantOpenClose");
     var toggleButton = document.getElementById("toggleButton");
@@ -84,7 +116,6 @@ $(document).ready(function() {
     }
 
     function handleRestaurantStatusChange(event) {
-        console.log("working");
         $.ajax({
             url: "/admin/restStatChange",
             type: "POST",
@@ -132,47 +163,6 @@ $(document).ready(function() {
         restBut.style.borderColor = color;
         restBut.style.backgroundColor = color;
     }
-
-    var dataAreaChart = {
-        labels: dateArray,
-        datasets: [{
-            label: "Orders",
-            lineTension: 0.3,
-            backgroundColor: "rgba(2,117,216,0.2)",
-            borderColor: "rgba(2,117,216,1)",
-            pointRadius: 5,
-            pointBackgroundColor: "rgba(2,117,216,1)",
-            pointBorderColor: "rgba(255,255,255,0.8)",
-            pointHoverRadius: 5,
-            pointHoverBackgroundColor: "rgba(2,117,216,1)",
-            pointHitRadius: 20,
-            pointBorderWidth: 2,
-            pointHitRadius: 10,
-            data: ordersArray,
-        }]
-    };
-
-    var ctx = document.getElementById("dailyOrdersChart");
-    setTimeout(function() {
-        var myChart = new Chart(ctx, {
-            type: "line",
-            data: dataAreaChart,
-            options: {
-                legend: {
-                    display: false
-                },
-                scales: {
-                    yAxes: [{
-                        ticks: {
-                            beginAtZero: true
-                        }
-                    }]
-                },
-                responsive:true,
-                maintainAspectRatio: true
-            }
-        });
-    }, 1000);
 
     /* CONSTRAINT SETTINGS ELEMENT*/
     //spans
@@ -272,7 +262,7 @@ $(document).ready(function() {
         saveConstraintButton.disabled = !isEditable;
 
         if(!isEditable) {
-            document.getElementById("constraint-note").innerHTML = "Settings cannot be changed when restaurant is open";
+            document.getElementById("constraint-note").innerHTML = "Please close the restaurant to enable settings";
         } else {
             document.getElementById("constraint-note").innerHTML = "";
         }

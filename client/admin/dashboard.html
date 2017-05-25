@@ -17,7 +17,7 @@
                     Loading..
                 </div>
             </div>
-            <a id="viewDetail1" class="card-footer clearfix small z-1">
+            <a href="#" id="viewDetail1" class="card-footer clearfix small z-1">
                 <span class="float-left">View Details</span>
                 <span class="float-right"><i class="fa fa-angle-right"></i></span>
             </a>
@@ -33,7 +33,7 @@
                     Loading..
                 </div>
             </div>
-            <a id="viewDetail2" class="card-footer clearfix small z-1">
+            <a href="#" id="viewDetail2" class="card-footer clearfix small z-1">
                 <span class="float-left">View Details</span>
                 <span class="float-right"><i class="fa fa-angle-right"></i></span>
             </a>
@@ -49,7 +49,7 @@
                     Loading..
                 </div>
             </div>
-            <a id="viewDetail3" class="card-footer clearfix small z-1">
+            <a href="#" id="viewDetail3" class="card-footer clearfix small z-1">
                 <span class="float-left">View Details</span>
                 <span class="float-right"><i class="fa fa-angle-right"></i></span>
             </a>
@@ -60,57 +60,91 @@
 <!--Open/Close Restaurant-->
 <button class="card mb-3" id="restaurantOpenClose">Loading...</button>
 
-<!-- SETTINGS -->
-<div class="card mb-3">
-    <div class="card-header">
-        <i class="fa fa-cog" aria-hidden="true"></i> Settings
-        <div id="constraint-note"></div>
-    </div>
-    <div class="card-block">
-        <div id="constraint-settings">
-            <div class="form-inline">
-
-                <div class="card col-md-3 settings">
-                    <label for="maxOrders">Max Concurrent Orders:&nbsp;<span id="maxOrdersValue"></span></label>
-                    <input type="range" class="form-control mb-2 mr-sm-2 mb-sm-0" id="maxOrders" class="value">
-
-                </div>
-
-                <div class="card col-md-3 settings">
-                    <label for="maxItemsPerOrder">Max Items Per Order:&nbsp;<span id="maxItemsPerOrderValue"></span></label>
-                    <input type="range" class="form-control mb-2 mr-sm-2 mb-sm-0" id="maxItemsPerOrder">
-                </div>
-
-                <div class="card col-md-3 settings">
-                    <label for="maxQtyPerItem">Max Quantity Per Item:&nbsp;<span id="maxQtyPerItemValue"></span></label>
-                    <input type="range" class="form-control mb-2 mr-sm-2 mb-sm-0" id="maxQtyPerItem" class="value">
-                </div>
-
-
-
-                <div class="card col-md-3 settings">
-                    <label for="comboDiscount">Combo Discount:&nbsp;<span id="comboDiscountValue"></span></label>
-                    <input type="range" class="form-control mb-2 mr-sm-2 mb-sm-0" id="comboDiscount" >
-
-                </div>
+<!--Area Chart-->
+<div class="row mt-3">
+    <div class="col-lg-12">
+        <div class="card mb-3">
+            <div class="card-header">
+                <i class="fa fa-area-chart"></i> Number of Daily Orders
+            </div>
+            <div class="card-block">
+                <canvas id="dailyOrdersChart" width="100" height="35"></canvas>
+            </div>
+            <div id="tableUpdateTime" class="card-footer small text-muted">
+                ...
             </div>
         </div>
-    </div>
-    <div class="card-footer text-right">
-        <button type="submit" class="btn btn-primary" id="saveConstraintButton">Save</button>
     </div>
 </div>
 
 
-<!--Area Chart-->
-<div class="card mb-3">
-    <div class="card-header">
-        <i class="fa fa-area-chart"></i> Daily Orders
+<div class="row">
+    <!-- SETTINGS -->
+    <div class="col-lg-5">
+        <div class="card mb-3">
+            <div class="card-header">
+                <i class="fa fa-cog" aria-hidden="true"></i> Restaurant Constraints
+            </div>
+            <div class="card-block">
+                <div id="constraint-settings">
+                    <div class="">
+                        <div class="card settings my-3">
+                            <label for="maxOrders">Max Concurrent Orders:&nbsp;<span id="maxOrdersValue"></span></label>
+                            <input type="range" class="form-control mb-2 mr-sm-2 mb-sm-0" id="maxOrders" class="value">
+
+                        </div>
+
+                        <div class="card settings my-3">
+                            <label for="maxItemsPerOrder">Max Items Per Order:&nbsp;<span id="maxItemsPerOrderValue"></span></label>
+                            <input type="range" class="form-control mb-2 mr-sm-2 mb-sm-0" id="maxItemsPerOrder">
+                        </div>
+
+                        <div class="card settings my-3">
+                            <label for="maxQtyPerItem">Max Quantity Per Item:&nbsp;<span id="maxQtyPerItemValue"></span></label>
+                            <input type="range" class="form-control mb-2 mr-sm-2 mb-sm-0" id="maxQtyPerItem" class="value">
+                        </div>
+
+
+                        <div class="card settings my-3">
+                            <label for="comboDiscount">Combo Discount:&nbsp;<span id="comboDiscountValue"></span></label>
+                            <input type="range" class="form-control mb-2 mr-sm-2 mb-sm-0" id="comboDiscount">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card-footer text-right">
+                <span class="text-muted" id="constraint-note"></span>
+                <button type="submit" class="btn btn-primary ml-2" id="saveConstraintButton">Save</button>
+            </div>
+        </div>
     </div>
-    <div class="card-block">
-        <canvas id="dailyOrdersChart" height="35"></canvas>
-    </div>
-    <div id="tableUpdateTime" class="card-footer small text-muted">
-        ...
+
+    <!-- Recent Transactions-->
+    <div class="col-lg-7">
+        <div class="card">
+            <div class="card-header">
+                <i class="fa fa-money fa-fw"></i> Most Recent Transactions
+            </div>
+            <div class="card-block">
+                <div class="table-responsive">
+                    <table class="table table-bordered table-hover table-striped">
+                        <thead>
+                        <tr>
+                            <th>Order #</th>
+                            <th>Order Date</th>
+                            <th>Order Time</th>
+                            <th>Amount</th>
+                        </tr>
+                        </thead>
+                        <tbody id="recentTransactionsBody">
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="card-footer text-right">
+                <a href="#" id="viewRecentTransactions">View All Transactions <i class="fa fa-arrow-circle-right"></i></a>
+            </div>
+        </div>
     </div>
 </div>

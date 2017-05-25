@@ -1,9 +1,7 @@
 html {
     min-height: 100%;
 }
-a {
-    cursor: pointer;
-}
+
 #addUpdateBlock {
     display: none;
 }
@@ -146,7 +144,7 @@ a {
 }
 
 .content-wrapper {
-
+    margin-top: 60px;
 }
     @media (min-width: 992px) {
         .content-wrapper {
@@ -307,8 +305,7 @@ input:checked + .slider:before {
 }
 
 #constraint-note {
-    font-weight: bold;
-    color: red;
+    font-size: 0.8rem;
 }
 
 #editor-modal {
