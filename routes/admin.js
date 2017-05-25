@@ -42,7 +42,6 @@ let menuTester = new MenuItemValidator();
 
 router.post("/getItems", function (req, resp) {
 
-
     pool.query("SELECT * FROM menu",[], function (err, result) {
         if(err) {
             return false;
@@ -57,17 +56,15 @@ router.post("/createItem", function (req, resp) {
     console.log(req.body);
     let testedItem = menuTester.testItem(req.body);
     if (testedItem.passing) {
-        let dbQuery = "INSERT INTO menu (name, category, description, price, image_name, kitchen_station_id) VALUES ($1, $2, $3, $4, $5, $6)";
-        pool.query(dbQuery, [req.body.name, req.body.category, req.body.desc, req.body.price, req.body.image, req.body.station], function(err, result) {
-            if (err) {
-                console.log(err);
-                resp.end("ERROR");
-            }
+
+        let dbQuery = "INSERT INTO menu (name, category, description, price, image_name, kitchen_station_id ) VALUES ($1, $2, $3, $4, $5, $6)";
+        pool.query(dbQuery, [req.body.name, req.body.category, req.body.desc, req.body.price, req.body.image, 1], function(err, result) {
+            if (err) {console.log(err)}
 
             getMenuItems(req.app.get("dagobah").menuItems);
-            resp.send({status: "success", msg: "item created!"});
-
+            resp.send({status: "success", msg:"Item created!"});
         });
+
     } else {
         let message = testedItem.err;
         resp.send({status: "fail", msg: message});
