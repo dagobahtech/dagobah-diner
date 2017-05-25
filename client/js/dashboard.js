@@ -234,17 +234,30 @@ $(document).ready(function() {
 
 
     function setRangeEventHandler(elem, span) {
+        
         //also initialize their values
         span.innerHTML = elem.value;
+
+        if(elem === comboDiscount) {
+            span.innerHTML = (elem.value * 100) + "%";
+        }
 
         elem.addEventListener("input", function (event) {
             span.innerHTML = event.target.value;
             event.target.parentNode.style.borderColor = "red";
+            if(elem === comboDiscount) {
+                span.innerHTML = (elem.value * 100) + "%";
+            }
+
         });
 
         elem.addEventListener("change", function (event) {
             span.innerHTML = event.target.value;
             event.target.parentNode.style.borderColor = "red";
+            if(elem === comboDiscount) {
+                span.innerHTML = (elem.value * 100) + "%";
+            }
+
         });
     }
 
