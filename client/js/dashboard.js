@@ -74,7 +74,10 @@ $(document).ready(function() {
         checkRestStatus("Restaurant is Open", "Restaurant is Closed",  "#5cb85c", "#d9534f");
     });
 
-    restBut.addEventListener("click", handleRestaurantStatusChange);
+    restBut.addEventListener("click", (event) => {
+        handleRestaurantStatusChange(event);
+        initSliders();
+    });
 
     if(toggleButton.onclick !== handleRestaurantStatusChange) {
         toggleButton.addEventListener("click", handleRestaurantStatusChange);
@@ -121,7 +124,9 @@ $(document).ready(function() {
             menuChange("Error", "white");
         }
         toggleButton.checked = restStatus;
+
     }
+
     function menuChange(text, color) {
         restBut.innerHTML = text;
         restBut.style.borderColor = color;
@@ -188,6 +193,11 @@ $(document).ready(function() {
 
     saveConstraintButton.addEventListener("click", function (event) {
 
+        savedStatus(maxItemsPerOrder);
+        savedStatus(maxQtyPerItem);
+        savedStatus(maxOrders);
+        savedStatus(comboDiscount);
+
         var orders = maxOrders.value;
         var items = maxItemsPerOrder.value;
         var qty = maxQtyPerItem.value;
@@ -224,7 +234,7 @@ $(document).ready(function() {
 
 
     function setRangeEventHandler(elem, span) {
-
+        
         //also initialize their values
         span.innerHTML = elem.value;
 
@@ -234,24 +244,27 @@ $(document).ready(function() {
 
         elem.addEventListener("input", function (event) {
             span.innerHTML = event.target.value;
-
+            event.target.parentNode.style.borderColor = "red";
             if(elem === comboDiscount) {
                 span.innerHTML = (elem.value * 100) + "%";
             }
+
         });
 
         elem.addEventListener("change", function (event) {
             span.innerHTML = event.target.value;
-
+            event.target.parentNode.style.borderColor = "red";
             if(elem === comboDiscount) {
                 span.innerHTML = (elem.value * 100) + "%";
             }
+
         });
     }
 
     function setConstraintSettingsStatus(isEditable) {
 
         if(!document.getElementById("constraint-note")) {return;}
+
         maxItemsPerOrder.disabled = !isEditable;
         maxQtyPerItem.disabled = !isEditable;
         maxOrders.disabled = !isEditable;
@@ -263,49 +276,50 @@ $(document).ready(function() {
         } else {
             document.getElementById("constraint-note").innerHTML = "";
         }
+
     }
 
     //set the event listeners
+    function initSliders() {
 
+        savedStatus(maxItemsPerOrder);
+        savedStatus(maxQtyPerItem);
+        savedStatus(maxOrders);
+        savedStatus(comboDiscount);
 
-    $.ajax({
-        url: "/kitchen/getConstraints",
-        type: "post",
-        success: function (resp) {
-            if(resp.status === "success") {
+        $.ajax({
+            url: "/kitchen/getConstraints",
+            type: "post",
+            success: function (resp) {
+                if(resp.status === "success") {
 
-                //resp.orders.min
-                //resp.orders.max
-                //resp.itemsPerOrder.min
-                //resp.itemsPerOrder.max
-                //resp.qtyPerItem.min
-                //resp.qtyPerItem.max
-                //resp.comboDiscount.min
-                //resp.comboDiscount.max
+                    setMinMaxOfRange(maxItemsPerOrder, resp.itemsPerOrder.min, resp.itemsPerOrder.max);
+                    setMinMaxOfRange(maxQtyPerItem, resp.qtyPerItem.min, resp.qtyPerItem.max);
+                    setMinMaxOfRange(maxOrders, resp.orders.min, resp.orders.max);
+                    setMinMaxOfRange(comboDiscount, resp.comboDiscount.min, resp.comboDiscount.max);
 
-                //resp.orders.current
-                //resp.itemsPerOrder.current
-                //resp.qtyPerItem.current
-                //resp.comboDiscount.current
+                    setRangeValue(maxItemsPerOrder, resp.itemsPerOrder.current);
+                    setRangeValue(maxQtyPerItem, resp.qtyPerItem.current);
+                    setRangeValue(maxOrders, resp.orders.current);
+                    setRangeValue(comboDiscount, resp.comboDiscount.current);
 
-                setMinMaxOfRange(maxItemsPerOrder, resp.itemsPerOrder.min, resp.itemsPerOrder.max);
-                setMinMaxOfRange(maxQtyPerItem, resp.qtyPerItem.min, resp.qtyPerItem.max);
-                setMinMaxOfRange(maxOrders, resp.orders.min, resp.orders.max);
-                setMinMaxOfRange(comboDiscount, resp.comboDiscount.min, resp.comboDiscount.max);
+                    setRangeEventHandler(maxItemsPerOrder, maxItemsPerOrderValue);
+                    setRangeEventHandler(maxQtyPerItem, maxQtyPerItemValue);
+                    setRangeEventHandler(maxOrders, maxOrdersValue);
+                    setRangeEventHandler(comboDiscount, comboDiscountValue);
 
-                setRangeValue(maxItemsPerOrder, resp.itemsPerOrder.current);
-                setRangeValue(maxQtyPerItem, resp.qtyPerItem.current);
-                setRangeValue(maxOrders, resp.orders.current);
-                setRangeValue(comboDiscount, resp.comboDiscount.current);
-
-                setRangeEventHandler(maxItemsPerOrder, maxItemsPerOrderValue);
-                setRangeEventHandler(maxQtyPerItem, maxQtyPerItemValue);
-                setRangeEventHandler(maxOrders, maxOrdersValue);
-                setRangeEventHandler(comboDiscount, comboDiscountValue);
-
-                setConstraintSettingsStatus(!resp.kitchenStatus);
+                    setConstraintSettingsStatus(!resp.kitchenStatus);
+                }
             }
-        }
-    })
+        });
+    }
 
+    function changedStatus(elem) {
+        elem.parentNode.style.borderColor = "firebrick";
+    }
+
+    function savedStatus(elem) {
+        elem.parentNode.style.borderColor = "white";
+    }
+    initSliders();
 });
