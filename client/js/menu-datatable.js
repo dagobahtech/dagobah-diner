@@ -83,6 +83,8 @@ function init() {
                 id: data.id
             },
             success: function (resp) {
+
+                if(resp.status === "fail") {return;}
                 //resp is button status either active or inactive
                 console.log(resp);
                 if(resp) {
