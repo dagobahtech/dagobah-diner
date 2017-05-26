@@ -173,8 +173,10 @@ router.post("/deleteUser", function(req, resp) {
         var del = req.session.SPK_user;
         if(err) {
             console.log(err);
+            return false;
         }
         else {
+            if(result.rows[0] === undefined) {resp.send({status:"fail"}); return false;}
             console.log(result);
             if(result.rows[0].password === req.body.pass) {
                 req.session.destroy();
@@ -247,6 +249,7 @@ router.post("/getStatData", function (req, resp) {
         resp.send({
             status: "fail"
         });
+        return false;
     }
     let dbQuery;
     let params;
@@ -337,6 +340,7 @@ router.post("/getDiscardStat", function (req, resp) {
 
     if(year === undefined) {
         resp.send({status: "fail"});
+        return false;
     }
 
     let dbQuery ="SELECT EXTRACT (WEEK FROM date) AS category, COUNT(*) AS value from item_discarded WHERE EXTRACT (YEAR FROM date) = $1 GROUP BY EXTRACT (WEEK FROM date)";
@@ -358,9 +362,10 @@ router.post("/getDiscardStat", function (req, resp) {
 router.post("/salesAtDate", function (req, resp) {
 
     if(req.body.year === undefined || req.body.month === undefined || req.body.day === undefined) {
-        return ({
+        resp.send ({
             status: "fail"
         });
+        return false;
     }
 
     let dbQuery = "SELECT COALESCE(SUM(total), 0.00) AS sales FROM order_submitted " +
@@ -387,9 +392,11 @@ router.post("/salesAtDate", function (req, resp) {
 router.post("/discardsAtDate", function (req, resp) {
 
     if(req.body.year === undefined || req.body.month === undefined || req.body.day === undefined) {
-        return ({
+        resp.send ({
             status: "fail"
         });
+
+        return false;
     }
 
     let dbQuery = "SELECT COALESCE(SUM(menu.price), 0.00) as discards " +
@@ -421,6 +428,7 @@ router.post("/getOrderAvgStat", function (req, resp) {
 
     if(year === undefined) {
         resp.send({status: "fail"});
+        return false;
     }
 
 
@@ -481,6 +489,7 @@ router.post("/getItemStatForMonth", function (req, resp) {
 
     if(year === undefined || category === undefined || month === undefined) {
         resp.send({status: "fail"});
+        return false;
     }
 
     let dbQuery = "SELECT menu_category.name AS category, COALESCE(items_in_orders.count, 0) AS value " +
@@ -512,6 +521,7 @@ router.post("/getItemStatToday", function (req, resp) {
     let category = req.body.category
     if(year === undefined || category === undefined || month === undefined || day === undefined) {
         resp.send({status: "fail"});
+        return false;
     }
 
     let dbQuery = "SELECT menu_category.name AS category, COALESCE(items_in_orders.count, 0) AS value " +
@@ -573,7 +583,8 @@ router.post("/updateAll", function(req, resp) {
             pool.query(dbQuery, params, function(err, result) {
                 if (err) {
                     console.log(err);
-                    resp.end("ERROR");
+                    resp.end({status:"fail"});
+                    return false;
                 }
 
                 console.log(result.rows[0]);
@@ -588,19 +599,20 @@ router.post("/updateAll", function(req, resp) {
 
 });
 
-var updateObject = {};
+// var updateObject = {};
+//
+// router.post("/sendUpdate", function(req, resp){
+//
+//     if(req.body.type === "request"){
+//
+//         resp.send({status:"sent", item:updateObject});
+//     }else{
+//         updateObject = req.body;
+//         console.log(updateObject);
+//         resp.send({status:"recieved"});
+//     }
+// });
 
-router.post("/sendUpdate", function(req, resp){
-
-    if(req.body.type === "request"){
-
-        resp.send({status:"sent", item:updateObject});
-    }else{
-        updateObject = req.body;
-        console.log(updateObject);
-        resp.send({status:"recieved"});
-    }
-});
 router.post("/restStatChange", function(req, resp) {
     if(req.body.status == "true") {
         let kitchen = req.app.get("dagobah").kitchen;
@@ -621,6 +633,8 @@ router.post("/restStatChange", function(req, resp) {
 });
 
 router.post("/itemStatus", function(req, resp) {
+
+    if(req.body.id===undefined) {resp.send({status:"fail"}); return false;}
 
     var itemId = parseInt(req.body.id);
 

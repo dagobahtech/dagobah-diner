@@ -86,7 +86,7 @@ let cookQuantity;
 
 
 /***************** SOCKETS SETTINGS ********************/
-function socketHandler(io, dagobah, kitchen, dbSettings) {
+function socketHandler(io, dagobah, kitchen) {
 
     io.on("connection", function(socket){
 
@@ -95,6 +95,8 @@ function socketHandler(io, dagobah, kitchen, dbSettings) {
         //2. Board
         //Server communication with customer is done via customer's socket
         socket.on("join", function (channel) {
+
+            if(channel === undefined) {return false;}
             socket.channel = channel;
             socket.join(channel);
         });
@@ -160,6 +162,8 @@ function socketHandler(io, dagobah, kitchen, dbSettings) {
             pool.query(dbQuery, [item_id], function(err, result) {
                 if(err){
                     console.log(err);
+                    resp.send({status:"fail"});
+                    return false;
                 }
 
                 console.log("Db Discard Connection Ended");
@@ -242,7 +246,11 @@ function socketHandler(io, dagobah, kitchen, dbSettings) {
                         for (let i = 0; i < order.items.length; i++) {
                             let dbQuery2 = "INSERT INTO item_in_order (order_id, item_id) VALUES ($1, $2)";
                             client.query(dbQuery2, [order_id, order.items[i].id], function (err, result) {
-                                if(err){console.log(err)}
+                                if(err){
+                                    console.log(err);
+                                    resp.send({status: "fail"});
+                                    return false;
+                                }
                             });
                         }
                         done(err);
