@@ -5,6 +5,7 @@ const bcrypt = require("bcryptjs");
 const MenuItemValidator = require("./menuItemValidator");
 const pool = require('../index');
 const multer = require("multer");
+const LoginValidator = require("./loginValidator");
 
 const adminFolder = path.resolve(__dirname, "../client/admin");
 
@@ -147,55 +148,59 @@ router.post("/createItem", function (req, resp) {
 });
 
 /**************** ACCOUNT CRUD ***********************/
-
+var loginTester = new LoginValidator();
 router.post("/createAdmin", function(req, resp) {
-    console.log(req.body);
-    let dbQuery = "INSERT INTO user_login (username, password, type_id) VALUES ($1, $2, $3)";
-    bcrypt.hash(req.body.pass, 5, function(err, bpass){
-        pool.query(dbQuery, [req.body.user, bpass, req.body.type], function(err, result) {
-            if(err) {
-                console.log(err);
-                resp.end("error creating admin account");
-            }
-            else {
-                console.log(result);
-                resp.send(result);
-            }
+    let validLogin = loginTester.testItem(req.body);
+    if (validLogin.passing){
+        console.log(req.body);
+        let dbQuery = "INSERT INTO user_login (username, password, type_id) VALUES ($1, $2, $3)";
+        bcrypt.hash(req.body.password, 5, function(err, bpass){
+            pool.query(dbQuery, [req.body.username, bpass, req.body.type], function(err, result) {
+                if(err) {
+                    console.log(err);
+                    resp.end("error creating admin account");
+                }
+                else {
+                    console.log(result);
+                    resp.send(result);
+                }
+            });
         });
-    });
+    } else {
+        resp.send({status : "fail", message : validLogin.err});
+    }
 });
 
-router.post("/deleteUser", function(req, resp) {
-    console.log(req.session.user);
-    console.log(req.body);
-    let dbQuery = "SELECT * FROM user_login WHERE id = ($1)";
-    pool.query(dbQuery, [req.session.SPK_user], function(err, result) {
-        var del = req.session.SPK_user;
-        if(err) {
-            console.log(err);
-            return false;
-        }
-        else {
-            if(result.rows[0] === undefined) {resp.send({status:"fail"}); return false;}
-            console.log(result);
-            if(result.rows[0].password === req.body.pass) {
-                req.session.destroy();
-                let dbQuery2 = "DELETE FROM user_login WHERE id = ($1)";
-                pool.query(dbQuery2, [del], function(err, result) {
-                    if(err) {
-                        console.log(err);
-                    }
-                    else {
-                        resp.send("success");
-                    }
-                });
-            }
-            else {
-                resp.send("error");
-            }
-        }
-    });
-});
+// router.post("/deleteUser", function(req, resp) {
+//     console.log(req.session.user);
+//     console.log(req.body);
+//     let dbQuery = "SELECT * FROM user_login WHERE id = ($1)";
+//     pool.query(dbQuery, [req.session.SPK_user], function(err, result) {
+//         var del = req.session.SPK_user;
+//         if(err) {
+//             console.log(err);
+//         }
+//         else {
+//             console.log(result);
+//             if(result.rows[0].password === req.body.pass) {
+//                 req.session.destroy();
+//                 let dbQuery2 = "DELETE FROM user_login WHERE id = ($1)";
+//                 pool.query(dbQuery2, [del], function(err, result) {
+//                     if(err) {
+//                         console.log(err);
+//                     }
+//                     else {
+//                         resp.send("success");
+//                     }
+//                 });
+//             }
+//             else {
+//                 resp.send("error");
+//             }
+//         }
+//     });
+// });
+
 
 /*************** STATISTICS *************************/
 router.post("/getSummary", function(req, resp) {

@@ -3,6 +3,7 @@ const router = express.Router();
 const path = require("path");
 const bcrypt = require("./admin").bcrypt;
 const pool = require('../index');
+const LoginValidator = require("./loginValidator");
 
 
 const loginForm = path.resolve(__dirname, "../client/admin/login.html");
@@ -11,9 +12,12 @@ router.get("/", function (req, resp) {
     resp.sendFile(loginForm);
 });
 
-router.post("/", function (req, resp){
+var loginTester = new LoginValidator();
 
-    console.log(req.body);
+router.post("/", function (req, resp){
+    let validLogin = loginTester.testItem(req.body);
+    if (validLogin.passing){
+        console.log(req.body);
         let dbQuery = "SELECT * FROM user_login WHERE username = $1";
         pool.query(dbQuery, [req.body.username], function (err, result) {
             if (err) {console.log(err)}
@@ -46,6 +50,9 @@ router.post("/", function (req, resp){
                 resp.send({status: "fail", message: "incorrect login"});
             }
         });
+    } else {
+        resp.send({status: "invalid login", message: validLogin.err});
+    }
 });
 
 module.exports = router;
