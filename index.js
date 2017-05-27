@@ -124,10 +124,22 @@ app.post("/updateMenu-items", function(req, resp) {
 });
 
 //add app.get before this call
-app.get('*', function (request, response){
+//add a middle to check if store is open or close
+app.get('*', handleOrderPage, function (request, response){
     response.sendFile(path.resolve(__dirname, 'client/build', 'index.html'))
 });
 
+function handleOrderPage(req, resp, next) {
+    console.log(req.url);
+    if(req.url === '/order' || req.url === '/order-processing') {
+        console.log("check order page");
+        if(dagobah.isOpen) {
+            next();
+        } else {
+            resp.redirect("/");
+        }
+    }
+}
 //initialize menu items
 adminServer.getMenuItems(dagobah);
 //start the kitchen server

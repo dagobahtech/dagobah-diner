@@ -7,30 +7,35 @@ const io = require("socket.io-client");
 
 class Welcome extends Component {
 
-    socket = io();
-
     constructor() {
         super();
+
         this.state = {
-            isOpen: false
+            isOpen: null
         };
 
-        ((myThis) => {myThis.socket.on("store status", function (isOpen) {
-            myThis.setState({
-                isOpen: isOpen
-            });
-        });})(this);
+        this.setStatus = this.setStatus.bind(this);
+    }
 
-        this.socket.emit("check open");
+    componentDidMount() {
+        let socket = io();
+        socket.on("store status", this.setStatus);
+        socket.emit("check open");
+    }
+
+    setStatus(isOpen) {
+        this.setState({isOpen: isOpen});
     }
     render() {
 
         let comp;
 
-        if(this.state.isOpen) {
+        if(this.state.isOpen === true) {
             comp = (<Link to="order" id="welcomeBut" className="welcome-bg-button">Click Here to Start Ordering</Link>);
-        } else {
+        } else if(this.state.isOpen === false){
             comp =   (<div id="closedStuff">Hey! Sorry, we are currently closed right now. Come back again later.</div>);
+        } else {
+            comp = (<div></div>)
         }
         return (
 

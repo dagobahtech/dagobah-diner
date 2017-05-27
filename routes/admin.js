@@ -622,6 +622,7 @@ router.post("/restStatChange", function(req, resp) {
     if(req.body.status == "true") {
         let kitchen = req.app.get("dagobah").kitchen;
         req.app.get("dagobah").isOpen = false;
+        req.app.get("socketio").emit("close store"); //send a close signal to currently in ordering page
         req.app.get("socketio").emit("store status", (req.app.get("dagobah").isOpen));
         req.app.get("socketio").to("kitchen").emit("orders", kitchen._orderQueue.orders, kitchen._readyQueue.orders, kitchen._foodTray.items);
         resp.send(false);
