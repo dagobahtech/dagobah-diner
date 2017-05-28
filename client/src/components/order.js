@@ -4,7 +4,9 @@ import OrderBoard from '../components/order-board';
 import Banner from './banner';
 import ConfirmationBox from '../components/confirmation-box';
 import { browserHistory } from 'react-router';
-
+import {connect} from 'react-redux';
+import {removeAllItem} from '../actions/order/index';
+import {bindActionCreators} from 'redux';
 //import css
 import '../css/order/menu.css'
 
@@ -29,6 +31,7 @@ class Order extends Component {
 
     closeStore() {
         this.socket.removeListener("close store", this.closeStore);
+        this.props.removeAllItem();
         browserHistory.push("/")
     }
 
@@ -50,4 +53,11 @@ class Order extends Component {
     }
 }
 
-export default Order;
+function mapDispatchToProps(dispatch) {
+    return bindActionCreators({
+        removeAllItem: removeAllItem
+    }, dispatch);
+
+}
+
+export default connect(null, mapDispatchToProps)(Order);
