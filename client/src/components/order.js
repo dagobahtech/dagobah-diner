@@ -4,11 +4,14 @@ import OrderBoard from '../components/order-board';
 import Banner from './banner';
 import ConfirmationBox from '../components/confirmation-box';
 import { browserHistory } from 'react-router';
-
+import {connect} from 'react-redux';
+import {removeAllItem} from '../actions/order/index';
+import {bindActionCreators} from 'redux';
 //import css
 import '../css/order/menu.css'
 
 const io = require("socket.io-client");
+
 /**
  * Order layout/board. This is also a dumb class (class only made for layout)
  * */
@@ -16,31 +19,23 @@ class Order extends Component {
     //The CategoryNavigation tag only shows whatever is in the CategoryNavigation class
     //same with others
 
-    socket = io();
-
     constructor() {
         super();
+        this.closeStore = this.closeStore.bind(this);
+    }
+    socket = io();
 
-        this.state = {
-            isOpen: false
-        };
+    componentDidMount() {
+        this.socket.on("close store", this.closeStore);
+    }
 
-        ((myThis)=>
-        {
-            myThis.socket.on("store status", function (isOpen) {
-                myThis.setState({isOpen:isOpen});
-
-                if (!isOpen) {
-                    browserHistory.push("/")
-                }
-            });
-        })(this);
-
-        this.socket.emit("check open");
+    closeStore() {
+        this.socket.removeListener("close store", this.closeStore);
+        this.props.removeAllItem();
+        browserHistory.push("/")
     }
 
     render() {
-
 
         return (
 
@@ -58,4 +53,11 @@ class Order extends Component {
     }
 }
 
-export default Order;
+function mapDispatchToProps(dispatch) {
+    return bindActionCreators({
+        removeAllItem: removeAllItem
+    }, dispatch);
+
+}
+
+export default connect(null, mapDispatchToProps)(Order);
