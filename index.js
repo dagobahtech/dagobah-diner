@@ -108,21 +108,6 @@ app.post("/menu-items", function(req, resp){
     resp.send(dagobah.menuItems);
 });
 
-app.post("/updateMenu-items", function(req, resp) {
-    for(var i = 0; i < dagobah.menuItems.length; i++) {
-        if(dagobah.menuItems[i].name == req.body.item) {
-            var status;
-            if (req.body.status == "true") {
-                status = true;
-            } else if (req.body.status == "false") {
-                status = false;
-            }
-            dagobah.menuItems[i].active = status;
-        }
-    }
-    resp.send("success");
-});
-
 //add app.get before this call
 //add a middle to check if store is open or close
 app.get('*', handleOrderPage, function (request, response){
