@@ -1,33 +1,62 @@
-<!DOCTYPE html>
-<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Admin Page</title>
+    <link rel="stylesheet" href="/admin-css/createItems.css">
 </head>
+
 <body>
+<div class="row">
+    <div class="col-md-8 offset-md-2">
+        <div class="card">
+            <div class="card-header text-center">
+                <h4>Add New Menu Item</h4>
+            </div>
+            <form id="createItemForm" method="post" action="/admin/createItem" enctype="multipart/form-data">
+                <div class="card-block">
+                    <div class="form-group row">
+                        <input type="hidden" name="itemID" id="newMenuId" value="1">
+                        <input type="hidden" name="station" id="newCookStation" value="1">
+                        <label for="inputCreateItemName" class="col-2 col-form-label">Item Name</label>
+                        <div class="col-10">
+                            <input class="form-control" type="text"  id="inputCreateItemName" name="name">
+                        </div>
+                    </div>
 
-<h1>Add New Menu Item</h1>
+                    <div class="form-group row">
+                        <label for="inputCreateItemDesc" class="col-2 col-form-label">Description</label>
+                        <div class="col-10">
+                            <textarea  class="form-control" id="inputCreateItemDesc" rows="5" name="desc"></textarea>
+                        </div>
+                    </div>
 
-<div id="input">
-    <input id="nameInput" type="text" placeholder="Item Name">
-    <input id="categoryInput" type="number" placeholder="Item Category">
-    <input id="descriptionInput" type="text" placeholder="Item Description">
-    <input id="priceInput" type="number" placeholder="Item price">
-    <input id="imgInput" type="text" placeholder="Image Filename">
-    <input id="stationInput" type="number" placeholder="Item kitchen station">
-    <button id="submit">Create Item</button>
+                    <div class="form-group row">
+                        <label for="inputCreateItemPrice" class="col-2 col-form-label">Price</label>
+                        <div class="col-10">
+                            <input class="form-control" type="number" id="inputCreateItemPrice" name="price" step="0.01"/ >
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="radioCreateItemCategory" class="col-2 col-form-label">Category</label>
+                        <div class="col-10">
+                            <select class="form-control" id="radioCreateItemCategory" name="category">
+                                <option value="1" selected="selected">Main</option>
+                                <option value="2">Side</option>
+                                <option value="3">Beverage</option>
+                            </select>
+                        </div>
+                    </div>
 
-    <div>
-
-        <p><strong>Categories:</strong> 1 = Main ||  2 = Side || 3 = Drinks</p>
-        <p><strong>Item Price:</strong> Enter price with decimal value e.g <u>price = 10.00</u></p>
-        <p><strong>Kitchen Stations:</strong> 1 = Grill || 2 = Stove Top || 3 = Deep Fryer || 4 = Curries+Stews || 5 = Drinks</p>
+                    <div class="form-group row">
+                        <label for="inputCreateItemImage" class="col-2 col-form-label">Image (Max 1MB)</label>
+                        <div class="col-10">
+                            <input type='file' id='inputCreateItemImage' name='food_image'/>
+                        </div>
+                    </div>
+                    <div class="text-center" id="statusCreateItem"></div>
+                </div>
+                <div class="card-footer text-right">
+                    <button type="submit" id="buttonSubmitNewItem" class="btn btn-primary">Create New Item</button>
+                </div>
+            </form>
+        </div>
     </div>
-
-
 </div>
-
-<div id="statusDiv"></div>
-
 </body>
-</html>

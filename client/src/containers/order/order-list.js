@@ -65,6 +65,22 @@ class OrderList extends Component {
     }
 
     createOrderTable(){
+
+        let comp = (<div></div>);
+
+        if(this.state.processedOrder.subTotal !== this.state.processedOrder.total) {
+            comp = (
+                <div className="right-align">
+                    <h5>{this.state.processedOrder.comboDiscount * 100}% Combo Discount:
+                        <div className="currency currency-black currency-large"></div>
+                        <NumberFormat value={this.state.processedOrder.subTotal - this.state.processedOrder.total}
+                                      decimalPrecision={2}
+                                      displayType={'text'} thousandSeparator={true}
+                        />
+                    </h5>
+                </div>
+            )
+        }
         return (
             <div id="confirmList">
                 <table className="table-striped">
@@ -111,15 +127,7 @@ class OrderList extends Component {
                     />
                     </h5>
                 </div>
-                <div className="right-align">
-                    <h5>{this.state.processedOrder.comboDiscount * 100}% Combo Discount:
-                        <div className="currency currency-black currency-large"></div>
-                        <NumberFormat value={this.state.processedOrder.subTotal - this.state.processedOrder.total}
-                                      decimalPrecision={2}
-                                      displayType={'text'} thousandSeparator={true}
-                        />
-                    </h5>
-                </div>
+                {comp}
                 <div className="right-align">
                     <h3>Total: <div className="currency currency-black currency-large"></div>
                         <NumberFormat value={this.state.processedOrder.total}
@@ -176,6 +184,7 @@ class OrderList extends Component {
                                               decimalPrecision={2}
                                               displayType={'text'} thousandSeparator={true}
                                               /></h2>
+                    <p className="text-muted discount">Order one Main, Side, and Beverage and receive a discount!</p>
                 </div>
                 <div className="card-block">
                         <table className="table">

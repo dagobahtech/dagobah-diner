@@ -1,4 +1,3 @@
-$(document).ready(function () {
 
     let currentPage;
     //pointer to the active link so we can disable it activate the new one
@@ -9,7 +8,8 @@ $(document).ready(function () {
         MENU_DATATABLE: 'menu-datatable',
         CREATE_ITEMS: 'createItems',
         SETTINGS: 'settings',
-        STATISTICS: 'statistics'
+        STATISTICS: 'statistics',
+        UPDATE: 'modify'
     }
 
 
@@ -32,6 +32,7 @@ $(document).ready(function () {
     function loadPage(page, elemThatFired) {
         //check if page is valid
         if(!PAGE.hasOwnProperty(page)){
+            console.log("invalid page");
             return false;
         }
 
@@ -49,7 +50,6 @@ $(document).ready(function () {
                 script.setAttribute("src", "/scripts/"+PAGE[page]+".js");
                 display.appendChild(script);
             }
-
         });
 
         (activeItem !== undefined) && activeItem.parentNode.classList.remove("active");
@@ -73,7 +73,6 @@ $(document).ready(function () {
     loadPage('DASHBOARD', adminLink);
 
 
-});
 
 function showModal (title, message, type){
     document.getElementById("modalTitle").innerHTML = title;

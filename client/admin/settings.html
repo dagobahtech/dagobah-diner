@@ -1,15 +1,21 @@
 <h1 class="card mb-4" id="settingsHeader">Settings</h1>
 <div id="adminDB">
     <div class="card mb-3" id="createAdmin">
-        <h4 id="c-Header">Create an Administrative Account</h4>
+        <h4 id="c-Header">Create an Account</h4>
         <div id="c-body">
             <input type="text" class="card mb-1" placeholder="username" id="user"/>
             <input type="password" class="card mb-1" placeholder="password" id="pass"/>
             <button class="card mb-1" id="showPassword"></button>
+
             <button class="card mb-1" id="createBut">Create</button>
         </div>
+        <form id="type_id">
+            <input type="radio" name="account_type" value="1" checked> Admin
+            <input type="radio" name="account_type" value="2"> Kitchen
+        </form>
         <div class="card mb-1" id="c-error"></div>
     </div>
+    <!--
     <div class="card mb-3" id="deleteAdmin">
         <h4 id="d-header">Delete this Account</h4>
         <div id="d-body">
@@ -22,4 +28,5 @@
             <div class="card mb-1" id="d-error"></div>
         </div>
     </div>
+    -->
 </div>

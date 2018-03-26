@@ -40,12 +40,17 @@ var MONTHS = [
 ];
 
 var WEEKS_IN_YEAR = 52;
-var CURRENT_YEAR = new Date().getFullYear();
+var CURRENT_DATE = new Date();
+var CURRENT_YEAR = CURRENT_DATE.getFullYear();
+var CURRENT_DAY = CURRENT_DATE.getDate();
+var CURRENT_MONTH = CURRENT_DATE.getMonth()+1;
 
 var SALES = "sales";
 var DISCARDS = "discards";
 
 function executeScript() {
+
+    initDailySalesInfo();
     //save the previous selected button so we can hide
     //its options
     //by default, select the first one
@@ -81,6 +86,44 @@ function executeScript() {
     itemBeverageBarChart = initBarChartData(itemBeverageBarChartData, itemBeverageCanvasChart, "Quantity");
 }
 
+function initDailySalesInfo() {
+
+    var dateSpan = document.getElementById("date");
+    dateSpan.innerHTML = CURRENT_DATE;
+
+    var salesToday = document.getElementById("salesToday");
+    var discardsToday = document.getElementById("discardsToday");
+
+    $.ajax({
+        url: "/admin/salesAtDate",
+        type: "post",
+        data: {
+            year: CURRENT_YEAR,
+            month: CURRENT_MONTH,
+            day: CURRENT_DAY,
+        },
+        success: function (resp) {
+            if(resp.status === "success") {
+                salesToday.innerHTML = resp.data;
+            }
+        }
+    });
+
+    $.ajax({
+        url: "/admin/discardsAtDate",
+        type: "post",
+        data: {
+            year: CURRENT_YEAR,
+            month: CURRENT_MONTH,
+            day: CURRENT_DAY,
+        },
+        success: function (resp) {
+            if(resp.status === "success") {
+                discardsToday.innerHTML = resp.data;
+            }
+        }
+    });
+}
 function populateYearOptions(selectObject) {
 
     let currentYear = parseInt(CURRENT_YEAR);
@@ -188,7 +231,7 @@ showStatButton.addEventListener("click", function (event) {
             sendRequestForStatData(currentRbnSelected.value, DISCARDS);
             break;
         case 'monthly':
-            console.log(typeof(yearChooserMonthly.value));
+            //console.log(typeof(yearChooserMonthly.value));
             if(yearChooserMonthly.value === "") {
                 //show modal
                 showModal("Error", "Please select a valid year");
@@ -225,7 +268,7 @@ function sendRequestForStatData(category, type, year) {
             type: type
         },
         success: function (resp) {
-            console.log(resp.data);
+            //console.log(resp.data);
 
             if(resp.status === "success") {
 
@@ -251,15 +294,15 @@ function clear(chart, chartData) {
 }
 
 function setLabels(chartData, labels){
-    console.log("labels",labels);
+    //console.log("labels",labels);
     chartData.labels = [...labels];
 }
 
 function addDataSet(chart, chartData, dataset) {
     chartData.datasets.push(dataset);
 
-    console.log("pushing datasets", dataset);
-    console.log(chart);
+    //("pushing datasets", dataset);
+    //console.log(chart);
     chart.update();
 }
 
@@ -271,7 +314,7 @@ function setData(chart, chartData, category, data, type, name) {
     //let newData = new SalesBarDataSet(category, data, "Sales");
     let newDataSet = createDataSet(category, type, data, name);
     if(chartData.labels.length === 0) {
-        console.log("set new labels", newDataSet.labels);
+        //("set new labels", newDataSet.labels);
         setLabels(chartData, newDataSet.labels)
     }
 
@@ -338,7 +381,7 @@ function SalesBarDataSet(type, data, setName) {
     } else if(type === "weekly") {
         dataSetWeekly(this.property, data);
     }
-    console.log(this.property)
+    //console.log(this.property)
 }
 
 //call this when type is yearly
@@ -370,7 +413,7 @@ function dataSetWeekly(property, data) {
         property.labels.push("Week "+ (x+1));
         property.data.push(0);
     }
-    console.log("data", data);
+    //console.log("data", data);
     for(let x = 0 ; x < data.length ; x++){
         property.data[data[x].category - 1] = data[x].value;
     }
@@ -464,6 +507,7 @@ var itemStatDropDown = document.getElementById("item-stat-month");
 var itemStatLinks = itemStatDropDown.children;
 var selectedItemView = document.getElementById("selected-item-view");
 var viewAllButton = document.getElementById("item-view-all");
+var viewTodayButton = document.getElementById("item-view-today");
 var categoryNavigation = document.getElementById("categoryNav");
 var categoryNavLinks = categoryNavigation.children;
 
@@ -501,8 +545,14 @@ viewAllButton.addEventListener("click", function (event) {
     selectedItemView.value = "All for " + CURRENT_YEAR;
 });
 
+viewTodayButton.addEventListener("click", function (event) {
+    getItemStatToday(1, itemMainBarChart, itemMainBarChartData);
+    getItemStatToday(2, itemSideBarChart, itemSideBarChartData);
+    getItemStatToday(3, itemBeverageBarChart, itemBeverageBarChartData);
+    selectedItemView.value = "Today";
+});
+
 function _handleCategoryNavigation(event) {
-    console.log("hello");
 
     if(event.target === currentCategoryLink) {
         return false;
@@ -544,6 +594,33 @@ function getItemStatAll(year, category, chart, chartData) {
             }
         }
     })
+}
+
+function getItemStatToday(category, chart, chartData) {
+
+    $.ajax({
+        url: "/admin/getItemStatToday",
+        type: "post",
+        data: {
+            year: CURRENT_YEAR,
+            month: CURRENT_MONTH,
+            day: CURRENT_DAY,
+            category: category
+        },
+        success: function (resp) {
+            if(resp.status === "success") {
+
+                clear(chart, chartData);
+                //use yearly category because it uses the default category
+                //values resulted from the query
+                setData(chart, chartData, "yearly", resp.data, SALES, "Quantity sold")
+            } else {
+                //handle error handling here
+                //use modals if we can
+            }
+        }
+    })
+
 }
 
 function getItemStatMonth(year, month, category, chart, chartData) {

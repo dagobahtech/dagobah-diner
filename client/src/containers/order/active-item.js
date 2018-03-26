@@ -61,6 +61,12 @@ class ActiveItem extends Component {
         //var item = Object.assign({}, ...this.props.activeItem);
         let item = {...this.props.item};
         item.quantity = quantity;
+        
+        if(item.quantity > 6) {
+            item.quantity = 6;
+        } else if (item.quantity < 0) {
+            item.quantity = 1;
+        }
 
         //let items = this.props.orderedItems.items;
 

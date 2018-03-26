@@ -1,6 +1,10 @@
 html {
     min-height: 100%;
 }
+
+#addUpdateBlock {
+    display: none;
+}
 .deleteBut {
     background-color: rgb(217, 83, 79);
     border-color: rgb(217, 83, 79);
@@ -19,6 +23,46 @@ html {
 }
 #settingsHeader {
     border: none;
+}
+
+#updateButton {
+    color: white;
+    background-color: #31b0d5;;
+    border-color: #31b0d5;;
+    transition: all ease 0.5s;
+    border-radius: 5px;
+    /*width: 50%;*/
+}
+
+#updateButton:hover {
+    background-color: rgb(96, 217, 222);
+    border-color: rgb(96, 217, 222);
+}
+.enabledItem {
+    color: white;
+    background-color: #5cb85c;
+    border-color: #5cb85c;
+    transition: all ease 0.5s;
+    border-radius: 5px;
+    /*width: 50%;*/
+    /*padding: 0 5% 0 5%;*/
+}
+.disabledItem {
+    color: white;
+    background-color: #d9534f;
+    border-color: #d9534f;
+    transition: all ease 0.5s;
+    border-radius: 5px;
+    /*width: 50%;*/
+    /*padding: 0 5% 0 5%;*/
+}
+.enabledItem:hover {
+    background-color: rgb(92, 222, 92);
+    border-color: rgb(92, 222, 92);
+}
+.disabledItem:hover {
+    background-color: rgb(255, 83, 79);
+    border-color: rgb(255, 83, 79); 
 }
 #d-hide {
     width: 100%;
@@ -100,7 +144,7 @@ html {
 }
 
 .content-wrapper {
-
+    margin-top: 60px;
 }
     @media (min-width: 992px) {
         .content-wrapper {
@@ -249,4 +293,50 @@ input:checked + .slider:before {
     #mainNav .navbar-collapse .navbar-nav.sidebar-nav li.active a:hover, #mainNav .navbar-collapse .navbar-nav.sidebar-nav li.active a:focus {
         color: white;
     }
+}
+
+/*constraint settings*/
+.value {
+    width: 50px;
+}
+
+.settings {
+    text-align:center;
+}
+
+#constraint-note {
+    font-size: 0.8rem;
+}
+
+#editor-modal {
+    z-index: 1;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0, 0.6);
+    display: none;
+}
+
+.editor {
+
+    position: absolute;
+    width: 700px;
+    left: 0;
+    right: 0;
+    top: 50px;
+    margin: auto;
+}
+
+#message {
+    text-align: center;
+}
+
+.error {
+    color: firebrick;
+}
+
+.success {
+    color: darkgreen;
 }

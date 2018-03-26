@@ -1,25 +1,32 @@
 [![Build Status](https://travis-ci.org/dagobahtech/acit2910.svg?branch=develop)](https://travis-ci.org/dagobahtech/acit2910)
 
-# ACIT 2910 Projects Course
+# Dagobah Diner
 
-## Team Name : Dagobah
+Restaurant Ordering Platform
 
-## Team Members
+### Customer Orders
+[Customer Order Demo](http://g.recordit.co/Em0gWOfblS.gif)
 
-* Dylan Chew
-* Brett Dixon
-* Tommy Do
-* Jed Iquin
-* Daniele Lisi
+### Admin Dashboard
+![admin-dashboard](http://g.recordit.co/JdOZM8gsYe.gif)
+
+### Kitchen 
+![kitchen-dashboard](http://g.recordit.co/AYwACZ9ffV.gif)
+
+## Members
+#### Team Dagobah - ACIT 2910 Projects Course
+
+* [Dylan Chew](https://github.com/kirbykibble)
+* [Brett Dixon](https://github.com/BrettDixonBCIT)
+* [Tommy Do](https://github.com/tommydew98)
+* [Jed Iquin](https://github.com/jedski01)
+* [Daniele Lisi](danielelisi.co)
 * Mr. Repo :tractor:
 
-## About
-
-Fast food system for the planet of Dagobah
 
 ## Pre requisites
 
-* Latest Node JS <https://nodejs.org/en/>
+* Latest Node JS <https://nodejs.org/en/> installed on your machine.
 
 ## Running the Webapp
 
@@ -30,8 +37,8 @@ To run the webapp make sure you pull the latest commit from our develop branch t
 3. Wait for the terminal to display the message:
 
 	* `Server is running on port 3000`
-	* `MR. Repo is watching you.`
-	* `Menu array in the server updated!`
+	* `Welcome to Dagobah Diner.`
+	
 4. The server is running, proceed to the **Order** | **Kitchen** | **Admin** section to use the app.
 
 ### Order Page:

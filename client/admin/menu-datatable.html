@@ -3,6 +3,62 @@
     <li class="breadcrumb-item active"><a href="#">Menu Items</a></li>
 </ol>
 
+<div id="editor-modal">
+    <div class="card editor">
+        <div class="card-header">
+            <h4>Record Editor</h4>
+        </div>
+        <div class="card-block">
+            <div id="foodPic"></div>
+            <form id="updateForm" method="post" action="/admin/updateAll" enctype="multipart/form-data">
+                <div class="form-group row">
+                    <label for="newMenuName" class="col-2 col-form-label">Food Name</label>
+                    <div class="col-10">
+                        <input type="hidden" name="itemID" id="newMenuId">
+                        <input type="hidden" name="station" id="newCookStation" value="1">
+                        <input class="form-control" type="text"  id="newMenuName" name="name">
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label for="newMenuDescription" class="col-2 col-form-label">Description</label>
+                    <div class="col-10">
+                        <textarea  class="form-control"  id="newMenuDescription" rows="5" name="desc"></textarea>
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label for="newMenuPrice" class="col-2 col-form-label">Price</label>
+                    <div class="col-10">
+                        <input class="form-control" type="number"  id="newMenuPrice" name="price" step="0.01">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="newMenuCategory" class="col-2 col-form-label">Category</label>
+                    <div class="col-10">
+                        <select class="form-control" name="category" id="newMenuCategory">
+                            <option value="1">Main</option>
+                            <option value="2">Side</option>
+                            <option value="3">Beverage</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label for="newMenuImage" class="col-2 col-form-label">Image (Max 1MB)</label>
+                    <div class="col-10">
+                        <input type='file' id='newMenuImage' name='food_image'/>
+                    </div>
+                </div>
+                <input id="submit" type="submit" class="btn btn-primary" value="Submit">
+                <button id="cancel" class="btn btn-danger">Cancel</button>
+            </form>
+        </div>
+        <div class="card-footer"><div id="message"></div></div>
+
+    </div>
+</div>
+
 <!--DataTable-->
 <div class="card mb-3">
     <div class="card-header">
@@ -10,29 +66,22 @@
     </div>
     <div class="card-block">
         <div class="table-responsive">
-            <table id="menuTable" class="table table-striped table-bordered" cellspacing="0" width="100%"></table>
+            <table id="menuTable" class="table table-striped table-bordered" cellspacing="0" width="100%">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Category</th>
+                        <th>Description</th>
+                        <th>Price</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+            </table>
         </div>
     </div>
     <div id="tableUpdateTime" class="card-footer small text-muted">...</div>
 </div>
 
 
-
-
-
-<!--Bootstrap Core & jQuery & DataTable.js-->
-<script src="/jquery/jquery.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
-<script type="text/javascript" charset="utf8" src="//cdn.datatables.net/1.10.15/js/jquery.dataTables.js"></script>
-<script src="https://cdn.datatables.net/1.10.15/js/dataTables.bootstrap4.min.js"></script>
-<!--Font-Awesome Icons-->
-<script src="https://use.fontawesome.com/b973fe404b.js"></script>
-
-<!--Custom JS Script, will move to separate file-->
-<script>
-
-
-</script>
 </body>
 </html>

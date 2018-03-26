@@ -492,6 +492,10 @@ body {
     color: white;
 }
 
+.discount {
+    font-size: 0.95rem;
+}
+
 h1 {
     padding: 0px;
 }
