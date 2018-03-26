@@ -4,6 +4,14 @@
 
 Restaurant Ordering Platform
 
+### Customer Orders
+[Customer Order Demo](http://g.recordit.co/Em0gWOfblS.gif)
+
+### Admin Dashboard
+![admin-dashboard](http://g.recordit.co/JdOZM8gsYe.gif)
+
+### Kitchen 
+![kitchen-dashboard](http://g.recordit.co/AYwACZ9ffV.gif)
 
 ## Members
 #### Team Dagobah - ACIT 2910 Projects Course
